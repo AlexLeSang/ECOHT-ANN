@@ -52,7 +52,7 @@ private:
 };
 
 
-#ifdef TEST_NETWORK
+#ifdef TEST_MODE
 
 #include <QtTest/QtTest>
 #include <QObject>
@@ -66,17 +66,28 @@ private slots:
         layersDesciption.append(LayerDescription(2, 4));
         layersDesciption.append(LayerDescription(4, 5));
         layersDesciption.append(LayerDescription(4, 7));
-        qDebug() << "layersDesciption: " << layersDesciption;
         network.initNetwork(layersDesciption);
-        const auto layers = network.getLayers();
-        std::for_each(layers.constBegin(), layers.constEnd(), [](const Layer & layer){
-            static quint32 layerIndex = 0;
-            const auto neurons = layer.getNeurons();
-            qDebug() << "layerIndex: " << layerIndex++;
-            std::for_each(neurons.constBegin(), neurons.constEnd(), [](const Neuron & neuron){
-                qDebug() << neuron.getWeights();
-            });
-        });
+        const auto & constNetworkRef = network;
+        QCOMPARE(constNetworkRef.getLayers().size(), layersDesciption.size());
+        auto descIter = layersDesciption.begin();
+        for ( auto iter = constNetworkRef.getLayers().constBegin(); iter != constNetworkRef.getLayers().constEnd(); ++iter ) {
+
+            const auto requiredNeurons = (*descIter).first;
+            const auto requiredWeights = (*descIter).second;
+            const auto & neurons = (*iter).getNeurons();
+            const auto achievedNeurons = static_cast< decltype(requiredNeurons) >( neurons.size() );
+
+            const bool equal = achievedNeurons == requiredNeurons;
+            QCOMPARE(true, equal);
+
+            std::for_each( neurons.constBegin(), neurons.constEnd(), [&](const Neuron & neuron) {
+                const auto achievedWeights = static_cast< decltype(requiredWeights) >( neuron.getWeights().size() );
+                const bool equal = achievedWeights == requiredWeights;
+                QCOMPARE( true, equal );
+            } );
+
+            ++ descIter;
+        }
     }
 };
 

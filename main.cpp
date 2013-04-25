@@ -1,10 +1,28 @@
 #include <QApplication>
-
 #include "mainwindow.hpp"
-
 #include "Defines.hpp"
 
-#ifdef USE_MAIN
+#include "Neuron.hpp"
+#include "Layer.hpp"
+#include "Network.hpp"
+
+#ifdef TEST_MODE
+
+int main(int argc, char *argv[])
+{
+    NeuronTest neuronTest;
+    QTest::qExec(&neuronTest);
+
+    LayerTest layerTest;
+    QTest::qExec(&layerTest);
+
+    NetworkTest networkTest;
+    QTest::qExec(&networkTest);
+
+    return 0;
+}
+
+#else
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

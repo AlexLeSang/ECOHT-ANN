@@ -15,6 +15,7 @@ const QVector<qreal> &Neuron::getWeights() const {
 }
 
 void Neuron::initNeuron(const quint32 numberOfInputs) {
+    Q_ASSERT(numberOfInputs > 0);
     weights = QVector < qreal > ( numberOfInputs );
     auto randomLabmda = [](qreal & val) {
         val = (qreal)std::rand()/RAND_MAX;
@@ -25,9 +26,3 @@ void Neuron::initNeuron(const quint32 numberOfInputs) {
 quint32 Neuron::getId() const {
     return id;
 }
-
-#ifdef TEST_NEURON
-
-QTEST_MAIN(NeuronTest)
-
-#endif

@@ -24,7 +24,7 @@ private:
     QVector< Neuron > neurons;
 };
 
-#ifdef TEST_LAYER
+#ifdef TEST_MODE
 
 #include <QtTest/QtTest>
 #include <QObject>
@@ -32,12 +32,18 @@ private:
 class LayerTest : public QObject {
     Q_OBJECT
 private slots:
+    void EmptyTest() {
+        Layer layer;
+        QCOMPARE(layer.getNeurons().size(), 0);
+    }
+
     void InitializationTest(){
         Layer layer;
         layer.initLayer(20, 5);
         const auto neurons = layer.getNeurons();
+        QCOMPARE(neurons.size(), 20);
         std::for_each(neurons.constBegin(), neurons.constEnd(), [](const Neuron & neuron){
-            qDebug() << neuron.getWeights();
+            QCOMPARE(neuron.getWeights().size(), 5);
         });
     }
 };

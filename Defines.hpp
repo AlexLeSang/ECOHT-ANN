@@ -1,9 +1,6 @@
 #ifndef DEFINES_HPP
 #define DEFINES_HPP
 
-//#define USE_MAIN
-#define TEST_NEURON
-//#define TEST_LAYER
-//#define TEST_NETWORK
+#define TEST_MODE
 
 #endif // DEFINES_HPP

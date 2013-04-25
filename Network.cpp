@@ -14,17 +14,14 @@ void Network::initNetwork(const QVector< LayerDescription > &layersDescription) 
     layers = QVector < Layer >( layersDescription.size() );
     auto descriptionIterator = layersDescription.begin();
     std::for_each(layers.begin(), layers.end(), [&](Layer & layer){
-        const auto numberOfNeurons = (*descriptionIterator).first;
-        const auto numberOfInputs = (*descriptionIterator).second;
+        layer.initLayer( (*descriptionIterator).first, (*descriptionIterator).second );
         ++descriptionIterator;
-        layer.initLayer( numberOfNeurons, numberOfInputs );
     });
 }
 
 void Network::training(const Data &dataSet, const Result &result) {
     Q_ASSERT(dataSet.size() == result.size());
-
-    layers = QVector< Layer > ( numberOfLayers );
+    // TODO training
 }
 
 QVector<Layer> &Network::getLayers() {
@@ -34,7 +31,3 @@ QVector<Layer> &Network::getLayers() {
 const QVector<Layer> &Network::getLayers() const {
     return layers;
 }
-
-#ifdef TEST_NETWORK
-QTEST_MAIN(NetworkTest)
-#endif

@@ -8,13 +8,13 @@ class Neuron {
 
 public:
     Neuron();
+    quint32 getId() const;
 
     void initNeuron(const quint32 numberOfInputs);
 
     QVector<qreal> &getWeights();
     const QVector<qreal> &getWeights() const;
 
-    quint32 getId() const;
 private:
     static quint32 idCounter;
 
@@ -22,7 +22,7 @@ private:
     QVector < qreal > weights;
 };
 
-#ifdef TEST_NEURON
+#ifdef TEST_MODE
 
 #include <QtTest/QtTest>
 #include <QObject>
@@ -30,11 +30,14 @@ private:
 class NeuronTest : public QObject {
     Q_OBJECT
 private slots:
+    void EmptyTest(){
+        Neuron neuron;
+        QCOMPARE(neuron.getWeights().size(), 0);
+    }
     void InitializationTest(){
         Neuron neuron;
-        qDebug() << "neuron.getWeights() = " << neuron.getWeights();
         neuron.initNeuron(10);
-        qDebug() << "neuron.getWeights() = " << neuron.getWeights();
+        QCOMPARE(neuron.getWeights().size(), 10);
     }
 };
 #endif
