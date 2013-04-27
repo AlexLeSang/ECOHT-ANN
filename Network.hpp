@@ -9,6 +9,8 @@
 #include "Layer.hpp"
 
 #include <QPair>
+#include <QList>
+#include <QVector>
 
 constexpr quint32 numberOfInputs = 2;
 constexpr quint32 numberOfOutputs = 1;
@@ -94,16 +96,16 @@ private slots:
     }
 
     void ProcessTest() {
-        constexpr quint32 numberOfDataSamples = 5;
+        constexpr quint32 numberOfDataSamples = 3;
         constexpr quint32 numberOfInputs = 2;
         constexpr quint32 numberOfOutputs = 1;
 
         Network & network = Network::getInstance();
         QVector< LayerDescription > layersDesciption;
-        layersDesciption.append(LayerDescription(2, numberOfInputs));
-        layersDesciption.append(LayerDescription(4, 2));
-        layersDesciption.append(LayerDescription(numberOfOutputs, 4));
-        network.initNetwork(layersDesciption, 1e-5, 1, 0.1);
+        layersDesciption.append(LayerDescription(3, numberOfInputs)); // Input
+        layersDesciption.append(LayerDescription(4, 3)); // Hidden
+        layersDesciption.append(LayerDescription(numberOfOutputs, 4)); // Ouput
+        network.initNetwork(layersDesciption, 1e-5, 10, 0.1);
 
         Data data( numberOfDataSamples );
         std::for_each( data.begin(), data.end(), []( Data::reference sample ) {

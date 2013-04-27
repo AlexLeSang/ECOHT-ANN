@@ -16,21 +16,30 @@ const QVector<qreal> &Neuron::getWeights() const {
 
 qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias, const qreal beta) const {
     Q_ASSERT(inputs.size() == weights.size());
-    qreal result = 0.0;
-    // NOTE it can be done better
-    auto weightIt = weights.constBegin();
-    for ( auto inputIt = inputs.constBegin(); inputIt != inputs.constEnd(); ++ inputIt, ++ weightIt ) {
-        result += (*inputIt) * (*weightIt);
+
+    // TODO choose activation function
+    if ( lastLayer ) {
+        return linLambda( inputs, bias );
     }
-    result -= bias;
-    result = std::tanh(beta*result);
-    return result;
+    else {
+        return tanhLambda( inputs, weights, bias, beta );
+    }
 }
 
-void Neuron::initNeuron(const quint32 numberOfInputs) {
+Neuron & Neuron::operator =(const Neuron &rNeuron) {
+    if ( &rNeuron != this ) {
+        weights = rNeuron.getWeights();
+    }
+    return *this;
+}
+
+void Neuron::initNeuron(const quint32 numberOfInputs, const bool lastLayer) {
     Q_ASSERT(numberOfInputs > 0);
-    weights = QVector < qreal > ( numberOfInputs );
-    std::for_each( weights.begin(), weights.end(), randomLambda );
+    this->lastLayer = lastLayer;
+    if ( !lastLayer ) {
+        weights = QVector < qreal > ( numberOfInputs );
+        std::for_each( weights.begin(), weights.end(), randomLambda );
+    }
 }
 
 quint32 Neuron::getId() const {

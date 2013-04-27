@@ -15,12 +15,12 @@ public:
     Layer();
     quint32 getId() const;
 
-    void initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs);
+    void initLayer( const quint32 numberOfNeurons, const quint32 numberOfInputs, const bool lastLayer = false );
 
     QVector< Neuron > & getNeurons();
     const QVector< Neuron > & getNeurons() const;
 
-    const QVector< qreal > process(const QVector<qreal> &inputs) const;
+    const QVector< qreal > process( const QVector<qreal> &inputs ) const;
 
 private:
     static quint32 layerCounter;
@@ -67,7 +67,7 @@ private slots:
             for( auto it = layer.getNeurons().constBegin(); it != layer.getNeurons().constEnd(); ++ it, ++ resultIt ) {
                 (*resultIt) = (*it).process( data );
             }
-            qDebug() << "result = " << result;
+            //            qDebug() << "result = " << result;
         }
 
         {
@@ -82,7 +82,7 @@ private slots:
             for( auto it = layer.getNeurons().constBegin(); it != layer.getNeurons().constEnd(); ++ it, ++ resultIt ) {
                 (*resultIt) = (*it).process( data );
             }
-            qDebug() << "result = " << result;
+            //            qDebug() << "result = " << result;
         }
     }
 };

@@ -17,10 +17,12 @@ void Network::initNetwork(const QVector< LayerDescription > &layersDescription, 
 
     layers = QVector < Layer >( layersDescription.size() );
     auto descriptionIterator = layersDescription.begin();
-    std::for_each(layers.begin(), layers.end(), [&](Layer & layer){
-        layer.initLayer( (*descriptionIterator).first, (*descriptionIterator).second );
+    qint32 layerCount = 0;
+    std::for_each( layers.begin(), layers.end(), [&](Layer & layer) {
+        layer.initLayer( (*descriptionIterator).first, (*descriptionIterator).second, layerCount == (layers.size() - 1) );
         ++descriptionIterator;
-    });
+        ++layerCount;
+    } );
 
     this->accuracy = accuracy;
     this->maxNumberOfEpoch = maxNumberOfEpoch;
@@ -29,16 +31,36 @@ void Network::initNetwork(const QVector< LayerDescription > &layersDescription, 
 
 void Network::training(const Data &dataSet, const Result &desiredResult) {
     Q_ASSERT(dataSet.size() == desiredResult.size());
-    quint32 epochConter = 0;
+
+    quint32 epochCounter = 0;
     qreal achievedAccuracy = 1.0;
+
+    QList< qreal > errorList;
+
     while ( true ){
-        if ( epochConter >= maxNumberOfEpoch ) break;
+        if ( epochCounter >= maxNumberOfEpoch ) break;
         if ( achievedAccuracy <= accuracy ) break;
 
-        auto obtainedResult = process( dataSet );
+        const auto obtainedResult = process( dataSet );
+        Q_ASSERT( obtainedResult.size() == desiredResult.size() );
+
+        qreal error = 0.0;
+        // NOTE implement in parallel
+        for ( auto desIt = desiredResult.constBegin(), obtIt = obtainedResult.begin(); desIt != desiredResult.constEnd(); ++ desIt, ++ obtIt ) {
+            const auto & desData = (*desIt).getData();
+            const auto & obtData = (*obtIt).getData();
+            Q_ASSERT( desData.size() == obtData.size() );
+            for ( auto desDataIt = desData.constBegin(), obtDataIt = obtData.constBegin(); desDataIt != desData.constEnd(); ++ desDataIt, ++ obtDataIt ) {
+                error += std::pow( (*desDataIt) - (*obtDataIt), 2 );
+            }
+        }
+        error /= desiredResult.size();
+        errorList.append( error );
         // Process all example and receive network output
-        ++ epochConter;
+        ++ epochCounter;
     }
+    // TODO remove debug output
+    qDebug() << "errorList = " << errorList;
 }
 
 QVector<Layer> &Network::getLayers() {
@@ -56,23 +78,27 @@ Result Network::process(const Data &data) {
     auto resultIt = result.begin();
     for ( auto dataIt = data.constBegin(); dataIt != data.constEnd(); ++ dataIt, ++resultIt ) {
         static int sampleCounter = 0;
-        qDebug() << "Sample # " << sampleCounter++;
+//        qDebug() << "Sample # " << sampleCounter++; // TODO remove debug output
+        Q_UNUSED( sampleCounter );
 
         const auto & currentSample = (*dataIt);
         QVector < qreal > tempResult = currentSample.getData();
         for ( auto it = layers.constBegin(); it != layers.constEnd(); ++ it ) {
-            // TODO remove debug otput
-            qDebug() << "tempResult = " << tempResult;
-            tempResult = (*it).process(tempResult);
+            //            qDebug() << "tempResult = " << tempResult; // TODO remove debug otput
+            const auto intermidResult = (*it).process(tempResult);
+            //            qDebug() << "intermidResult = " << intermidResult; // TODO remove debug otput
+            tempResult = intermidResult;
         }
         Result::value_type resultSample(tempResult);
         (*resultIt) = resultSample;
     }
+    /* TODO remove debug output
     qDebug() << "Resutl = ";
     std::for_each( result.constBegin(), result.constEnd(), []( Result::const_reference constSample ) {
         static quint32 resultSampleCount = 0;
         qDebug() << "resultSampleCount #" << resultSampleCount++ << constSample.getData();
     } );
+                */
 
     return result;
 }
