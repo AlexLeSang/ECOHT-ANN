@@ -37,54 +37,9 @@ private:
 class LayerTest : public QObject {
     Q_OBJECT
 private slots:
-
-    void EmptyTest() {
-        Layer layer;
-        QCOMPARE(layer.getNeurons().size(), 0);
-    }
-
-    void InitializationTest(){
-        Layer layer;
-        layer.initLayer(20, 5);
-        const auto neurons = layer.getNeurons();
-        QCOMPARE(neurons.size(), 20);
-        std::for_each(neurons.constBegin(), neurons.constEnd(), [](const Neuron & neuron){
-            QCOMPARE(neuron.getWeights().size(), 5);
-        });
-    }
-
-    void ProcessTest() {
-        Layer layer;
-        {
-            const quint32 numberOfInputs = 5;
-            const quint32 numberOfNeurons = 20;
-
-            QVector< qreal > data( numberOfInputs );
-            std::for_each( data.begin(), data.end(), randomLambda );
-            layer.initLayer( numberOfNeurons, data.size() );
-            QVector < qreal > result( layer.getNeurons().size() );
-            auto resultIt = result.begin();
-            for( auto it = layer.getNeurons().constBegin(); it != layer.getNeurons().constEnd(); ++ it, ++ resultIt ) {
-                (*resultIt) = (*it).process( data );
-            }
-            //            qDebug() << "result = " << result;
-        }
-
-        {
-            const quint32 numberOfInputs = 1;
-            const quint32 numberOfNeurons = 4;
-
-            QVector< qreal > data( numberOfInputs );
-            std::for_each( data.begin(), data.end(), randomLambda );
-            layer.initLayer( numberOfNeurons, data.size() );
-            QVector < qreal > result( layer.getNeurons().size() );
-            auto resultIt = result.begin();
-            for( auto it = layer.getNeurons().constBegin(); it != layer.getNeurons().constEnd(); ++ it, ++ resultIt ) {
-                (*resultIt) = (*it).process( data );
-            }
-            //            qDebug() << "result = " << result;
-        }
-    }
+    void EmptyTest();
+    void InitializationTest();
+    void ProcessTest();
 };
 
 #endif
