@@ -22,13 +22,20 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QwtPlot" name="qwtPlot"/>
+     <widget class="QwtPlot" name="qwtPlot">
+      <property name="toolTip">
+       <string>Graph of results error</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QWidget" name="horizontalWidget" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="DataBox">
+         <property name="toolTip">
+          <string>Data Group</string>
+         </property>
          <property name="title">
           <string>Data</string>
          </property>
@@ -41,6 +48,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
                  <widget class="QLabel" name="inputLabel">
+                  <property name="toolTip">
+                   <string>Input File</string>
+                  </property>
                   <property name="text">
                    <string>Input File</string>
                   </property>
@@ -51,6 +61,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="inputOpenButton">
+                  <property name="toolTip">
+                   <string>Open Input File</string>
+                  </property>
                   <property name="text">
                    <string>Open</string>
                   </property>
@@ -64,6 +77,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
                  <widget class="QLabel" name="outputlabel">
+                  <property name="toolTip">
+                   <string>Output File</string>
+                  </property>
                   <property name="text">
                    <string>Output File</string>
                   </property>
@@ -74,6 +90,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="outputOpenButton">
+                  <property name="toolTip">
+                   <string>Open Output File</string>
+                  </property>
                   <property name="text">
                    <string>Open</string>
                   </property>
@@ -86,7 +105,10 @@
               <widget class="QWidget" name="horizontalWidget_3" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_9">
                 <item>
-                 <widget class="QLabel" name="label">
+                 <widget class="QLabel" name="percentLabel">
+                  <property name="toolTip">
+                   <string>Amount of data that will be used for testing in percents</string>
+                  </property>
                   <property name="text">
                    <string>Percent of test data</string>
                   </property>
@@ -96,7 +118,13 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox">
+                 <widget class="QSpinBox" name="testDataPercent">
+                  <property name="acceptDrops">
+                   <bool>true</bool>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Amount of data that will be used for testing in percents&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                   </property>
@@ -115,7 +143,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="ControlBox">
+         <property name="toolTip">
+          <string>Control Group</string>
+         </property>
          <property name="title">
           <string>Control</string>
          </property>
@@ -127,14 +158,21 @@
               <widget class="QWidget" name="horizontalWidget" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_10">
                 <item>
-                 <widget class="QLabel" name="label_2">
+                 <widget class="QLabel" name="neuronNumberLabel">
+                  <property name="toolTip">
+                   <string>Number of neurons</string>
+                  </property>
                   <property name="text">
                    <string>Neuron number</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_2"/>
+                 <widget class="QSpinBox" name="neuronNumber">
+                  <property name="toolTip">
+                   <string>Number of neurons</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -143,14 +181,21 @@
               <widget class="QWidget" name="horizontalWidget_2" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_11">
                 <item>
-                 <widget class="QLabel" name="label_3">
+                 <widget class="QLabel" name="alphaLabel">
+                  <property name="toolTip">
+                   <string>Training coefficient</string>
+                  </property>
                   <property name="text">
                    <string>Alpha</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+                 <widget class="QDoubleSpinBox" name="alphaCoef">
+                  <property name="toolTip">
+                   <string>Training coefficient</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -159,14 +204,21 @@
               <widget class="QWidget" name="horizontalWidget_3" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_12">
                 <item>
-                 <widget class="QLabel" name="label_4">
+                 <widget class="QLabel" name="betaLabel">
+                  <property name="toolTip">
+                   <string>Stretch coefficient</string>
+                  </property>
                   <property name="text">
                    <string>Beta</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+                 <widget class="QDoubleSpinBox" name="betaCoef">
+                  <property name="toolTip">
+                   <string>Stretch coefficient</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -175,14 +227,21 @@
               <widget class="QWidget" name="horizontalWidget_4" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_13">
                 <item>
-                 <widget class="QLabel" name="label_5">
+                 <widget class="QLabel" name="maxEpochlabel">
+                  <property name="toolTip">
+                   <string>Maximim number of epochs</string>
+                  </property>
                   <property name="text">
                    <string>Max epoch</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_3"/>
+                 <widget class="QSpinBox" name="maxEpoch">
+                  <property name="toolTip">
+                   <string>Maximim number of epochs</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -191,14 +250,21 @@
               <widget class="QWidget" name="horizontalWidget_5" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_14">
                 <item>
-                 <widget class="QLabel" name="label_6">
+                 <widget class="QLabel" name="precisionlabel">
+                  <property name="toolTip">
+                   <string>Precision</string>
+                  </property>
                   <property name="text">
                    <string>Precision</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+                 <widget class="QDoubleSpinBox" name="precision">
+                  <property name="toolTip">
+                   <string>Precision</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -215,7 +281,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
+        <widget class="QGroupBox" name="ResultsBox">
+         <property name="toolTip">
+          <string>Results Group</string>
+         </property>
          <property name="title">
           <string>Results</string>
          </property>
@@ -224,12 +293,15 @@
            <widget class="QWidget" name="horizontalWidget" native="true">
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
-              <widget class="QPushButton" name="runButton">
+              <widget class="QPushButton" name="startButton">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Start</string>
                </property>
                <property name="text">
                 <string>Start</string>
@@ -237,14 +309,20 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="stopButton">
+               <property name="toolTip">
+                <string>Stop</string>
+               </property>
                <property name="text">
                 <string>Stop</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="saveButton">
+               <property name="toolTip">
+                <string>Save results to file</string>
+               </property>
                <property name="text">
                 <string>Save results</string>
                </property>
@@ -254,7 +332,10 @@
            </widget>
           </item>
           <item>
-           <widget class="QTableWidget" name="tableWidget">
+           <widget class="QTableWidget" name="resultsTable">
+            <property name="toolTip">
+             <string>Table of results</string>
+            </property>
             <property name="columnCount">
              <number>5</number>
             </property>
@@ -302,27 +383,11 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <widget class="QMenu" name="menuOpen">
-     <property name="title">
-      <string>Open</string>
-     </property>
-     <addaction name="actionInput_File"/>
-     <addaction name="actionOutput_File"/>
-    </widget>
-    <addaction name="menuOpen"/>
-    <addaction name="actionQuit"/>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>About</string>
     </property>
-    <addaction name="actionAbout"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -355,6 +420,20 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>inputOpenButton</tabstop>
+  <tabstop>outputOpenButton</tabstop>
+  <tabstop>testDataPercent</tabstop>
+  <tabstop>neuronNumber</tabstop>
+  <tabstop>alphaCoef</tabstop>
+  <tabstop>betaCoef</tabstop>
+  <tabstop>maxEpoch</tabstop>
+  <tabstop>precision</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>stopButton</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>resultsTable</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
