@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     Neuron.cpp \
     Layer.cpp \
     Network.cpp \
-    Sample.cpp
+    Sample.cpp \
+    Facade.cpp
 
 HEADERS  += \
     mainwindow.hpp \
@@ -34,7 +35,8 @@ HEADERS  += \
     Defines.hpp \
     Network.hpp \
     Sample.hpp \
-    Helpers.hpp
+    Helpers.hpp \
+    Facade.hpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/qwt-6.0.2/lib/release/ -lqwt
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/qwt-6.0.2/lib/debug/ -lqwt

@@ -24,8 +24,7 @@ typedef quint32 inputsNumber;
 typedef QPair< neuronsNumber, inputsNumber > LayerDescription;
 
 
-class Network : public QObject {
-    Q_OBJECT
+class Network {
 public:
     static Network & getInstance();
 
@@ -36,10 +35,6 @@ public:
 
     void training(const Data & dataSet, const Result & desiredResult);
     const Result testing(const Data & data);
-
-
-public slots:
-    // TODO communication with interface
 
 private:
     Network();

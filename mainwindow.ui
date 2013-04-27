@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>742</width>
-    <height>553</height>
+    <height>706</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,6 +23,12 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QwtPlot" name="qwtPlot">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="toolTip">
        <string>Graph of results error</string>
       </property>
@@ -507,7 +513,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
