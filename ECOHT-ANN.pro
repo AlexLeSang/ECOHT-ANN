@@ -36,3 +36,9 @@ HEADERS  += \
     Sample.hpp \
     Helpers.hpp
 
+INCLUDEPATH += /usr/local/qwt-6.0.3-svn/include
+
+LIBS += /usr/local/qwt-6.0.3-svn/lib/libqwt.so.6.0.3
+
+FORMS += \
+    mainwindow.ui
