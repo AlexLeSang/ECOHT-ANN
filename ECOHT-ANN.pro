@@ -36,9 +36,12 @@ HEADERS  += \
     Sample.hpp \
     Helpers.hpp
 
-INCLUDEPATH += /usr/local/qwt-6.0.3-svn/include
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/qwt-6.0.2/lib/release/ -lqwt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/qwt-6.0.2/lib/debug/ -lqwt
+else:unix:!macx: LIBS += -L$$PWD/../../../../usr/local/qwt-6.1.0-rc3/lib/ -lqwt
 
-LIBS += /usr/local/qwt-6.0.3-svn/lib/libqwt.so.6.0.3
+INCLUDEPATH += $$PWD/../../../../usr/local/qwt-6.1.0-rc3/include
+DEPENDPATH += $$PWD/../../../../usr/local/qwt-6.1.0-rc3/include
 
 FORMS += \
     mainwindow.ui
