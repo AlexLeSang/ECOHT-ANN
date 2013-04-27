@@ -11,13 +11,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 debug {
     QT       += testlib
     CONFIG   += console
-    QMAKE_CXX = ccache g++
+    QMAKE_CXX = ccache g++-4.7
+#    QMAKE_CXX = g++-4.7
 }
 
 TARGET = ECOHT-ANN
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=c++0x -Wno-unused-local-typedefs
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -32,5 +33,6 @@ HEADERS  += \
     Layer.hpp \
     Defines.hpp \
     Network.hpp \
-    Sample.hpp
+    Sample.hpp \
+    Helpers.hpp
 

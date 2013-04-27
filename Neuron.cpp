@@ -14,13 +14,23 @@ const QVector<qreal> &Neuron::getWeights() const {
     return weights;
 }
 
+qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias, const qreal beta) const {
+    Q_ASSERT(inputs.size() == weights.size());
+    qreal result = 0.0;
+    // NOTE it can be done better
+    auto weightIt = weights.constBegin();
+    for ( auto inputIt = inputs.constBegin(); inputIt != inputs.constEnd(); ++ inputIt, ++ weightIt ) {
+        result += (*inputIt) * (*weightIt);
+    }
+    result -= bias;
+    result = std::tanh(beta*result);
+    return result;
+}
+
 void Neuron::initNeuron(const quint32 numberOfInputs) {
     Q_ASSERT(numberOfInputs > 0);
     weights = QVector < qreal > ( numberOfInputs );
-    auto randomLabmda = [](qreal & val) {
-        val = (qreal)std::rand()/RAND_MAX;
-    };
-    std::for_each(weights.begin(), weights.end(), randomLabmda);
+    std::for_each( weights.begin(), weights.end(), randomLambda );
 }
 
 quint32 Neuron::getId() const {

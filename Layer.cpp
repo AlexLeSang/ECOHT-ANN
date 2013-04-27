@@ -21,6 +21,15 @@ const QVector<Neuron> &Layer::getNeurons() const {
     return neurons;
 }
 
+const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const {
+    QVector< qreal > result( neurons.size() );
+    auto resultIt = result.begin();
+    for ( auto neuronIt = neurons.constBegin(); neuronIt != neurons.constEnd(); ++ neuronIt, ++resultIt ) {
+        (*resultIt) = (*neuronIt).process(inputs);
+    }
+    return result;
+}
+
 quint32 Layer::getId() const {
     return id;
 }
