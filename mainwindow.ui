@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1033</width>
-    <height>702</height>
+    <width>665</width>
+    <height>553</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,6 +30,12 @@
     </item>
     <item>
      <widget class="QWidget" name="horizontalWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QGroupBox" name="DataBox">
@@ -195,6 +201,15 @@
                   <property name="toolTip">
                    <string>Training coefficient</string>
                   </property>
+                  <property name="decimals">
+                   <number>4</number>
+                  </property>
+                  <property name="maximum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.000100000000000</double>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -217,6 +232,15 @@
                  <widget class="QDoubleSpinBox" name="betaCoef">
                   <property name="toolTip">
                    <string>Stretch coefficient</string>
+                  </property>
+                  <property name="decimals">
+                   <number>4</number>
+                  </property>
+                  <property name="maximum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.000100000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -263,6 +287,15 @@
                  <widget class="QDoubleSpinBox" name="precision">
                   <property name="toolTip">
                    <string>Precision</string>
+                  </property>
+                  <property name="decimals">
+                   <number>6</number>
+                  </property>
+                  <property name="maximum">
+                   <double>100.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.000100000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -379,7 +412,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1033</width>
+     <width>665</width>
      <height>21</height>
     </rect>
    </property>
