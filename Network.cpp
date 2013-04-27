@@ -2,6 +2,8 @@
 
 #include "Layer.hpp"
 
+#include <QDebug>
+
 Network::Network() {}
 
 Network &Network::getInstance() {
@@ -103,7 +105,7 @@ Result Network::process(const Data &data) {
     return result;
 }
 
-
+#ifdef TEST_MODE
 void NetworkTest::ProcessTest()  {
     constexpr quint32 numberOfDataSamples = 3;
     constexpr quint32 numberOfInputs = 2;
@@ -179,3 +181,4 @@ void NetworkTest::InitializationTest() {
         ++ descIter;
     }
 }
+#endif

@@ -44,6 +44,7 @@ quint32 Neuron::getId() const {
 }
 
 
+#ifdef TEST_MODE
 void NeuronTest::EmptyTest() {
     Neuron neuron;
     QCOMPARE(neuron.getWeights().size(), 0);
@@ -84,3 +85,4 @@ void NeuronTest::ProcessTest() {
         Q_UNUSED( result );
     }
 }
+#endif

@@ -35,6 +35,7 @@ quint32 Layer::getId() const {
 }
 
 
+#ifdef TEST_MODE
 void LayerTest::EmptyTest() {
     Layer layer;
     QCOMPARE(layer.getNeurons().size(), 0);
@@ -82,3 +83,4 @@ void LayerTest::ProcessTest() {
         //            qDebug() << "result = " << result;
     }
 }
+#endif
