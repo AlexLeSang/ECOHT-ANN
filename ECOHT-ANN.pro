@@ -22,6 +22,7 @@ QMAKE_CXXFLAGS += -std=c++0x -Wno-unused-local-typedefs
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    preprocessor.cpp \
     Neuron.cpp \
     Layer.cpp \
     Network.cpp \
@@ -30,6 +31,7 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     mainwindow.hpp \
+    preprocessor.hpp \
     Neuron.hpp \
     Layer.hpp \
     Defines.hpp \
