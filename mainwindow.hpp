@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtGui>
 #include <qwt.h>
 #include <qwt_plot_curve.h>
 namespace Ui{
@@ -20,6 +21,7 @@ private:
     QwtPlotCurve *curve;
 public slots:
     void plot(QVector<QPointF>&);
+    void saveImage();
 };
 
 #endif // MAINWINDOW_H
