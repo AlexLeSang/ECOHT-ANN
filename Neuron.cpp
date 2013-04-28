@@ -14,7 +14,7 @@ const QVector<qreal> &Neuron::getWeights() const {
     return weights;
 }
 
-qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias, const qreal beta) const {
+qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const {
     Q_ASSERT(inputs.size() == weights.size());
     // TODO choose activation function
     if ( lastLayer ) {
@@ -32,9 +32,10 @@ Neuron & Neuron::operator =(const Neuron &rNeuron) {
     return *this;
 }
 
-void Neuron::initNeuron(const quint32 numberOfInputs, const bool lastLayer) {
+void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bool lastLayer) {
     Q_ASSERT(numberOfInputs > 0);
     this->lastLayer = lastLayer;
+    this->beta = beta;
     weights = QVector < qreal > ( numberOfInputs );
     std::for_each( weights.begin(), weights.end(), randomLambda );
 }

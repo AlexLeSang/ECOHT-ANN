@@ -28,7 +28,7 @@ class Network {
 public:
     static Network & getInstance();
 
-    void initNetwork(const QVector< LayerDescription > & layersDescription, const qreal accuracy, const quint32 maxNumberOfEpoch, const qreal trainingCoefficient);
+    void initNetwork(const QVector< LayerDescription > & layersDescription, const qreal accuracy, const quint32 maxNumberOfEpoch, const qreal trainingCoefficient, const qreal beta = 1.0);
 
     QVector<Layer> & getLayers();
     const QVector<Layer> & getLayers() const;
@@ -36,18 +36,21 @@ public:
     void training(const Data & dataSet, const Result & desiredResult);
     const Result testing(const Data & data);
 
+    qreal getBeta() const;
+
 private:
     Network();
     Network(const Network & rNetwork) = delete;
     Network & operator = (const Network & rNetwork) = delete;
 
-    Result process(const Data & data);
+    QPair<Result, QVector<QVector<qreal> > > process(const Data &data);
 
 private:
     QVector< Layer > layers;
     quint32 maxNumberOfEpoch;
     qreal accuracy;
     qreal trainigCoefficien;
+    qreal beta;
 };
 
 

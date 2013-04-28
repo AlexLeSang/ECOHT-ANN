@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>742</width>
-    <height>553</height>
+    <height>563</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="controlsTab">
        <attribute name="title">
@@ -700,9 +700,6 @@
          </widget>
         </item>
        </layout>
-       <zorder>qwtPlot</zorder>
-       <zorder>dataControlLayout</zorder>
-       <zorder>ResultsBox</zorder>
       </widget>
       <widget class="QWidget" name="graphTab">
        <attribute name="title">
@@ -760,7 +757,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
