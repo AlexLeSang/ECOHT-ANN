@@ -13,12 +13,12 @@ public:
     Neuron();
     quint32 getId() const;
 
-    void initNeuron(const quint32 numberOfInputs, const bool lastLayer = false);
+    void initNeuron(const quint32 numberOfInputs, const qreal beta = 1.0, const bool lastLayer = false);
 
     QVector< qreal > &getWeights();
     const QVector< qreal > &getWeights() const;
 
-    qreal process(const QVector< qreal > & inputs, const qreal bias = 0.0, const qreal beta = 1.0) const;
+    qreal process(const QVector< qreal > & inputs, const qreal bias = 0.0) const;
 
     Neuron &operator =(const Neuron &rNeuron);
 
@@ -28,6 +28,8 @@ private:
     const quint32 id;
 
     bool lastLayer;
+
+    qreal beta;
 
     QVector < qreal > weights;
 };
