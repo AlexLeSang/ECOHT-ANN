@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     NetworkTest networkTest;
     QTest::qExec(&networkTest);
 
-    //PreprocessorTest preprocessorTest;
-    //QTest::qExec(&preprocessorTest);
+    PreprocessorTest preprocessorTest;
+    QTest::qExec(&preprocessorTest);
     return 0;
 }
 
