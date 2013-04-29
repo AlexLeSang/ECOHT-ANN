@@ -14,9 +14,8 @@ Preprocessor &Preprocessor::getInstance() {
  * \param fileName
  * \return
  */
-const Dataset Preprocessor::readFile( const QString & fileName ) {
-    Dataset result;
-    QFile inputFile( fileName );
+void Preprocessor::readFile() {
+    QFile inputFile( fileNameIn );
     if ( !inputFile.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::readFile" );
     }
@@ -25,6 +24,8 @@ const Dataset Preprocessor::readFile( const QString & fileName ) {
     qint32 numberOfInputs;
     inputStream >> numberOfInputs;
     inputStream.readLine();
+
+    cache.clear();
     while ( !inputStream.atEnd() ) {
         QString nextLine;
         nextLine = inputStream.readLine();
@@ -47,9 +48,8 @@ const Dataset Preprocessor::readFile( const QString & fileName ) {
             outputParameters.append( tmp );
         }
 
-        result.append( DataSample( inputParameters, outputParameters ) );
+        cache.append( DataSample( inputParameters, outputParameters ) );
     }
-    return result;
 }
 
 /*!
@@ -58,15 +58,17 @@ const Dataset Preprocessor::readFile( const QString & fileName ) {
  * \param data
  * \param numberOfInputs
  */
-void Preprocessor::writeFile( const QString & fileName, const Dataset & data, const quint32 numberOfInputs ) {
-    QFile outputFile( fileName );
+void Preprocessor::writeFile() {
+    QFile outputFile( fileNameOut );
     if ( !outputFile.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::writeFile" );
     }
 
     QTextStream outputStream( &outputFile );
-    outputStream << numberOfInputs << endl;
-    for ( auto it = data.constBegin(); it != data.constEnd(); ++it ) {
+    quint32 numberOfInputs = cache.first().first.size();
+    outputStream << numberOfInputs << '\n';
+
+    for ( auto it = cache.constBegin(); it != cache.constEnd(); ++it ) {
 
         for ( auto itInputs = (*it).first.constBegin(); itInputs != (*it).first.constBegin() + numberOfInputs; ++itInputs ) {
             outputStream << (*itInputs) << ' ';
@@ -76,6 +78,43 @@ void Preprocessor::writeFile( const QString & fileName, const Dataset & data, co
             outputStream << (*itOutputs) << ' ';
         }
 
-        outputStream << endl;
+        outputStream << '\n';
+    }
+}
+
+/*!
+ * \brief Preprocessor::setFilenameIn
+ * \param s
+ */
+void Preprocessor::setFilenameIn( const QString & s ) {
+    if ( s == fileNameIn ) {
+        return;
+    }
+    else {
+        readFile();
+        splitData();
+    }
+}
+
+/*!
+ * \brief Preprocessor::splitData
+ */
+void Preprocessor::splitData() {
+    qint32 trainingNumber = static_cast< qint32 >( cache.size() * ( ( 100 - percentageOfTest ) / 100.) );
+
+    trainingData.clear();//resize( trainingNumber );
+    trainingResults.clear();//resize( trainingNumber );
+    testingData.clear();//resize( cache.size() - trainingNumber );
+    testingResult.clear();//resize(); cache.size() - trainingNumber );
+
+    for ( auto it = cache.constBegin(); it != cache.constEnd(); ++it ){
+        if( it - cache.constBegin() < trainingNumber ){
+            trainingData.append( (*it).first );
+            trainingResults.append( (*it).second );
+        }
+        else {
+            testingData.append( (*it).first );
+            testingResult.append( (*it).second );
+        }
     }
 }
