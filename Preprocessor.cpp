@@ -63,7 +63,7 @@ void Preprocessor::readFile() {
     cache.clear();
     while ( !inputStream.atEnd() ) {
         QString nextLine;
-        nextLine = inputStream.readLine();
+        nextLine = inputStream.readLine().trimmed();
         if ( nextLine.isEmpty() ){
             continue;
         }
@@ -137,7 +137,7 @@ void Preprocessor::setInputFileName(const QString & fileName ) {
         return;
     }
     else {
-        QFileInfo f( fileNameIn );
+        QFileInfo f( fileName );
         QString p = f.filePath();
         if( !f.exists() ){
             throw FileNotExistsException( "Preprocessor::setFileName" );
@@ -211,7 +211,7 @@ void PreprocessorTest::EmptyTest() {
 }
 
 void PreprocessorTest::InitializationTest() {
-    Preprocessor::getInstance().setInputFileName( "/home/dan/ECOHT/data.dat" );
+    Preprocessor::getInstance().setInputFileName( "/home/dan/1.dat" );
     QCOMPARE(Preprocessor::getInstance().getTestingData().size(), 3);
 }
 
