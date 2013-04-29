@@ -1,6 +1,11 @@
 #include "Preprocessor.hpp"
 
 /*!
+ * \brief Preprocessor::Preprocessor
+ */
+Preprocessor::Preprocessor() : percentageOfTest(30) {}
+
+/*!
  * \brief Preprocessor::getInstance
  * \return
  */
@@ -88,9 +93,18 @@ void Preprocessor::writeFile() {
  */
 void Preprocessor::setFilenameIn( const QString & s ) {
     if ( s == fileNameIn ) {
+        QFileInfo f( fileNameIn );
+        if ( f.lastModified() != lastModified ){
+            lastModified = f.lastModified();
+            readFile();
+            splitData();
+        }
         return;
     }
     else {
+        QFileInfo f( fileNameIn );
+        lastModified = f.lastModified();
+        fileNameIn = s;
         readFile();
         splitData();
     }
@@ -102,10 +116,10 @@ void Preprocessor::setFilenameIn( const QString & s ) {
 void Preprocessor::splitData() {
     qint32 trainingNumber = static_cast< qint32 >( cache.size() * ( ( 100 - percentageOfTest ) / 100.) );
 
-    trainingData.clear();//resize( trainingNumber );
-    trainingResults.clear();//resize( trainingNumber );
-    testingData.clear();//resize( cache.size() - trainingNumber );
-    testingResult.clear();//resize(); cache.size() - trainingNumber );
+    trainingData.clear();
+    trainingResults.clear();
+    testingData.clear();
+    testingResult.clear();
 
     for ( auto it = cache.constBegin(); it != cache.constEnd(); ++it ){
         if( it - cache.constBegin() < trainingNumber ){

@@ -23,9 +23,9 @@ public:
     void saveFile() { writeFile(); }
     void flush() { readFile(); splitData(); }
 private:
+    Preprocessor();
+    Preprocessor( const Preprocessor &);
     void splitData();
-    //const Dataset readFile(const QString& fileName );
-    //void writeFile( const QString & fileName, const Dataset & data, const quint32 numb );
     void readFile();
     void writeFile();
     SplittedDataSet trainingData;
@@ -36,6 +36,7 @@ private:
     QString fileNameOut;
     Dataset cache;
     quint32 percentageOfTest;
+    QDateTime lastModified;
 };
 
 #endif // PREPROCESSOR_HPP
