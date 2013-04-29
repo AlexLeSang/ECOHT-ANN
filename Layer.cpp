@@ -1,9 +1,22 @@
 #include "Layer.hpp"
 
+/*!
+ * \brief Layer::layerCounter
+ */
 quint32 Layer::layerCounter = 0;
 
+/*!
+ * \brief Layer::Layer
+ */
 Layer::Layer() : id( layerCounter++ ), neurons( QVector< Neuron > () ) {}
 
+/*!
+ * \brief Layer::initLayer
+ * \param numberOfNeurons
+ * \param numberOfInputs
+ * \param beta
+ * \param lastLayer
+ */
 void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta, const bool lastLayer ) {
     Q_ASSERT(numberOfNeurons > 0);
     Q_ASSERT(numberOfInputs > 0);
@@ -14,18 +27,35 @@ void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInput
     } );
 }
 
+/*!
+ * \brief Layer::getBeta
+ * \return
+ */
 qreal Layer::getBeta() const {
     return beta;
 }
 
+/*!
+ * \brief Layer::getNeurons
+ * \return
+ */
 QVector<Neuron> &Layer::getNeurons() {
     return neurons;
 }
 
+/*!
+ * \brief Layer::getNeurons
+ * \return
+ */
 const QVector<Neuron> &Layer::getNeurons() const {
     return neurons;
 }
 
+/*!
+ * \brief Layer::process
+ * \param inputs
+ * \return
+ */
 const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const {
     QVector< qreal > result( neurons.size() );
     auto resultIt = result.begin();
@@ -35,6 +65,10 @@ const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const {
     return result;
 }
 
+/*!
+ * \brief Layer::getId
+ * \return
+ */
 quint32 Layer::getId() const {
     return id;
 }

@@ -2,18 +2,38 @@
 
 #include "Network.hpp"
 
+/*!
+ * \brief Neuron::idCounter
+ */
 quint32 Neuron::idCounter = 0;
 
+/*!
+ * \brief Neuron::Neuron
+ */
 Neuron::Neuron() : id(++idCounter), weights( QVector< qreal> () ) {}
 
+/*!
+ * \brief Neuron::getWeights
+ * \return
+ */
 QVector<qreal> &Neuron::getWeights() {
     return weights;
 }
 
+/*!
+ * \brief Neuron::getWeights
+ * \return
+ */
 const QVector<qreal> &Neuron::getWeights() const {
     return weights;
 }
 
+/*!
+ * \brief Neuron::process
+ * \param inputs
+ * \param bias
+ * \return
+ */
 qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const {
     Q_ASSERT(inputs.size() == weights.size());
     // TODO choose activation function
@@ -25,6 +45,11 @@ qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const {
     }
 }
 
+/*!
+ * \brief Neuron::operator =
+ * \param rNeuron
+ * \return
+ */
 Neuron & Neuron::operator =(const Neuron &rNeuron) {
     if ( &rNeuron != this ) {
         weights = rNeuron.getWeights();
@@ -32,6 +57,12 @@ Neuron & Neuron::operator =(const Neuron &rNeuron) {
     return *this;
 }
 
+/*!
+ * \brief Neuron::initNeuron
+ * \param numberOfInputs
+ * \param beta
+ * \param lastLayer
+ */
 void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bool lastLayer) {
     Q_ASSERT(numberOfInputs > 0);
     this->lastLayer = lastLayer;
@@ -40,6 +71,10 @@ void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bo
     std::for_each( weights.begin(), weights.end(), randomLambda );
 }
 
+/*!
+ * \brief Neuron::getId
+ * \return
+ */
 quint32 Neuron::getId() const {
     return id;
 }
