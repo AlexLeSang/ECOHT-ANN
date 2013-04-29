@@ -10,10 +10,9 @@
 
 struct LayerStruct{
     QLabel* label;
-    QSpacerItem* fSpacer;
     QSpinBox* neuronsNumber;
-    QSpacerItem* sSpacer;
     QComboBox* activationFunction;
+    QSpacerItem* spacer;
 };
 
 typedef QPair < qint32, quint32 > LayerInfo;
