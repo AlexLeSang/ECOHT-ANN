@@ -9,8 +9,12 @@
 class Facade : public QObject {
     Q_OBJECT
 public:
-    ~Facade() {}
     static Facade & getInstance();
+
+    void processFinished();
+
+    QVector<qreal> getErrors() const;
+
 public slots:
     // Set network paramiters
 
@@ -18,6 +22,8 @@ public slots:
     void setAlhpa( const qreal val );
     void setAccuracy( const qreal val );
     void setMaxNumberOfEpoh( const quint32 val );
+
+    void setTrainingDataPercent( const quint32 val );
 
 
     void startProcess();
@@ -33,6 +39,7 @@ private:
 
 private:
     Network & networkRef;
+    Preprocessor & preprocessorRef;
 
     qreal beta;
     qreal alpha;

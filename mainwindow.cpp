@@ -1,6 +1,12 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
+#include "Facade.hpp"
+
+/*!
+ * \brief MainWindow::MainWindow
+ * \param parent
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
@@ -14,27 +20,41 @@ MainWindow::MainWindow(QWidget *parent)
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->yLeft,"Error");
 
     QPen pen = QPen(Qt::red);
-    curve = new QwtPlotCurve;
-    curve->setRenderHint(QwtPlotItem::RenderAntialiased);
-    curve->setPen(pen);
-    curve->attach(ui->qwtPlot);
+    curve.setRenderHint(QwtPlotItem::RenderAntialiased);
+    curve.setPen(pen);
+    curve.attach(ui->qwtPlot);
 
-    connect(ui->saveImageButton,SIGNAL(clicked()),this,SLOT(saveImage()));
-    connect(ui->numberOfLayers,SIGNAL(valueChanged(int)),this,SLOT(changeLayers(int)));
+    QObject::connect( ui->saveImageButton, SIGNAL( clicked() ),
+                      this, SLOT( saveImage() ) );
+    QObject::connect( ui->numberOfLayers, SIGNAL( valueChanged(int) ),
+                      this, SLOT( changeLayers(int) ) );
+    // TODO connection to facade
 }
 
-MainWindow::~MainWindow()
-{
+/*!
+ * \brief MainWindow::DisplayResults
+ */
+void MainWindow::DisplayResults() {
+    ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
+    ui->qwtPlot->replot();
 
-}
-
-void MainWindow::plot(QVector<QPointF>& vec){
-    QwtPointSeriesData * data = new QwtPointSeriesData(vec);
-    curve->setData(data);
+    const auto errorVector = Facade::getInstance().getErrors();
+    QVector < QPointF > points( errorVector.size() );
+    quint32 counter = 0;
+    auto pointsIt = points.begin();
+    // Create a
+    for ( auto errorIt = errorVector.constBegin(); errorIt != errorVector.constEnd(); ++ errorIt, ++ pointsIt, ++ counter ) {
+        (*pointsIt) = QPointF( counter, (*errorIt) );
+    }
+    curve.setSamples( QPolygonF ( points ) );
+    curve.attach( ui->qwtPlot );
     ui->qwtPlot->replot();
 }
 
 
+/*!
+ * \brief MainWindow::saveImage
+ */
 void MainWindow::saveImage(){
     QString filename = QFileDialog::getSaveFileName(this,tr("Save Image"), "image.png", tr("Image Files (*.png *.jpg *.bmp)"));
     QPixmap pixmap = QPixmap::grabWidget(ui->qwtPlot);
@@ -42,6 +62,10 @@ void MainWindow::saveImage(){
     pixmap.save(filename);
 }
 
+/*!
+ * \brief MainWindow::changeLayers
+ * \param layersNumber
+ */
 void MainWindow::changeLayers( int layersNumber ){
     if( layersNumber > currLayerNumber ){
         layers.resize( layersNumber );
@@ -115,6 +139,10 @@ void MainWindow::showResults(const Dataset & data){
     }
 }
 
+/*!
+ * \brief MainWindow::getLayerInfo
+ * \return
+ */
 LayersInfo MainWindow::getLayerInfo(){
     LayersInfo result;
 
@@ -125,8 +153,10 @@ LayersInfo MainWindow::getLayerInfo(){
     return result;
 }
 
-
-MainWindow & MainWindow::getInstance(){
-    static MainWindow instance;
-    return instance;
+/*!
+ * \brief MainWindow::~MainWindow
+ */
+MainWindow::~MainWindow() {
+    Facade::getInstance().stopProcess();
+    delete ui;
 }

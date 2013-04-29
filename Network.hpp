@@ -63,7 +63,7 @@ public:
     const QVector<Layer> & getLayers() const;
     const QVector< qreal > getNetworkError() const;
     void training(const Data & dataSet, const Result & desiredResult);
-    const QPair<const Result, const qreal> testing(const Data & data, const Result &desiredResult);
+    void testing(const Data & data, const Result &desiredResult);
     qreal getBeta() const;
 
     void stop();
@@ -74,6 +74,9 @@ public:
     void setTestingData(const Data &value);
 
     void setLayersDescription(const QVector<LayerDescription> &value);
+
+    Result getObtainedTestingResult() const;
+    QVector<qreal> getObtainedTestingError() const;
 
 private:
     Network();
@@ -96,6 +99,9 @@ private:
 
     Result testingResult;
     Data testingData;
+
+    Result obtainedTestingResult;
+    QVector < qreal > obtainedTestingError;
 
     QVector< LayerDescription > layersDescription;
 };

@@ -20,29 +20,30 @@ typedef QVector < LayerInfo > LayersInfo;
 typedef QVector < LayerStruct > LayersGUI;
 
 namespace Ui{
-
-class MainWindow;
+    class MainWindow;
 }
-class MainWindow : public QMainWindow
-{
+
+class MainWindow : public QMainWindow {
     Q_OBJECT
     
 public:
     MainWindow(QWidget *parent = 0);
-    static  MainWindow & getInstance();
-    ~MainWindow();
-private:
+    virtual ~MainWindow();
 
-    Ui::MainWindow *ui;
-    QwtPlotCurve *curve;
-    LayersGUI layers;
-    qint32 currLayerNumber;
-    void showResults(const Dataset& data);
-    LayersInfo getLayerInfo();
 public slots:
-    void plot(QVector<QPointF>&);
+    void DisplayResults();
     void saveImage();
     void changeLayers(int);
+
+private:
+    void showResults(const Dataset& data);
+    LayersInfo getLayerInfo();
+
+private:
+    Ui::MainWindow *ui;
+    QwtPlotCurve curve;
+    LayersGUI layers;
+    qint32 currLayerNumber;
 };
 
 #endif // MAINWINDOW_H
