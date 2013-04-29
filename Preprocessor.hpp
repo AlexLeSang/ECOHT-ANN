@@ -4,14 +4,14 @@
 #include <QtCore>
 #include <Exceptions.hpp>
 
-typedef QPair < QVector < qreal >, QVector < qreal > >  SampleData;
-typedef QVector< SampleData > Dataset;
+typedef QPair < QVector < qreal >, QVector < qreal > >  DataSample;
+typedef QVector< DataSample > Dataset;
 
-class Preprocessor
-{
+class Preprocessor {
 public:
-    Preprocessor();
-    Dataset readFile(const QString& fileName );
+    static Preprocessor & getInstance();
+
+    const Dataset readFile(const QString& fileName );
     void writeFile( const QString & fileName, const Dataset & data, const quint32 numb );
 };
 

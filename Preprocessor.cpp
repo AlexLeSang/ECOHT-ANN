@@ -1,15 +1,26 @@
 #include "Preprocessor.hpp"
 
-Preprocessor::Preprocessor()
-{
+/*!
+ * \brief Preprocessor::getInstance
+ * \return
+ */
+Preprocessor &Preprocessor::getInstance() {
+    static Preprocessor instance;
+    return instance;
 }
 
-Dataset Preprocessor::readFile( const QString & fileName ) {
+/*!
+ * \brief Preprocessor::readFile
+ * \param fileName
+ * \return
+ */
+const Dataset Preprocessor::readFile( const QString & fileName ) {
     Dataset result;
     QFile inputFile( fileName );
     if ( !inputFile.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::readFile" );
     }
+
     QTextStream inputStream( &inputFile );
     qint32 numberOfInputs;
     inputStream >> numberOfInputs;
@@ -36,19 +47,26 @@ Dataset Preprocessor::readFile( const QString & fileName ) {
             outputParameters.append( tmp );
         }
 
-        result.append( SampleData( inputParameters, outputParameters ) );
+        result.append( DataSample( inputParameters, outputParameters ) );
     }
     return result;
 }
 
+/*!
+ * \brief Preprocessor::writeFile
+ * \param fileName
+ * \param data
+ * \param numberOfInputs
+ */
 void Preprocessor::writeFile( const QString & fileName, const Dataset & data, const quint32 numberOfInputs ) {
     QFile outputFile( fileName );
     if ( !outputFile.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::writeFile" );
     }
+
     QTextStream outputStream( &outputFile );
-    outputStream << numberOfInputs << '\n';
-    for ( auto it = data.begin(); it != data.end(); ++it ) {
+    outputStream << numberOfInputs << endl;
+    for ( auto it = data.constBegin(); it != data.constEnd(); ++it ) {
 
         for ( auto itInputs = (*it).first.constBegin(); itInputs != (*it).first.constBegin() + numberOfInputs; ++itInputs ) {
             outputStream << (*itInputs) << ' ';
@@ -58,7 +76,6 @@ void Preprocessor::writeFile( const QString & fileName, const Dataset & data, co
             outputStream << (*itOutputs) << ' ';
         }
 
-        outputStream << '\n';
+        outputStream << endl;
     }
 }
-//TODO Add Qt newlines

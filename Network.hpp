@@ -59,7 +59,7 @@ public:
     const QVector<Layer> & getLayers() const;
     const QVector< qreal > getNetworkError() const;
     void training(const Data & dataSet, const Result & desiredResult);
-    const Result testing(const Data & data);
+    const QPair<const Result, const qreal> testing(const Data & data, const Result &desiredResult);
     qreal getBeta() const;
 
 private:

@@ -175,9 +175,22 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
  * \param data
  * \return
  */
-const Result Network::testing(const Data &data) {
-    const auto result = process( data );
-    return result.first;
+const QPair< const Result, const qreal > Network::testing(const Data &data, const Result & desiredResult) {
+    const auto obtainedResultPair = process( data );
+    const auto obtainedResult = obtainedResultPair.first;
+    // Calculate error of the network
+    qreal error = 0.0;
+    // Iterate over all data samples
+    // NOTE implement in parallel
+    for ( auto desIt = desiredResult.constBegin(), obtIt = obtainedResult.begin(); desIt != desiredResult.constEnd(); ++ desIt, ++ obtIt ) {
+        Q_ASSERT( (*desIt).getData().size() == (*obtIt).getData().size() );
+        // Iterate over all part of results
+        for ( auto desDataIt = (*desIt).getData().constBegin(), obtDataIt = (*obtIt).getData().constBegin(); desDataIt != (*desIt).getData().constEnd(); ++ desDataIt, ++ obtDataIt ) {
+            error += std::pow( (*desDataIt) - (*obtDataIt), 2 );
+        }
+    }
+    error /= 2.0;
+    return QPair< const Result, const qreal >( obtainedResult, error );
 }
 
 /*!
