@@ -24,7 +24,12 @@ void Facade::setMaxNumberOfEpoh(const quint32 val) {
 }
 
 void Facade::startProcess() {
-    // TODO implement me
+    // TODO get training data
+    // TODO get training result
+    // TODO get testing data
+    // TODO get testing results
+    // TODO pass all to the network
+    QThreadPool::globalInstance()->start( &networkRef );
 }
 
 void Facade::stopProcess() {

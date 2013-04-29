@@ -12,6 +12,8 @@
 #include <QList>
 #include <QVector>
 
+#include <QRunnable>
+
 /*!
  * \brief numberOfInputs
  */
@@ -50,10 +52,12 @@ typedef QPair< neuronsNumber, inputsNumber > LayerDescription;
 /*!
  * \brief The Network class
  */
-class Network {
+class Network : public QRunnable {
 
 public:
     static Network & getInstance();
+    void run();
+
     void initNetwork(const QVector< LayerDescription > & layersDescription, const qreal accuracy, const quint32 maxNumberOfEpoch, const qreal alpha, const qreal beta = 1.0);
     QVector<Layer> & getLayers();
     const QVector<Layer> & getLayers() const;
@@ -61,6 +65,15 @@ public:
     void training(const Data & dataSet, const Result & desiredResult);
     const QPair<const Result, const qreal> testing(const Data & data, const Result &desiredResult);
     qreal getBeta() const;
+
+    void stop();
+
+    void setTrainigResult(const Result &value);
+    void setTrainingData(const Data &value);
+    void setTestingResult(const Result &value);
+    void setTestingData(const Data &value);
+
+    void setLayersDescription(const QVector<LayerDescription> &value);
 
 private:
     Network();
@@ -75,6 +88,16 @@ private:
     qreal accuracy;
     qreal alpha;
     qreal beta;
+
+    volatile bool stopFlag;
+
+    Result trainigResult;
+    Data trainingData;
+
+    Result testingResult;
+    Data testingData;
+
+    QVector< LayerDescription > layersDescription;
 };
 
 

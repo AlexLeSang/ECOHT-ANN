@@ -19,6 +19,13 @@ Network &Network::getInstance() {
 }
 
 /*!
+ * \brief Network::run
+ */
+void Network::run() {
+    // TODO implement me
+}
+
+/*!
  * \brief Network::initNetwork
  * \param layersDescription
  * \param accuracy
@@ -66,10 +73,13 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
 
     errorList.clear(); // List contains all errors
 
+    stopFlag = false;
+
     while ( true ) {
 
         if ( epochCounter >= maxNumberOfEpoch ) break;
         if ( achievedAccuracy <= accuracy ) break;
+        if ( stopFlag ) break;
 
         // Process all example and receive network output
         const auto obtainedResultPair = process( dataSet );
@@ -226,6 +236,13 @@ qreal Network::getBeta() const {
 }
 
 /*!
+ * \brief Network::stop
+ */
+void Network::stop() {
+    stopFlag = true;
+}
+
+/*!
  * \brief Network::process
  * \param data
  * \return
@@ -271,11 +288,46 @@ QPair < Result, QVector < QVector< qreal > > >  Network::process(const Data &dat
     return QPair < Result, QVector < QVector< qreal > > >( result, intermidResultVector );
 }
 
+/*!
+ * \brief Network::setTestingResult
+ * \param value
+ */
+void Network::setTestingResult(const Result &value) {
+    testingResult = value;
+}
+
+/*!
+ * \brief Network::setTrainingData
+ * \param value
+ */
+void Network::setTrainingData(const Data &value) {
+    trainingData = value;
+}
+
+/*!
+ * \brief Network::setTrainigResult
+ * \param value
+ */
+void Network::setTrainigResult(const Result &value)
+{
+    trainigResult = value;
+}
+
+/*!
+ * \brief Network::setLayersDescription
+ * \param value
+ */
+void Network::setLayersDescription(const QVector<LayerDescription> &value)
+{
+    layersDescription = value;
+}
+
+
 #ifdef TEST_MODE
 void NetworkTest::ProcessTest()  {
     constexpr quint32 numberOfDataSamples = 3;
     constexpr quint32 numberOfInputs = 2;
-    constexpr quint32 numberOfOutputs = 1;
+    constexpr quint32 numberOSfOutputs = 1;
 
     Network & network = Network::getInstance();
     QVector< LayerDescription > layersDesciption;
@@ -292,7 +344,7 @@ void NetworkTest::ProcessTest()  {
     //    */
 
     Data data( numberOfDataSamples );
-    std::for_each( data.begin(), data.end(), []( Data::reference sample ) {
+    std::for_each( data.begin(),S data.end(), []( Data::reference sample ) {
         sample.getData().resize( numberOfInputs );
         std::for_each( sample.getData().begin(), sample.getData().end(), [] ( qreal & val ) {
             val = 2.0;
