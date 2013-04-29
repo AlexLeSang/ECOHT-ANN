@@ -3,8 +3,9 @@
 
 #include <QtCore>
 
-#include <Exceptions.hpp>
-#include <Defines.hpp>
+#include "Exceptions.hpp"
+
+#include "Defines.hpp"
 
 typedef QPair < QVector < qreal >, QVector < qreal > >  DataSample;
 typedef QVector< DataSample > Dataset;

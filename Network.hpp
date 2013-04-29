@@ -68,10 +68,10 @@ public:
 
     void stop();
 
-    void setTrainigResult(const Result &value);
-    void setTrainingData(const Data &value);
-    void setTestingResult(const Result &value);
-    void setTestingData(const Data &value);
+    void setTrainigResult(const QVector< QVector< qreal > > &value);
+    void setTrainingData(const QVector< QVector< qreal > > &value);
+    void setTestingResult(const QVector< QVector< qreal > > &value);
+    void setTestingData(const QVector< QVector< qreal > > &value);
 
     void setLayersDescription(const QVector<LayerDescription> &value);
 
