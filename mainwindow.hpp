@@ -10,10 +10,9 @@
 
 struct LayerStruct{
     QLabel* label;
-    QSpacerItem* fSpacer;
     QSpinBox* neuronsNumber;
-    QSpacerItem* sSpacer;
     QComboBox* activationFunction;
+    QSpacerItem* spacer;
 };
 
 typedef QPair < qint32, quint32 > LayerInfo;
@@ -30,8 +29,10 @@ class MainWindow : public QMainWindow
     
 public:
     MainWindow(QWidget *parent = 0);
+    static  MainWindow & getInstance();
     ~MainWindow();
 private:
+
     Ui::MainWindow *ui;
     QwtPlotCurve *curve;
     LayersGUI layers;

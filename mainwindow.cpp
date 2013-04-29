@@ -50,32 +50,28 @@ void MainWindow::changeLayers( int layersNumber ){
         qint32 num = it - layers.begin() + 1;
         if( num > currLayerNumber && num <= layersNumber ){
             (*it).label = new QLabel( QString::number( num ) );
-            (*it).fSpacer = new QSpacerItem( 20, 20 );
             (*it).neuronsNumber = new QSpinBox();
-            (*it).sSpacer = new QSpacerItem( 20, 20 );
+            (*it).spacer = new QSpacerItem( 20, 20 );
             (*it).activationFunction = new QComboBox();
 
-            (*it).activationFunction->addItem( "Linear" );
-            (*it).activationFunction->addItem( "Sigma" );
+            //(*it).activationFunction->addItem( "Linear" );
+            //(*it).activationFunction->addItem( "Sigma" );
 
             ui->layersGrid->addWidget( (*it).label, num, 0, 1, 1 );
-            ui->layersGrid->addItem( (*it).fSpacer, num, 1 );
-            ui->layersGrid->addWidget( (*it).neuronsNumber, num, 2, 1, 1 );
-            ui->layersGrid->addItem( (*it).sSpacer, num, 3 );
-            ui->layersGrid->addWidget( (*it).activationFunction, num, 4, 1, 1 );
+            ui->layersGrid->addWidget( (*it).neuronsNumber, num, 1, 1, 1 );
+            ui->layersGrid->addWidget( (*it).activationFunction, num, 2, 1, 1 );
+            ui->layersGrid->addItem( (*it).spacer, num, 3 );
         }
 
         if( num <= currLayerNumber && num > layersNumber ){
             ui->layersGrid->removeWidget( (*it).label );
-            ui->layersGrid->removeItem( (*it).fSpacer );
             ui->layersGrid->removeWidget( (*it).neuronsNumber );
-            ui->layersGrid->removeItem( (*it).sSpacer );
+            ui->layersGrid->removeItem( (*it).spacer );
             ui->layersGrid->removeWidget( (*it).activationFunction );
 
             delete (*it).label;
-            delete (*it).fSpacer;
             delete (*it).neuronsNumber;
-            delete (*it).sSpacer;
+            delete (*it).spacer;
             delete (*it).activationFunction;
         }
 
@@ -127,4 +123,10 @@ LayersInfo MainWindow::getLayerInfo(){
     }
 
     return result;
+}
+
+
+MainWindow & MainWindow::getInstance(){
+    static MainWindow instance;
+    return instance;
 }

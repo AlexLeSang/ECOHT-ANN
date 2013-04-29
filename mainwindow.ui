@@ -39,6 +39,12 @@
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
                <widget class="QGroupBox" name="DataBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="toolTip">
                  <string>Data Group</string>
                 </property>
@@ -80,6 +86,12 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>135</width>
+                     <height>24</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
                     <string>Open Input File</string>
                    </property>
@@ -106,6 +118,12 @@
               </item>
               <item>
                <widget class="QGroupBox" name="ControlBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="toolTip">
                  <string>Control Group</string>
                 </property>
@@ -130,6 +148,12 @@
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>102</width>
+                     <height>23</height>
+                    </size>
                    </property>
                    <property name="toolTip">
                     <string>Training coefficient</string>
@@ -215,6 +239,12 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>102</width>
+                     <height>23</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
                     <string>Precision</string>
                    </property>
@@ -253,6 +283,12 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>102</width>
+                     <height>23</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
                     <string>Maximim number of epochs</string>
                    </property>
@@ -274,6 +310,12 @@
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>102</width>
+                     <height>23</height>
+                    </size>
                    </property>
                    <property name="toolTip">
                     <string>Stretch coefficient</string>
@@ -326,6 +368,12 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>102</width>
+                     <height>23</height>
+                    </size>
+                   </property>
                    <property name="acceptDrops">
                     <bool>true</bool>
                    </property>
@@ -364,6 +412,18 @@
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>10000</width>
+               <height>10000</height>
+              </size>
+             </property>
              <property name="title">
               <string>Layer Settings</string>
              </property>
@@ -424,25 +484,12 @@
                    <x>0</x>
                    <y>0</y>
                    <width>334</width>
-                   <height>167</height>
+                   <height>207</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_3">
                   <item>
                    <layout class="QGridLayout" name="layersGrid">
-                    <item row="0" column="3">
-                     <spacer name="horizontalSpacer_5">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
                     <item row="0" column="0">
                      <widget class="QLabel" name="nLabel">
                       <property name="text">
@@ -451,13 +498,20 @@
                      </widget>
                     </item>
                     <item row="0" column="2">
+                     <widget class="QLabel" name="activationFunctionLabel">
+                      <property name="text">
+                       <string>Activation function</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
                      <widget class="QLabel" name="numberOfNeuronsLabel">
                       <property name="text">
                        <string>Number of neurons</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
+                    <item row="0" column="3">
                      <spacer name="horizontalSpacer_4">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
@@ -469,13 +523,6 @@
                        </size>
                       </property>
                      </spacer>
-                    </item>
-                    <item row="0" column="4">
-                     <widget class="QLabel" name="activationFunctionLabel">
-                      <property name="text">
-                       <string>Activation function</string>
-                      </property>
-                     </widget>
                     </item>
                    </layout>
                   </item>
@@ -506,6 +553,12 @@
         </item>
         <item>
          <widget class="QGroupBox" name="ResultsBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>Results Group</string>
           </property>
