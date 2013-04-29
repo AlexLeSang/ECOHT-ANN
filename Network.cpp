@@ -24,7 +24,6 @@ Network &Network::getInstance() {
  * \brief Network::run
  */
 void Network::run() {
-    // TODO implement me
     initNetwork( layersDescription, accuracy, maxNumberOfEpoch, alpha, beta );
     training( trainingData, trainigResult );
     testing( testingData, testingResult );
@@ -40,14 +39,19 @@ void Network::run() {
  * \param beta
  */
 void Network::initNetwork(const QVector< LayerDescription > &layersDescription, const qreal accuracy, const quint32 maxNumberOfEpoch, const qreal alpha, const qreal beta) {
-    Q_ASSERT(layersDescription.size() != 0);
-    Q_ASSERT(layersDescription.first().second == numberOfInputs); // "Number of inputs to the network"
-    Q_ASSERT(layersDescription.last().first == numberOfOutputs); // "Number of outputs of the network")
+    Q_ASSERT( layersDescription.size() != 0 );
+    Q_ASSERT( layersDescription.first().second == numberOfInputs ); // "Number of inputs to the network"
+    Q_ASSERT( layersDescription.last().first == numberOfOutputs ); // "Number of outputs of the network")
 
-    Q_ASSERT(accuracy < 1.0);
-    Q_ASSERT(maxNumberOfEpoch >= 1);
-    Q_ASSERT(alpha != 0.0);
-    Q_ASSERT(beta != 0.0);
+    Q_ASSERT( testingData.size() > 0 );
+    Q_ASSERT( testingResult.size() > 0 );
+    Q_ASSERT( trainingData.size() > 0 );
+    Q_ASSERT( trainigResult.size() > 0 );
+
+    Q_ASSERT( accuracy < 1.0 );
+    Q_ASSERT( maxNumberOfEpoch >= 1 );
+    Q_ASSERT( alpha != 0.0 );
+    Q_ASSERT( beta != 0.0 );
 
     this->accuracy = accuracy;
     this->maxNumberOfEpoch = maxNumberOfEpoch;
@@ -63,7 +67,6 @@ void Network::initNetwork(const QVector< LayerDescription > &layersDescription, 
     for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
         (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, layerCount == (layers.size() - 1) );
     }
-
 }
 
 /*!
@@ -296,24 +299,52 @@ QPair < Result, QVector < QVector< qreal > > >  Network::process(const Data &dat
  * \brief Network::setTestingResult
  * \param value
  */
-void Network::setTestingResult(const Result &value) {
-    testingResult = value;
+void Network::setTestingResult(const QVector<QVector<qreal> > &value) {
+    testingResult.resize( value.size() );
+    auto testingResultIt = testingResult.begin();
+    for ( auto valueIt = value.begin(); valueIt != value.end(); ++ valueIt, ++ testingResultIt ) {
+        Q_ASSERT( static_cast< quint32 >( (*valueIt).size() ) == numberOfOutputs );
+        (*testingResultIt) = Result::value_type( (*valueIt) );
+    }
+}
+
+/*!
+ * \brief Network::setTestingData
+ * \param value
+ */
+void Network::setTestingData(const QVector<QVector<qreal> > &value) {
+    testingData.resize( value.size() );
+    auto testingDatatIt = testingData.begin();
+    for ( auto valueIt = value.begin(); valueIt != value.end(); ++ valueIt, ++ testingDatatIt ) {
+        Q_ASSERT( static_cast< quint32 >( (*valueIt).size() ) == numberOfInputs );
+        (*testingDatatIt) = Data::value_type( (*valueIt) );
+    }
 }
 
 /*!
  * \brief Network::setTrainingData
  * \param value
  */
-void Network::setTrainingData(const Data &value) {
-    trainingData = value;
+void Network::setTrainingData(const QVector<QVector<qreal> > &value) {
+    trainingData.resize( value.size() );
+    auto trainigDatatIt = trainingData.begin();
+    for ( auto valueIt = value.begin(); valueIt != value.end(); ++ valueIt, ++ trainigDatatIt ) {
+        Q_ASSERT( static_cast< quint32 >( (*valueIt).size() ) == numberOfInputs );
+        (*trainigDatatIt) = Data::value_type( (*valueIt) );
+    }
 }
 
 /*!
  * \brief Network::setTrainigResult
  * \param value
  */
-void Network::setTrainigResult(const Result &value) {
-    trainigResult = value;
+void Network::setTrainigResult(const QVector < QVector< qreal > > &value) {
+    trainigResult.resize( value.size() );
+    auto trainigResultIt = trainigResult.begin();
+    for ( auto valueIt = value.begin(); valueIt != value.end(); ++ valueIt, ++ trainigResultIt ) {
+        Q_ASSERT( static_cast< quint32 >( (*valueIt).size() ) == numberOfOutputs );
+        (*trainigResultIt) = Result::value_type( (*valueIt) );
+    }
 }
 
 /*!
@@ -344,7 +375,7 @@ Result Network::getObtainedTestingResult() const {
 void NetworkTest::ProcessTest()  {
     constexpr quint32 numberOfDataSamples = 3;
     constexpr quint32 numberOfInputs = 2;
-    constexpr quint32 numberOSfOutputs = 1;
+    constexpr quint32 numberOfOutputs = 1;
 
     Network & network = Network::getInstance();
     QVector< LayerDescription > layersDesciption;
@@ -361,7 +392,7 @@ void NetworkTest::ProcessTest()  {
     //    */
 
     Data data( numberOfDataSamples );
-    std::for_each( data.begin(),S data.end(), []( Data::reference sample ) {
+    std::for_each( data.begin(), data.end(), []( Data::reference sample ) {
         sample.getData().resize( numberOfInputs );
         std::for_each( sample.getData().begin(), sample.getData().end(), [] ( qreal & val ) {
             val = 2.0;

@@ -62,18 +62,23 @@ void Facade::setMaxNumberOfEpoh(const quint32 val) {
  * \param val
  */
 void Facade::setTrainingDataPercent(const quint32 val) {
-    // TODO set value for preprocessor
+    preprocessorRef.setPercentageOfTest( val );
 }
 
 /*!
  * \brief Facade::startProcess
  */
 void Facade::startProcess() {
-    // TODO get training data
-    // TODO get training result
-    // TODO get testing data
-    // TODO get testing results
-    // TODO pass all to the network
+    const auto & trainingData = preprocessorRef.getTrainingData();
+    const auto & trainingResult = preprocessorRef.getTestingResult();
+    const auto & testingData = preprocessorRef.getTestingData();
+    const auto & testingResult = preprocessorRef.getTestingResult();
+
+    networkRef.setTrainingData( trainingData );
+    networkRef.setTrainigResult( trainingResult );
+    networkRef.setTestingData( testingData );
+    networkRef.setTestingResult( testingResult );
+
     QThreadPool::globalInstance()->start( &networkRef );
 }
 
