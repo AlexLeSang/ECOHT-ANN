@@ -29,8 +29,10 @@ class MainWindow : public QMainWindow
     
 public:
     MainWindow(QWidget *parent = 0);
+    static  MainWindow & getInstance();
     ~MainWindow();
 private:
+
     Ui::MainWindow *ui;
     QwtPlotCurve *curve;
     LayersGUI layers;

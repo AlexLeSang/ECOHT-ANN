@@ -124,3 +124,9 @@ LayersInfo MainWindow::getLayerInfo(){
 
     return result;
 }
+
+
+MainWindow & MainWindow::getInstance(){
+    static MainWindow instance;
+    return instance;
+}
