@@ -111,6 +111,7 @@ void MainWindow::changeLayers( int layersNumber ){
             (*it).spacer = new QSpacerItem( 20, 20 );
             (*it).inputsNumber = new QSpinBox();
 
+
             if ( 1 != num ){
                 (*it).inputsNumber->setReadOnly( true );
                 connect((*( it - 1 )).neuronsNumber,SIGNAL(valueChanged( int )),(*it).inputsNumber,SLOT(setValue( int )));

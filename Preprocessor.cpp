@@ -137,7 +137,7 @@ void Preprocessor::setInputFileName(const QString & fileName ) {
         return;
     }
     else {
-        QFileInfo f( fileName );
+        QFileInfo f( fileNameIn );
         QString p = f.filePath();
         if( !f.exists() ){
             throw FileNotExistsException( "Preprocessor::setFileName" );
@@ -211,7 +211,7 @@ void PreprocessorTest::EmptyTest() {
 }
 
 void PreprocessorTest::InitializationTest() {
-    Preprocessor::getInstance().setInputFileName( "/home/dan/1.dat" );
+    Preprocessor::getInstance().setInputFileName( "/home/dan/ECOHT/data.dat" );
     QCOMPARE(Preprocessor::getInstance().getTestingData().size(), 3);
 }
 
