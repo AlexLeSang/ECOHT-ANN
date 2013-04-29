@@ -138,7 +138,6 @@ void Preprocessor::setInputFileName(const QString & fileName ) {
     }
     else {
         QFileInfo f( fileName );
-        QString p = f.filePath();
         if( !f.exists() ){
             throw FileNotExistsException( "Preprocessor::setFileName" );
         }
