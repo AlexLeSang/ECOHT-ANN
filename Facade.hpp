@@ -27,7 +27,7 @@ public slots:
     void setInputFileName( const QString fileName );
     void setOutputFileName( const QString fileName );
 
-    void setLayersDescription( const QVector< QPair < quint32, quint32 > > & layersDescription );
+    void setLayersDescription(const QVector<QPair<quint32, quint32> > layersDescription );
 
     void startProcess();
     void stopProcess();
