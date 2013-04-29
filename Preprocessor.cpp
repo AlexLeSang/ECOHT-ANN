@@ -63,7 +63,7 @@ void Preprocessor::readFile() {
     cache.clear();
     while ( !inputStream.atEnd() ) {
         QString nextLine;
-        nextLine = inputStream.readLine().trimmed();
+        nextLine = inputStream.readLine().trimmed().simplified();
         if ( nextLine.isEmpty() ){
             continue;
         }
