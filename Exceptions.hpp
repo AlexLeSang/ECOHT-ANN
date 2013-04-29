@@ -22,4 +22,13 @@ private:
      const std::string place;
 };
 
+class FileNotExistsException : std::exception {
+
+public:
+    FileNotExistsException(const char * p) : place(p){}
+    const char* what() const noexcept { return (std::string("FileNotExistsException: ") + place).c_str(); }
+private:
+     const std::string place;
+};
+
 #endif // EXCEPTIONS_HPP
