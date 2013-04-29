@@ -11,7 +11,7 @@
 struct LayerStruct{
     QLabel* label;
     QSpinBox* neuronsNumber;
-    QComboBox* activationFunction;
+    QSpinBox* inputsNumber;
     QSpacerItem* spacer;
 };
 

@@ -76,14 +76,16 @@ void MainWindow::changeLayers( int layersNumber ){
             (*it).label = new QLabel( QString::number( num ) );
             (*it).neuronsNumber = new QSpinBox();
             (*it).spacer = new QSpacerItem( 20, 20 );
-            (*it).activationFunction = new QComboBox();
+            (*it).inputsNumber = new QSpinBox();
 
-            //(*it).activationFunction->addItem( "Linear" );
-            //(*it).activationFunction->addItem( "Sigma" );
+            if ( 1 != num ){
+                (*it).inputsNumber->setReadOnly( true );
+                connect((*( it - 1 )).neuronsNumber,SIGNAL(valueChanged( int )),(*it).inputsNumber,SLOT(setValue( int )));
+            }
 
             ui->layersGrid->addWidget( (*it).label, num, 0, 1, 1 );
             ui->layersGrid->addWidget( (*it).neuronsNumber, num, 1, 1, 1 );
-            ui->layersGrid->addWidget( (*it).activationFunction, num, 2, 1, 1 );
+            ui->layersGrid->addWidget( (*it).inputsNumber, num, 2, 1, 1 );
             ui->layersGrid->addItem( (*it).spacer, num, 3 );
         }
 
@@ -91,14 +93,13 @@ void MainWindow::changeLayers( int layersNumber ){
             ui->layersGrid->removeWidget( (*it).label );
             ui->layersGrid->removeWidget( (*it).neuronsNumber );
             ui->layersGrid->removeItem( (*it).spacer );
-            ui->layersGrid->removeWidget( (*it).activationFunction );
+            ui->layersGrid->removeWidget( (*it).inputsNumber );
 
             delete (*it).label;
             delete (*it).neuronsNumber;
             delete (*it).spacer;
-            delete (*it).activationFunction;
+            delete (*it).inputsNumber;
         }
-
         ui->layersGrid->update();
     }
 
@@ -147,7 +148,7 @@ LayersInfo MainWindow::getLayerInfo(){
     LayersInfo result;
 
     for ( auto it = layers.constBegin(); it != layers.constEnd(); ++it ){
-        result.append( LayerInfo((*it).neuronsNumber->value(), (*it).activationFunction->currentIndex() ) );
+        result.append( LayerInfo((*it).neuronsNumber->value(), (*it).inputsNumber->value() ) );
     }
 
     return result;
