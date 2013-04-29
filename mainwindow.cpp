@@ -240,6 +240,10 @@ void MainWindow::openOutputFile() {
     emit setOutputFileName( fileName );
 }
 
+/*!
+ * \brief MainWindow::setInitialLayerInfo
+ * \param val
+ */
 void MainWindow::setInitialLayerInfo(const LayerDescription &val ){
     ui->inputsNumber->setText( QString::number( val.first ) );
     ui->outputsNumber->setText( QString::number( val.second ) );

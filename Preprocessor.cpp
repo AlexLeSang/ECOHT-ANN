@@ -211,6 +211,10 @@ void Preprocessor::splitData() {
             testingResult.append( (*it).second );
         }
     }
+
+    Q_ASSERT( trainingData.size() == trainingResults.size() );
+    Q_ASSERT( testingData.size() == testingResult.size() );
+
 }
 
 #ifdef TEST_MODE
