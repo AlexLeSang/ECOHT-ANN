@@ -89,7 +89,7 @@ void Facade::setOutputFileName(const QString fileName) {
  * \brief Facade::setLayersDescription
  * \param layersDescription
  */
-void Facade::setLayersDescription(const QVector<QPair<quint32, quint32> > &layersDescription) {
+void Facade::setLayersDescription(const QVector<QPair<quint32, quint32> > layersDescription) {
     networkRef.setLayersDescription( layersDescription ); // WARNING Oleksandr Halushko type hack
 }
 
@@ -98,15 +98,20 @@ void Facade::setLayersDescription(const QVector<QPair<quint32, quint32> > &layer
  */
 void Facade::startProcess() {
     const auto & trainingData = preprocessorRef.getTrainingData();
-    const auto & trainingResult = preprocessorRef.getTestingResult();
+    const auto & trainingResult = preprocessorRef.getTrainingResult();
+
     const auto & testingData = preprocessorRef.getTestingData();
     const auto & testingResult = preprocessorRef.getTestingResult();
 
     networkRef.setTrainingData( trainingData );
     networkRef.setTrainigResult( trainingResult );
+
     networkRef.setTestingData( testingData );
     networkRef.setTestingResult( testingResult );
 
+    // TODO get layer description and pass it into the network
+
+    networkRef.initNetwork( accuracy, maxNumberOfEpoch, alpha, beta );
     QThreadPool::globalInstance()->start( &networkRef );
 }
 
