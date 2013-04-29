@@ -33,7 +33,7 @@ QVector< qreal >  Facade::getErrors() const {
  * \brief Facade::setBeta
  * \param val
  */
-void Facade::setBeta(const qreal val) {
+void Facade::setBeta(double val) {
     beta = val;
 }
 
@@ -41,7 +41,7 @@ void Facade::setBeta(const qreal val) {
  * \brief Facade::setAlhpa
  * \param val
  */
-void Facade::setAlhpa(const qreal val) {
+void Facade::setAlhpa(double val) {
     alpha = val;
 }
 
@@ -49,7 +49,7 @@ void Facade::setAlhpa(const qreal val) {
  * \brief Facade::setAccuracy
  * \param val
  */
-void Facade::setAccuracy(const qreal val) {
+void Facade::setAccuracy(double val) {
     accuracy = val;
 }
 
@@ -57,16 +57,16 @@ void Facade::setAccuracy(const qreal val) {
  * \brief Facade::setMaxNumberOfEpoh
  * \param val
  */
-void Facade::setMaxNumberOfEpoh(const quint32 val) {
-    maxNumberOfEpoch = val;
+void Facade::setMaxNumberOfEpoh(int val) {
+    maxNumberOfEpoch = static_cast<quint32>(val);
 }
 
 /*!
  * \brief Facade::setTrainingDataPercent
  * \param val
  */
-void Facade::setTrainingDataPercent(const quint32 val) {
-    preprocessorRef.setPercentageOfTest( val );
+void Facade::setTrainingDataPercent(int val) {
+    preprocessorRef.setPercentageOfTest( static_cast<quint32>(val) );
 }
 
 /*!
@@ -86,6 +86,14 @@ void Facade::setOutputFileName(const QString fileName) {
 }
 
 /*!
+ * \brief Facade::setLayersDescription
+ * \param layersDescription
+ */
+void Facade::setLayersDescription(const QVector<QPair<quint32, quint32> > &layersDescription) {
+    networkRef.setLayersDescription( layersDescription ); // WARNING Oleksandr Halushko type hack
+}
+
+/*!
  * \brief Facade::startProcess
  */
 void Facade::startProcess() {
@@ -93,10 +101,6 @@ void Facade::startProcess() {
     const auto & trainingResult = preprocessorRef.getTestingResult();
     const auto & testingData = preprocessorRef.getTestingData();
     const auto & testingResult = preprocessorRef.getTestingResult();
-
-
-    // TODO get layers description
-    // TODO pass layers description to the network
 
     networkRef.setTrainingData( trainingData );
     networkRef.setTrainigResult( trainingResult );

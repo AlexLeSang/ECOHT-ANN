@@ -15,7 +15,7 @@ struct LayerStruct{
     QSpacerItem* spacer;
 };
 
-typedef QPair < qint32, quint32 > LayerInfo;
+typedef QPair < quint32, quint32 > LayerInfo;
 typedef QVector < LayerInfo > LayersInfo;
 typedef QVector < LayerStruct > LayersGUI;
 
@@ -33,6 +33,7 @@ public:
 signals:
     void setInputFileName( const QString fileName );
     void setOutputFileName( const QString fileName );
+    void setLayerDescription( const QVector<QPair<quint32,quint32> > info );
 
 private slots:
     void openInputFile();

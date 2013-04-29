@@ -26,39 +26,61 @@ MainWindow::MainWindow(QWidget *parent)
     curve.setPen( pen );
     curve.attach( ui->qwtPlot );
 
-    // TODO connect ui to mainwindow
+    // INFO connect ui to mainwindow
     {
         QObject::connect( ui->saveImageButton, SIGNAL( clicked() ),
                           this, SLOT( saveImage() ) );
         QObject::connect( ui->numberOfLayers, SIGNAL( valueChanged(int) ),
                           this, SLOT( changeLayers(int) ) );
-        // TODO connect open file button to openInputFile();
-        // TODO connect save result button to openOutputFile();
+        QObject::connect( ui->inputOpenButton, SIGNAL( clicked() ),
+                          this, SLOT( openInputFile() ) );
+        QObject::connect( ui->saveButton, SIGNAL( clicked() ),
+                          this, SLOT( openOutputFile() ) );
     }
 
-    // TODO connection ui to facade
+    // INFO connection ui to facade
     {
         QObject::connect( ui->startButton, SIGNAL( clicked() ),
                           &Facade::getInstance(), SLOT( startProcess() ) );
         QObject::connect( ui->stopButton, SIGNAL( clicked() ),
                           &Facade::getInstance(), SLOT( stopProcess() ) );
-        // TODO connect controls
+        QObject::connect( ui->testDataPercent, SIGNAL( valueChanged(int) ),
+                          &Facade::getInstance(), SLOT( setTrainingDataPercent(int) ) );
+        QObject::connect( ui->alphaCoef, SIGNAL( valueChanged(double) ),
+                          &Facade::getInstance(), SLOT( setAlhpa(double) ) );
+        QObject::connect( ui->betaCoef, SIGNAL( valueChanged(double) ),
+                          &Facade::getInstance(), SLOT( setBeta(double) ) );
+        QObject::connect( ui->maxEpoch, SIGNAL( valueChanged(int) ),
+                          &Facade::getInstance(), SLOT( setMaxNumberOfEpoh(int) ) );
+        QObject::connect( ui->precision, SIGNAL( valueChanged(double)),
+                          &Facade::getInstance(), SLOT( setAccuracy(double)) );
     }
 
-    // TODO connection facade to main window
+    // INFO connection facade to main window
     {
         QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
                           this, SLOT( displayResults() ) );
     }
 
 
-    // TODO connection main window to facade
+    // INFO connection main window to facade
     {
         QObject::connect( this, SIGNAL( setInputFileName(QString) ),
                           &Facade::getInstance(), SLOT( setInputFileName(QString) ) );
         QObject::connect( this, SIGNAL( setOutputFileName(QString) ),
                           &Facade::getInstance(), SLOT( setOutputFileName(QString) ) );
+        QObject::connect( this, SIGNAL( setLayerDescription(QVector<QPair<quint32,quint32> >) ),
+                          &Facade::getInstance(), SLOT( setLayersDescription(QVector<QPair<quint32,quint32> >) ) );
     }
+
+
+    // TODO set default accuracy at level of 1e-4
+    // TODO implement or enable 'scientific' notation for all numeric controls
+    // TODO prepare test points for project function
+    // TODO In Data widget display current file name
+    // TODO in Data widget display number of inputs and results for current file
+    // TODO based on this paramiters predefine number of neurons and numer of outputs for layer description
+    // TODO for this values implemen signal/slot connection and delare slots in Facade class
 }
 
 /*!
@@ -80,8 +102,8 @@ void MainWindow::displayResults() {
     curve.attach( ui->qwtPlot );
     ui->qwtPlot->replot();
 
-    // TODO get testing error results from the facade
-    // TODO display error results
+    // TODO Oleksandr Halushko get testing error results from the facade
+    // TODO Oleksandr Halushko display error results
 }
 
 
@@ -142,6 +164,9 @@ void MainWindow::changeLayers( int layersNumber ){
     }
 
     currLayerNumber = layersNumber;
+
+    const auto layerInfo = getLayerInfo();
+    emit setLayerDescription( layerInfo );
 }
 
 void MainWindow::showResults(const Dataset & data){

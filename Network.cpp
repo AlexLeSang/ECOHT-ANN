@@ -98,7 +98,7 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
         {
             qreal error = 0.0;
             // Iterate over all data samples
-            // NOTE implement in parallel
+            // NOTE Oleksandr Halushko implement in parallel
             for ( auto desIt = desiredResult.constBegin(), obtIt = obtainedResult.begin(); desIt != desiredResult.constEnd(); ++ desIt, ++ obtIt ) {
                 Q_ASSERT( (*desIt).getData().size() == (*obtIt).getData().size() );
                 // Iterate over all part of results
@@ -182,7 +182,7 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
         achievedAccuracy = errorList.last(); // Get last error
         ++ epochCounter;
     }
-    // TODO remove debug output
+    // TODO Oleksandr Halushko remove debug output
     qDebug() << "Error list size = " << errorList.size();
     qDebug() << "Firt error = " << errorList.first();
     qDebug() << "Last error = " << errorList.last();
@@ -197,9 +197,10 @@ void Network::testing(const Data &data, const Result & desiredResult) {
     const auto obtainedResultPair = process( data );
     obtainedTestingResult = obtainedResultPair.first;
     // Calculate error of the network
-    // Iterate over all data samples
-    // NOTE implement in parallel
+    obtainedTestingError.resize( data.size() );
     auto errorIt = obtainedTestingError.begin();
+    // NOTE Oleksandr Halushko implement in parallel
+    // Iterate over all data samples
     for ( auto desIt = desiredResult.constBegin(), obtIt = obtainedTestingResult.constBegin(); desIt != desiredResult.constEnd(); ++ desIt, ++ obtIt, ++ errorIt ) {
         Q_ASSERT( (*desIt).getData().size() == (*obtIt).getData().size() );
         // Iterate over all part of results

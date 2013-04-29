@@ -17,7 +17,7 @@ constexpr auto randomLambda = [](qreal & val) {
 
 constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias ) {
     qreal result = 0.0;
-    // NOTE it can be done better
+    // NOTE Oleksandr Halushko it can be done better
     auto weightIt = weights.constBegin();
     for ( auto inputIt = inputs.constBegin(); inputIt != inputs.constEnd(); ++ inputIt, ++ weightIt ) {
         result += (*inputIt) * (*weightIt);

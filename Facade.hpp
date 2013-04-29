@@ -17,15 +17,17 @@ public:
 public slots:
     // Set network paramiters
 
-    void setBeta( const qreal val );
-    void setAlhpa( const qreal val );
-    void setAccuracy( const qreal val );
-    void setMaxNumberOfEpoh( const quint32 val );
+    void setBeta( double val );
+    void setAlhpa( double val );
+    void setAccuracy( double val );
+    void setMaxNumberOfEpoh( int val );
 
-    void setTrainingDataPercent( const quint32 val );
+    void setTrainingDataPercent(int val);
 
     void setInputFileName( const QString fileName );
     void setOutputFileName( const QString fileName );
+
+    void setLayersDescription( const QVector< QPair < quint32, quint32 > > & layersDescription );
 
     void startProcess();
     void stopProcess();
