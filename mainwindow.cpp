@@ -40,8 +40,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // INFO connection ui to facade
     {
-        QObject::connect( ui->startButton, SIGNAL( clicked() ),
-                          &Facade::getInstance(), SLOT( startProcess() ) );
+//        QObject::connect( ui->startButton, SIGNAL( clicked() ),
+//                          &Facade::getInstance(), SLOT( startProcess() ) );
+
+        // TODO implement slot for process start
         QObject::connect( ui->stopButton, SIGNAL( clicked() ),
                           &Facade::getInstance(), SLOT( stopProcess() ) );
         QObject::connect( ui->testDataPercent, SIGNAL( valueChanged(int) ),
@@ -164,9 +166,6 @@ void MainWindow::changeLayers( int layersNumber ){
     }
 
     currLayerNumber = layersNumber;
-
-    const auto layerInfo = getLayerInfo();
-    emit setLayerDescription( layerInfo );
 }
 
 void MainWindow::showResults(const Dataset & data){
