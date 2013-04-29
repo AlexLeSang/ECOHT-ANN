@@ -15,8 +15,8 @@ struct LayerStruct{
     QSpacerItem* spacer;
 };
 
-typedef QPair < quint32, quint32 > LayerInfo;
-typedef QVector < LayerInfo > LayersInfo;
+typedef QPair < quint32, quint32 > LayerDescription;
+typedef QVector < LayerDescription > LayersInfo;
 typedef QVector < LayerStruct > LayersGUI;
 
 namespace Ui{
@@ -41,7 +41,7 @@ private slots:
     void displayResults();
     void saveImage();
     void changeLayers( int );
-
+    void setInitialLayerInfo( const LayerDescription & );
 private:
     void showResults( const Dataset& data );
     LayersInfo getLayerInfo();

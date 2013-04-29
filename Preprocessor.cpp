@@ -1,5 +1,5 @@
 #include "Preprocessor.hpp"
-
+#include "Facade.hpp"
 /*!
  * \brief Preprocessor::Preprocessor
  */
@@ -57,6 +57,7 @@ void Preprocessor::readFile() {
 
     QTextStream inputStream( &inputFile );
     qint32 numberOfInputs;
+    qint32 numberOfOutputs;
     inputStream >> numberOfInputs;
     inputStream.readLine();
 
@@ -85,10 +86,15 @@ void Preprocessor::readFile() {
             qreal tmp;
             line >> tmp;
             outputParameters.append( tmp );
+
         }
 
         cache.append( DataSample( inputParameters, outputParameters ) );
     }
+
+    numberOfOutputs = cache.first().second.size();
+    Facade::getInstance().setInitialLayerInfo( LayerDescription ( numberOfInputs, numberOfOutputs ) );
+
 }
 
 /*!
@@ -205,6 +211,10 @@ void Preprocessor::splitData() {
             testingResult.append( (*it).second );
         }
     }
+
+    Q_ASSERT( trainingData.size() == trainingResults.size() );
+    Q_ASSERT( testingData.size() == testingResult.size() );
+
 }
 
 #ifdef TEST_MODE

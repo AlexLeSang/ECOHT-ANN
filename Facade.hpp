@@ -21,7 +21,7 @@ public slots:
     void setAlhpa( double val );
     void setAccuracy( double val );
     void setMaxNumberOfEpoh( int val );
-
+    void setInitialLayerInfo( const LayerDescription & val );
     void setTrainingDataPercent(int val);
 
     void setInputFileName( const QString fileName );
@@ -34,7 +34,7 @@ public slots:
 
 signals:
     void processEnd();
-
+    void sendInitialLayerInfo( const LayerDescription & val );
 private:
     Facade();
 
