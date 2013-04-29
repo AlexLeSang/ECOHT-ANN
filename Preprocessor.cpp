@@ -63,17 +63,17 @@ void Preprocessor::readFile() {
  * \param data
  * \param numberOfInputs
  */
-void Preprocessor::writeFile() {
+void Preprocessor::writeFile( const Dataset & data ) {
     QFile outputFile( fileNameOut );
     if ( !outputFile.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::writeFile" );
     }
 
     QTextStream outputStream( &outputFile );
-    quint32 numberOfInputs = cache.first().first.size();
+    quint32 numberOfInputs = data.first().first.size();
     outputStream << numberOfInputs << '\n';
 
-    for ( auto it = cache.constBegin(); it != cache.constEnd(); ++it ) {
+    for ( auto it = data.constBegin(); it != data.constEnd(); ++it ) {
 
         for ( auto itInputs = (*it).first.constBegin(); itInputs != (*it).first.constBegin() + numberOfInputs; ++itInputs ) {
             outputStream << (*itInputs) << ' ';
@@ -94,6 +94,9 @@ void Preprocessor::writeFile() {
 void Preprocessor::setFilenameIn( const QString & s ) {
     if ( s == fileNameIn ) {
         QFileInfo f( fileNameIn );
+        if( !f.exists() ){
+            throw FileNotExistsException( "Preprocessor::setFileName" );
+        }
         if ( f.lastModified() != lastModified ){
             lastModified = f.lastModified();
             readFile();
@@ -103,6 +106,9 @@ void Preprocessor::setFilenameIn( const QString & s ) {
     }
     else {
         QFileInfo f( fileNameIn );
+        if( !f.exists() ){
+            throw FileNotExistsException( "Preprocessor::setFileName" );
+        }
         lastModified = f.lastModified();
         fileNameIn = s;
         readFile();
@@ -132,3 +138,19 @@ void Preprocessor::splitData() {
         }
     }
 }
+
+#ifdef TEST_MODE
+void PreprocessorTest::EmptyTest() {
+    QCOMPARE(Preprocessor::getInstance().getTestingData().size(), 0);
+}
+
+void PreprocessorTest::InitializationTest() {
+    Preprocessor::getInstance().setFilenameIn( "1.dat" );
+    QCOMPARE(Preprocessor::getInstance().getTestingData().size(), 7);
+}
+
+void PreprocessorTest::ProcessTest() {
+    QCOMPARE(Preprocessor::getInstance().getTrainingData().size(),3);
+
+}
+#endif

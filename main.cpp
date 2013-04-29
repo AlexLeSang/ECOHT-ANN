@@ -5,7 +5,7 @@
 #include "Neuron.hpp"
 #include "Layer.hpp"
 #include "Network.hpp"
-
+#include "Preprocessor.hpp"
 #ifdef TEST_MODE
 
 int main(int argc, char *argv[])
@@ -22,11 +22,15 @@ int main(int argc, char *argv[])
     NetworkTest networkTest;
     QTest::qExec(&networkTest);
 
+    //PreprocessorTest preprocessorTest;
+    //QTest::qExec(&preprocessorTest);
     return 0;
 }
 
 #else
 int main(int argc, char *argv[]) {
+
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

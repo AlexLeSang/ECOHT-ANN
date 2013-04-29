@@ -2,8 +2,9 @@
 #define PREPROCESSOR_HPP
 
 #include <QtCore>
-#include <Exceptions.hpp>
 
+#include <Exceptions.hpp>
+#include <Defines.hpp>
 
 typedef QPair < QVector < qreal >, QVector < qreal > >  DataSample;
 typedef QVector< DataSample > Dataset;
@@ -20,14 +21,14 @@ public:
     void setFilenameIn(const QString & s);
     void setFileNameOut(const QString & s) { fileNameOut = s; }
     void setPercentageOfTest( const quint32 p ) { percentageOfTest = p; }
-    void saveFile() { writeFile(); }
+    void saveFile( const Dataset & data) { writeFile(data); }
     void flush() { readFile(); splitData(); }
 private:
     Preprocessor();
     Preprocessor( const Preprocessor &);
     void splitData();
     void readFile();
-    void writeFile();
+    void writeFile( const Dataset & data);
     SplittedDataSet trainingData;
     SplittedDataSet trainingResults;
     SplittedDataSet testingData;
@@ -38,5 +39,18 @@ private:
     quint32 percentageOfTest;
     QDateTime lastModified;
 };
+
+#ifdef TEST_MODE
+
+#include <QtTest/QtTest>
+#include <QObject>
+class PreprocessorTest : public QObject {
+    Q_OBJECT
+private slots:
+    void EmptyTest();
+    void InitializationTest();
+    void ProcessTest();
+};
+#endif
 
 #endif // PREPROCESSOR_HPP
