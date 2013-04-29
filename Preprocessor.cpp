@@ -88,10 +88,10 @@ void Preprocessor::writeFile( const Dataset & data ) {
 }
 
 /*!
- * \brief Preprocessor::setFilenameIn
+ * \brief Preprocessor::setInputFileName
  * \param s
  */
-void Preprocessor::setFilenameIn( const QString & s ) {
+void Preprocessor::setInputFileName( const QString & s ) {
     if ( s == fileNameIn ) {
         QFileInfo f( fileNameIn );
         if( !f.exists() ){
