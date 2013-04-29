@@ -1,5 +1,8 @@
 #include "Facade.hpp"
 
+/*!
+ * \brief Facade::Facade
+ */
 Facade::Facade() : networkRef( Network::getInstance() ), preprocessorRef( Preprocessor::getInstance() ) {}
 
 /*!
@@ -63,6 +66,22 @@ void Facade::setMaxNumberOfEpoh(const quint32 val) {
  */
 void Facade::setTrainingDataPercent(const quint32 val) {
     preprocessorRef.setPercentageOfTest( val );
+}
+
+/*!
+ * \brief Facade::setInputFileName
+ * \param fileName
+ */
+void Facade::setInputFileName(const QString fileName) {
+    preprocessorRef.setInputFileName( fileName );
+}
+
+/*!
+ * \brief Facade::setOutputFileName
+ * \param fileName
+ */
+void Facade::setOutputFileName(const QString fileName) {
+    preprocessorRef.setOutputFileName( fileName );
 }
 
 /*!
