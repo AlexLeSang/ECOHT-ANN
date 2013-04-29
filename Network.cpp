@@ -171,6 +171,16 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
 }
 
 /*!
+ * \brief Network::testing
+ * \param data
+ * \return
+ */
+const Result Network::testing(const Data &data) {
+    const auto result = process( data );
+    return result.first;
+}
+
+/*!
  * \brief Network::getLayers
  * \return
  */
