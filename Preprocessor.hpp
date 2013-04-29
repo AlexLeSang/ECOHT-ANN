@@ -18,8 +18,8 @@ public:
     const SplittedDataSet & getTestingData() { return testingData; }
     const SplittedDataSet & getTestingResult() { return testingResult; }
 
-    void setFilenameIn(const QString & s);
-    void setFileNameOut(const QString & s) { fileNameOut = s; }
+    void setInputFileName(const QString & s);
+    void setOutputFileName(const QString & s) { fileNameOut = s; }
     void setPercentageOfTest( const quint32 p ) { percentageOfTest = p; }
     void saveFile( const Dataset & data) { writeFile(data); }
     void flush() { readFile(); splitData(); }
