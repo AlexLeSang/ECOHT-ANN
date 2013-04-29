@@ -124,6 +124,9 @@ void Preprocessor::writeFile( const Dataset & data ) {
  * \param fileName
  */
 void Preprocessor::setInputFileName(const QString & fileName ) {
+    // TODO parse and get number of inputs
+    // TODO call method of the facade and set number of inputs
+    // TODO call method of the facade and set number of outputs
     if ( fileName == fileNameIn ) {
         QFileInfo f( fileNameIn );
         if( !f.exists() ){
