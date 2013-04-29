@@ -112,7 +112,6 @@ void Preprocessor::setInputFileName( const QString & s ) {
         }
         lastModified = f.lastModified();
         fileNameIn = s;
-        f.detach();
         readFile();
         splitData();
     }
