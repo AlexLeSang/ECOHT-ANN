@@ -38,7 +38,8 @@ HEADERS  += \
     Sample.hpp \
     Helpers.hpp \
     Facade.hpp \
-    Preprocessor.hpp
+    Preprocessor.hpp \
+    Exceptions.hpp
 
 win32:CONFIG(release, debug|release): LIBS += -L/usr/local/qwt-6.0.2/lib/release/ -lqwt
 else:win32:CONFIG(debug, debug|release): LIBS += -L/usr/local/qwt-6.0.2/lib/debug/ -lqwt

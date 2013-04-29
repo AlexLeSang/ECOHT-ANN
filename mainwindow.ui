@@ -36,11 +36,17 @@
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <widget class="QWidget" name="verticalWidget" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
                <widget class="QGroupBox" name="DataBox">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -119,7 +125,7 @@
               <item>
                <widget class="QGroupBox" name="ControlBox">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -483,7 +489,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>334</width>
+                   <width>406</width>
                    <height>207</height>
                   </rect>
                  </property>
