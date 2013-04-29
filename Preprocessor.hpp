@@ -24,6 +24,7 @@ public:
     void setPercentageOfTest( const quint32 p ) { percentageOfTest = p; }
     void saveFile( const Dataset & data) { writeFile(data); }
     void flush() { readFile(); splitData(); }
+    const Dataset & getData(){ return cache; }
 private:
     Preprocessor();
     Preprocessor( const Preprocessor &);

@@ -34,15 +34,19 @@ void Preprocessor::readFile() {
     while ( !inputStream.atEnd() ) {
         QString nextLine;
         nextLine = inputStream.readLine();
+        if ( nextLine.isEmpty() ){
+            continue;
+        }
         QTextStream line( &nextLine );
         QVector < qreal > inputParameters( numberOfInputs );
 
         for ( auto itInputs = inputParameters.begin(); itInputs != inputParameters.end(); ++itInputs ) {
             qreal tmp;
-            line >> tmp;
             if( line.atEnd() ) {
                 throw UnexpectedFileEndException( "Preprocessor::readFile" );
             }
+            line >> tmp;
+
             (*itInputs) = tmp;
         }
 
