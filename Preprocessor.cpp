@@ -88,7 +88,7 @@ void Preprocessor::writeFile( const Dataset & data ) {
 }
 
 /*!
- * \brief Preprocessor::setFilenameIn
+ * \brief Preprocessor::setInputFileName
  * \param s
  */
 void Preprocessor::setInputFileName( const QString & s ) {
