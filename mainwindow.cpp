@@ -58,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // INFO connection facade to main window
     {
+        QObject::connect( &Facade::getInstance(), SIGNAL( sendInitialLayerInfo(LayerDescription)),
+                          this, SLOT( setInitialLayerInfo( LayerDescription ) ) );
         QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
                           this, SLOT( displayResults() ) );
     }
@@ -74,13 +76,13 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
 
-    // TODO set default accuracy at level of 1e-4
-    // TODO implement or enable 'scientific' notation for all numeric controls
-    // TODO prepare test points for project function
-    // TODO In Data widget display current file name
-    // TODO in Data widget display number of inputs and results for current file
-    // TODO based on this paramiters predefine number of neurons and numer of outputs for layer description
-    // TODO for this values implemen signal/slot connection and delare slots in Facade class
+    // TODO set default accuracy at level of 1e-4 DONE
+    // TODO implement or enable 'scientific' notation for all numeric controls ONGOING
+    // TODO prepare test points for project function DONE
+    // TODO In Data widget display current file name DONE
+    // TODO in Data widget display number of inputs and results for current file DONE
+    // TODO based on this paramiters predefine number of neurons and numer of outputs for layer description DONE
+    // TODO for this values implemen signal/slot connection and delare slots in Facade class DONE
 }
 
 /*!
@@ -207,7 +209,7 @@ LayersInfo MainWindow::getLayerInfo(){
     LayersInfo result;
 
     for ( auto it = layers.constBegin(); it != layers.constEnd(); ++it ){
-        result.append( LayerInfo((*it).neuronsNumber->value(), (*it).inputsNumber->value() ) );
+        result.append( LayerDescription((*it).neuronsNumber->value(), (*it).inputsNumber->value() ) );
     }
 
     return result;
@@ -226,6 +228,7 @@ MainWindow::~MainWindow() {
  */
 void MainWindow::openInputFile() {
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open data file"), "", tr("Data files (*.dat)"));
+    ui->currentFileName->setText( fileName );
     emit setInputFileName( fileName );
 }
 
@@ -235,4 +238,12 @@ void MainWindow::openInputFile() {
 void MainWindow::openOutputFile() {
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open result file"), "", tr("Result files (*.res)"));
     emit setOutputFileName( fileName );
+}
+
+void MainWindow::setInitialLayerInfo(const LayerDescription &val ){
+    ui->inputsNumber->setText( QString::number( val.first ) );
+    ui->outputsNumber->setText( QString::number( val.second ) );
+    ui->numberOfLayers->setValue( 1 );
+    layers.first().neuronsNumber->setValue( val.second );
+    layers.first().inputsNumber->setValue( val.first );
 }

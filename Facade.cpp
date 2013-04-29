@@ -116,3 +116,12 @@ void Facade::startProcess() {
 void Facade::stopProcess() {
     networkRef.stop();
 }
+
+/*!
+ * \brief Facade::setInitialLayerInfo
+ * \param val
+ */
+void Facade::setInitialLayerInfo( const LayerDescription &val){
+    //TODO send initial layer info to neural network
+    emit sendInitialLayerInfo( val );
+}

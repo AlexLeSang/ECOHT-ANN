@@ -4,7 +4,6 @@
 #include <QtCore>
 
 #include "Exceptions.hpp"
-
 #include "Defines.hpp"
 
 /*!
