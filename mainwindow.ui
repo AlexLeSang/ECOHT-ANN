@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>742</width>
-    <height>553</height>
+    <height>563</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -489,8 +489,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>406</width>
-                   <height>207</height>
+                   <width>387</width>
+                   <height>201</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -695,7 +695,7 @@
      <x>0</x>
      <y>0</y>
      <width>742</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -741,5 +741,102 @@
   <tabstop>saveButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>startButton</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>46</x>
+     <y>381</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>saveButton</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>222</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>saveButton</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>384</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>startButton</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>126</x>
+     <y>386</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>34</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>stopButton</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>27</x>
+     <y>388</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>109</x>
+     <y>381</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>stopButton</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>101</x>
+     <y>388</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

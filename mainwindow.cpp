@@ -19,16 +19,36 @@ MainWindow::MainWindow(QWidget *parent)
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->xBottom, "Epoch");
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->yLeft,"Error");
 
+    ui->stopButton->setVisible( false );
+
     QPen pen = QPen(Qt::red);
     curve.setRenderHint(QwtPlotItem::RenderAntialiased);
     curve.setPen(pen);
     curve.attach(ui->qwtPlot);
 
-    QObject::connect( ui->saveImageButton, SIGNAL( clicked() ),
-                      this, SLOT( saveImage() ) );
-    QObject::connect( ui->numberOfLayers, SIGNAL( valueChanged(int) ),
-                      this, SLOT( changeLayers(int) ) );
-    // TODO connection to facade
+    // TODO connect ui to mainwindow
+    {
+        QObject::connect( ui->saveImageButton, SIGNAL( clicked() ),
+                          this, SLOT( saveImage() ) );
+        QObject::connect( ui->numberOfLayers, SIGNAL( valueChanged(int) ),
+                          this, SLOT( changeLayers(int) ) );
+    }
+
+    // TODO connection ui to facade
+    {
+        QObject::connect( ui->startButton, SIGNAL( clicked() ),
+                          &Facade::getInstance(), SLOT( startProcess() ) );
+        QObject::connect( ui->stopButton, SIGNAL( clicked() ),
+                          &Facade::getInstance(), SLOT( stopProcess() ) );
+        // TODO connect controls
+    }
+
+    // TODO connection facade to main window
+    {
+        QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
+                          this, SLOT( DisplayResults() ) );
+    }
+
 }
 
 /*!
@@ -49,6 +69,9 @@ void MainWindow::DisplayResults() {
     curve.setSamples( QPolygonF ( points ) );
     curve.attach( ui->qwtPlot );
     ui->qwtPlot->replot();
+
+    // TODO get testing error results from the facade
+    // TODO display error results
 }
 
 

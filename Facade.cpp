@@ -74,6 +74,10 @@ void Facade::startProcess() {
     const auto & testingData = preprocessorRef.getTestingData();
     const auto & testingResult = preprocessorRef.getTestingResult();
 
+
+    // TODO get layers description
+    // TODO pass layers description to the network
+
     networkRef.setTrainingData( trainingData );
     networkRef.setTrainigResult( trainingResult );
     networkRef.setTestingData( testingData );
