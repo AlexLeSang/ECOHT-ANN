@@ -2,16 +2,19 @@
 #include "mainwindow.hpp"
 #include "Defines.hpp"
 
-#include "Neuron.hpp"
-#include "Layer.hpp"
-#include "Network.hpp"
-#include "Preprocessor.hpp"
+//#include "Neuron.hpp"
+//#include "Layer.hpp"
+//#include "Network.hpp"
+//#include "Preprocessor.hpp"
+
 #ifdef TEST_MODE
+#include "Facade.hpp"
 
 int main(int argc, char *argv[])
 {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
+    Facade::getInstance();
 
     NeuronTest neuronTest;
     QTest::qExec(&neuronTest);

@@ -7,29 +7,48 @@
 
 #include "Defines.hpp"
 
+/*!
+ * \brief DataSample
+ */
 typedef QPair < QVector < qreal >, QVector < qreal > >  DataSample;
+
+/*!
+ * \brief Dataset
+ */
 typedef QVector< DataSample > Dataset;
+
+
+constexpr quint32 defaultPercent = 30;
+
+/*!
+ * \brief SplittedDataSet
+ */
 typedef QVector < QVector < qreal > > SplittedDataSet;
 
 class Preprocessor {
 public:
     static Preprocessor & getInstance();
-    const SplittedDataSet & getTrainingData() { return trainingData; }
-    const SplittedDataSet & getTrainingResult() { return trainingResults; }
-    const SplittedDataSet & getTestingData() { return testingData; }
-    const SplittedDataSet & getTestingResult() { return testingResult; }
 
-    void setInputFileName(const QString & s);
-    void setOutputFileName(const QString & s) { fileNameOut = s; }
-    void setPercentageOfTest( const quint32 p ) { percentageOfTest = p; }
-    void saveFile( const Dataset & data) { writeFile(data); }
-    void flush() { readFile(); splitData(); }
+    const SplittedDataSet & getTrainingData() const;
+    const SplittedDataSet & getTrainingResult() const;
+    const SplittedDataSet & getTestingData() const;
+    const SplittedDataSet & getTestingResult() const;
+
+    void setInputFileName(const QString & fileName);
+    void setOutputFileName(const QString & fileName);
+    void setPercentageOfTest( const quint32 value );
+
+    void saveFile( const Dataset & data);
+    void flush();
+
 private:
     Preprocessor();
-    Preprocessor( const Preprocessor &);
+
     void splitData();
     void readFile();
     void writeFile( const Dataset & data);
+
+private:
     SplittedDataSet trainingData;
     SplittedDataSet trainingResults;
     SplittedDataSet testingData;

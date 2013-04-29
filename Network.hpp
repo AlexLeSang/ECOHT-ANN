@@ -58,12 +58,10 @@ public:
     static Network & getInstance();
     void run();
 
-    void initNetwork(const QVector< LayerDescription > & layersDescription, const qreal accuracy, const quint32 maxNumberOfEpoch, const qreal alpha, const qreal beta = 1.0);
+    void initNetwork(const qreal accuracy, const quint32 maxNumberOfEpoch, const qreal alpha, const qreal beta = 1.0);
     QVector<Layer> & getLayers();
     const QVector<Layer> & getLayers() const;
     const QVector< qreal > getNetworkError() const;
-    void training(const Data & dataSet, const Result & desiredResult);
-    void testing(const Data & data, const Result &desiredResult);
     qreal getBeta() const;
 
     void stop();
@@ -83,6 +81,8 @@ private:
     Network(const Network & rNetwork) = delete;
     Network & operator = (const Network & rNetwork) = delete;
     QPair<Result, QVector<QVector<qreal> > > process(const Data &data);
+    void training(const Data & dataSet, const Result & desiredResult);
+    void testing(const Data & data, const Result &desiredResult);
 
 private:
     QVector< Layer > layers;
@@ -115,7 +115,6 @@ private:
 class NetworkTest : public QObject {
     Q_OBJECT
 private slots:
-    void InitializationTest();
     void ProcessTest();
 };
 

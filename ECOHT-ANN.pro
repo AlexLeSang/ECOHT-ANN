@@ -41,9 +41,7 @@ HEADERS  += \
     Preprocessor.hpp \
     Exceptions.hpp
 
-win32:CONFIG(release, debug|release): LIBS += -L/usr/local/qwt-6.0.2/lib/release/ -lqwt
-else:win32:CONFIG(debug, debug|release): LIBS += -L/usr/local/qwt-6.0.2/lib/debug/ -lqwt
-else:unix:!macx: LIBS += -L/usr/local/qwt-6.1.0-rc3/lib/ -lqwt
+LIBS += -L/usr/local/qwt-6.1.0-rc3/lib/ -lqwt
 
 INCLUDEPATH += /usr/local/qwt-6.1.0-rc3/include
 DEPENDPATH += /usr/local/qwt-6.1.0-rc3/include

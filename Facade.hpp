@@ -10,10 +10,9 @@ class Facade : public QObject {
     Q_OBJECT
 public:
     static Facade & getInstance();
-
     void processFinished();
 
-    QVector<qreal> getErrors() const;
+    QVector< qreal > getErrors() const;
 
 public slots:
     // Set network paramiters
@@ -32,9 +31,7 @@ public slots:
     void stopProcess();
 
 signals:
-    // Get data from the network
     void processEnd();
-
 
 private:
     Facade();

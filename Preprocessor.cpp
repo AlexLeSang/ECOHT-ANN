@@ -3,7 +3,7 @@
 /*!
  * \brief Preprocessor::Preprocessor
  */
-Preprocessor::Preprocessor() : percentageOfTest(30) {}
+Preprocessor::Preprocessor() : percentageOfTest( defaultPercent ) {}
 
 /*!
  * \brief Preprocessor::getInstance
@@ -15,9 +15,39 @@ Preprocessor &Preprocessor::getInstance() {
 }
 
 /*!
- * \brief Preprocessor::readFile
- * \param fileName
+ * \brief Preprocessor::getTrainingData
  * \return
+ */
+const SplittedDataSet &Preprocessor::getTrainingData() const {
+    return trainingData;
+}
+
+/*!
+ * \brief Preprocessor::getTrainingResult
+ * \return
+ */
+const SplittedDataSet &Preprocessor::getTrainingResult() const {
+    return trainingResults;
+}
+
+/*!
+ * \brief Preprocessor::getTestingData
+ * \return
+ */
+const SplittedDataSet &Preprocessor::getTestingData() const {
+    return testingData;
+}
+
+/*!
+ * \brief Preprocessor::getTestingResult
+ * \return
+ */
+const SplittedDataSet &Preprocessor::getTestingResult() const {
+    return testingResult;
+}
+
+/*!
+ * \brief Preprocessor::readFile
  */
 void Preprocessor::readFile() {
     QFile inputFile( fileNameIn );
@@ -59,9 +89,7 @@ void Preprocessor::readFile() {
 
 /*!
  * \brief Preprocessor::writeFile
- * \param fileName
  * \param data
- * \param numberOfInputs
  */
 void Preprocessor::writeFile( const Dataset & data ) {
     QFile outputFile( fileNameOut );
@@ -89,10 +117,10 @@ void Preprocessor::writeFile( const Dataset & data ) {
 
 /*!
  * \brief Preprocessor::setInputFileName
- * \param s
+ * \param fileName
  */
-void Preprocessor::setInputFileName( const QString & s ) {
-    if ( s == fileNameIn ) {
+void Preprocessor::setInputFileName(const QString & fileName ) {
+    if ( fileName == fileNameIn ) {
         QFileInfo f( fileNameIn );
         if( !f.exists() ){
             throw FileNotExistsException( "Preprocessor::setFileName" );
@@ -105,16 +133,49 @@ void Preprocessor::setInputFileName( const QString & s ) {
         return;
     }
     else {
-        QFileInfo f( s );
+        QFileInfo f( fileName );
         QString p = f.filePath();
         if( !f.exists() ){
             throw FileNotExistsException( "Preprocessor::setFileName" );
         }
         lastModified = f.lastModified();
-        fileNameIn = s;
+        fileNameIn = fileName;
         readFile();
         splitData();
     }
+}
+
+/*!
+ * \brief Preprocessor::setOutputFileName
+ * \param fileName
+ */
+void Preprocessor::setOutputFileName(const QString &fileName) {
+    fileNameOut = fileName;
+    // TODO check it
+}
+
+/*!
+ * \brief Preprocessor::setPercentageOfTest
+ * \param value
+ */
+void Preprocessor::setPercentageOfTest(const quint32 value) {
+    percentageOfTest = value;
+}
+
+/*!
+ * \brief Preprocessor::saveFile
+ * \param data
+ */
+void Preprocessor::saveFile(const Dataset &data) {
+    writeFile(data);
+}
+
+/*!
+ * \brief Preprocessor::flush
+ */
+void Preprocessor::flush() {
+    readFile();
+    splitData();
 }
 
 /*!

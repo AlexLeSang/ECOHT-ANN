@@ -10,7 +10,8 @@ Facade::Facade() : networkRef( Network::getInstance() ), preprocessorRef( Prepro
  * \return
  */
 Facade &Facade::getInstance() {
-    static Facade instance; return instance;
+    static Facade instance;
+    return instance;
 }
 
 /*!
