@@ -361,7 +361,7 @@ void NetworkTest::ProcessTest()  {
     //    */
 
     Data data( numberOfDataSamples );
-    std::for_each( data.begin(),S data.end(), []( Data::reference sample ) {
+    std::for_each( data.begin(), data.end(), []( Data::reference sample ) {
         sample.getData().resize( numberOfInputs );
         std::for_each( sample.getData().begin(), sample.getData().end(), [] ( qreal & val ) {
             val = 2.0;
