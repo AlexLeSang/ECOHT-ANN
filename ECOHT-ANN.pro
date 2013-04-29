@@ -49,3 +49,8 @@ DEPENDPATH += /usr/local/qwt-6.1.0-rc3/include
 
 FORMS += \
     mainwindow.ui
+
+OTHER_FILES += \
+    data1.dat \
+    data.dat \
+    data2.dat
