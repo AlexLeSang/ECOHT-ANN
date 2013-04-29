@@ -384,7 +384,7 @@
                     </spacer>
                    </item>
                    <item row="4" column="2">
-                    <widget class="QDoubleSpinBox" name="precision">
+                    <widget class="QScienceSpinBox" name="precision">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -418,7 +418,7 @@
                     </widget>
                    </item>
                    <item row="2" column="2">
-                    <widget class="QDoubleSpinBox" name="betaCoef">
+                    <widget class="QScienceSpinBox" name="betaCoef">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -452,7 +452,7 @@
                     </widget>
                    </item>
                    <item row="1" column="2">
-                    <widget class="QDoubleSpinBox" name="alphaCoef">
+                    <widget class="QScienceSpinBox" name="alphaCoef">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -805,7 +805,30 @@
    <header>qwt_plot.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>QScienceSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>QScienceSpinBox.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>inputOpenButton</tabstop>
+  <tabstop>inputsNumber</tabstop>
+  <tabstop>outputsNumber</tabstop>
+  <tabstop>testDataPercent</tabstop>
+  <tabstop>alphaCoef</tabstop>
+  <tabstop>betaCoef</tabstop>
+  <tabstop>maxEpoch</tabstop>
+  <tabstop>precision</tabstop>
+  <tabstop>numberOfLayers</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>stopButton</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>resultsTable</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>saveImageButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
