@@ -30,13 +30,19 @@ public:
     MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
 
-public slots:
-    void DisplayResults();
+signals:
+    void setInputFileName( const QString fileName );
+    void setOutputFileName( const QString fileName );
+
+private slots:
+    void openInputFile();
+    void openOutputFile();
+    void displayResults();
     void saveImage();
-    void changeLayers(int);
+    void changeLayers( int );
 
 private:
-    void showResults(const Dataset& data);
+    void showResults( const Dataset& data );
     LayersInfo getLayerInfo();
 
 private:

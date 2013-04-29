@@ -25,6 +25,8 @@ public slots:
 
     void setTrainingDataPercent( const quint32 val );
 
+    void setInputFileName( const QString fileName );
+    void setOutputFileName( const QString fileName );
 
     void startProcess();
     void stopProcess();

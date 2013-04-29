@@ -21,10 +21,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->stopButton->setVisible( false );
 
-    QPen pen = QPen(Qt::red);
-    curve.setRenderHint(QwtPlotItem::RenderAntialiased);
-    curve.setPen(pen);
-    curve.attach(ui->qwtPlot);
+    QPen pen = QPen( Qt::red );
+    curve.setRenderHint( QwtPlotItem::RenderAntialiased );
+    curve.setPen( pen );
+    curve.attach( ui->qwtPlot );
 
     // TODO connect ui to mainwindow
     {
@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
                           this, SLOT( saveImage() ) );
         QObject::connect( ui->numberOfLayers, SIGNAL( valueChanged(int) ),
                           this, SLOT( changeLayers(int) ) );
+        // TODO connect open file button to openInputFile();
+        // TODO connect save result button to openOutputFile();
     }
 
     // TODO connection ui to facade
@@ -46,15 +48,23 @@ MainWindow::MainWindow(QWidget *parent)
     // TODO connection facade to main window
     {
         QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
-                          this, SLOT( DisplayResults() ) );
+                          this, SLOT( displayResults() ) );
     }
 
+
+    // TODO connection main window to facade
+    {
+        QObject::connect( this, SIGNAL( setInputFileName(QString) ),
+                          &Facade::getInstance(), SLOT( setInputFileName(QString) ) );
+        QObject::connect( this, SIGNAL( setOutputFileName(QString) ),
+                          &Facade::getInstance(), SLOT( setOutputFileName(QString) ) );
+    }
 }
 
 /*!
  * \brief MainWindow::DisplayResults
  */
-void MainWindow::DisplayResults() {
+void MainWindow::displayResults() {
     ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
     ui->qwtPlot->replot();
 
@@ -182,4 +192,20 @@ LayersInfo MainWindow::getLayerInfo(){
 MainWindow::~MainWindow() {
     Facade::getInstance().stopProcess();
     delete ui;
+}
+
+/*!
+ * \brief MainWindow::openFile
+ */
+void MainWindow::openInputFile() {
+    const QString fileName = QFileDialog::getOpenFileName( this, tr("Open data file"), "", tr("Data files (*.dat)"));
+    emit setInputFileName( fileName );
+}
+
+/*!
+ * \brief MainWindow::openOutputFile
+ */
+void MainWindow::openOutputFile() {
+    const QString fileName = QFileDialog::getOpenFileName( this, tr("Open result file"), "", tr("Result files (*.res)"));
+    emit setOutputFileName( fileName );
 }
