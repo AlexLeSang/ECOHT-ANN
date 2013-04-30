@@ -156,7 +156,7 @@ as an approximate realization of the function $ f $ ; that is,
 for all $ x \in I_m$. In other words, function of the form $ F(x) $ are dence in $ C(I_m) $.   
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.4]{neurons.png}
+ \includegraphics[scale=0.4]{images/neurons.png}
  \caption{Neural network with one hidden layer}
 \end{figure}
 
@@ -222,9 +222,9 @@ The function is mapped on $[0,1]_2$ hypercube due to the requirements of univers
 
 
 
-\section{Program description}
+\section{Application description}
 
-\subsection{Program structure}
+\subsection{Application structure}
 
 For testing and training neural networks was developed GUI application, which allows user to create neural networks, set different parameters of it and give it data sets for training and  testing to obtain appropriate results. The application consists of three parts: Neural Network, IO/Preparing data, GUI. 
 
@@ -233,13 +233,13 @@ For testing and training neural networks was developed GUI application, which al
  \item Facade - connects all parts of the application together, receiving information and commands from other classes, and sends them to recipient;
  \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.4]{facadecppincl.png}
+ \includegraphics[scale=0.4]{images/facadecppincl.png}
  \caption{Facade class connections}
 \end{figure}
 
  \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.4]{facadehppincl.png}
+ \includegraphics[scale=0.4]{images/facadehppincl.png}
  \caption{Facade class connections}
 \end{figure}
 
@@ -247,13 +247,13 @@ For testing and training neural networks was developed GUI application, which al
 
  \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.5]{networkcppincl.png}
+ \includegraphics[scale=0.5]{images/networkcppincl.png}
  \caption{Network class connections}
 \end{figure}
 
  \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.5]{networkhppincl.png}
+ \includegraphics[scale=0.5]{images/networkhppincl.png}
  \caption{Network class connections}
 \end{figure}
 
@@ -263,24 +263,29 @@ For testing and training neural networks was developed GUI application, which al
 
 \item Preprocessor - reads and writes data to files, prepares data for further transmission to artificial neural network by splitting it to training and testing sets of input and output parameters.
 
+\item MainWindow - represents GUI of application, contains controls for setting parameters of artificial neural networks.
  \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.5]{preprocessorcppincl.png}
+ \includegraphics[scale=0.5]{images/preprocessorcppincl.png}
  \caption{Preprocessor class connections}
 \end{figure}
 
 \end{itemize}
 
-\subsection{Program interface}
+\subsection{Application interface}
+
+Graphical user interface of application consists of 5 parts: DataSource, Control, Layers, Results, Graph of errors.
+
+In DataSource user can open file with data samples for artificial neural network.
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.6]{interface.png}
+ \includegraphics[scale=0.6]{images/interface.png}
  \caption{Application interface}
 \end{figure}
 
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.6]{interface1.png}
+ \includegraphics[scale=0.6]{images/interface1.png}
  \caption{Graphical error representation}
 \end{figure}
 

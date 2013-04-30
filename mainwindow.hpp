@@ -6,7 +6,18 @@
 #include <QtCore>
 #include <qwt.h>
 #include <qwt_plot_curve.h>
-#include <Preprocessor.hpp>
+//#include <Preprocessor.hpp>
+
+
+/*!
+ * \brief DataSample
+ */
+typedef QPair < QVector < qreal >, QVector < qreal > >  DataSample;
+
+/*!
+ * \brief Dataset
+ */
+typedef QVector< DataSample > Dataset;
 
 struct LayerStruct{
     QLabel* label;
