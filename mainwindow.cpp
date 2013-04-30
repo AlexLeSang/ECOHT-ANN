@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->qwtPlot->setTitle("Error");
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->xBottom, "Epoch");
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->yLeft,"Error");
+    ui->qwtPlot->setAxisAutoScale( ui->qwtPlot->xBottom, true );
+    ui->qwtPlot->setAxisAutoScale( ui->qwtPlot->yLeft, true );
 
     ui->stopButton->setVisible( false );
 
@@ -25,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     curve.setRenderHint( QwtPlotItem::RenderAntialiased );
     curve.setPen( pen );
     curve.attach( ui->qwtPlot );
+
 
     // INFO connect ui to mainwindow
     {
@@ -36,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
                           this, SLOT( openInputFile() ) );
         QObject::connect( ui->saveButton, SIGNAL( clicked() ),
                           this, SLOT( openOutputFile() ) );
+        QObject::connect( ui->actionAbout, SIGNAL( triggered() ), this, SLOT( aboutSlot() ) );
+
     }
 
     // INFO connection ui to facade
@@ -79,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // TODO set default accuracy at level of 1e-4 DONE
-    // TODO implement or enable 'scientific' notation for all numeric controls ONGOING
+    // TODO implement or enable 'scientific' notation for all numeric controls DONE
     // TODO prepare test points for project function DONE
     // TODO In Data widget display current file name DONE
     // TODO in Data widget display number of inputs and results for current file DONE
@@ -249,4 +254,8 @@ void MainWindow::setInitialLayerInfo(const LayerDescription &val ){
     ui->numberOfLayers->setValue( 1 );
     layers.first().neuronsNumber->setValue( val.second );
     layers.first().inputsNumber->setValue( val.first );
+}
+
+void MainWindow::aboutSlot(){
+
 }
