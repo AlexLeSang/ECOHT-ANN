@@ -3,7 +3,14 @@
 /*!
  * \brief Facade::Facade
  */
-Facade::Facade() : networkRef( Network::getInstance() ), preprocessorRef( Preprocessor::getInstance() ) {}
+Facade::Facade() :
+    networkRef( Network::getInstance() ),
+    preprocessorRef( Preprocessor::getInstance() ),
+    beta( 1.0 ),
+    alpha( 1.0 ),
+    accuracy( 1e-4 ),
+    maxNumberOfEpoch( 1 )
+{}
 
 /*!
  * \brief Facade::getInstance
@@ -109,9 +116,11 @@ void Facade::startProcess() {
     networkRef.setTestingData( testingData );
     networkRef.setTestingResult( testingResult );
 
-    // TODO get layer description and pass it into the network
+    networkRef.setAlpha( alpha );
+    networkRef.setAccuracy( accuracy );
+    networkRef.setBeta( beta );
+    networkRef.setMaxNumberOfEpoch( maxNumberOfEpoch );
 
-    networkRef.initNetwork( accuracy, maxNumberOfEpoch, alpha, beta );
     QThreadPool::globalInstance()->start( &networkRef );
 }
 
