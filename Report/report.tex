@@ -1,0 +1,154 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{geometry}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+\hypersetup{colorlinks=true}
+%\renewcommand{\baselinestretch}{1.5}
+%\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\geometry{hmargin={20mm,20mm},vmargin={20mm,20mm}}
+%opening
+\setcounter{tocdepth}{3} 
+\begin{document}
+\large
+%\maketitle
+\begin{titlepage}
+ \begin{center}
+Warsaw University of Technology\\
+The Faculty of Electronics and Information Technology
+  
+  \vspace{35ex}
+  
+Contemporary Heuristic Techniques  course project\\
+subject:\\
+''Application of the Artificial neural networks in the approximation task''
+
+  
+  \vspace{35ex}
+  
+ \end{center}
+ \begin{flushright}
+Supervisor:\\
+Piotr Bilski\\
+Made by:\\
+Oleksandr Halushko\\
+Danylo Lizanets
+
+\vspace{15ex}
+
+ \end{flushright}
+  
+  \begin{center}
+   Warsaw 2013
+  \end{center}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+\section{Subject}
+
+Application of the artificial neural networks in the approximation task.
+
+\section{Aim}
+
+Apply the artificial neural network to approximate a two-dimensional function. Design the structure of the network and make it learn the selected number of the points being a part of the function, then test it against the new set of the points. Test different structures of the network. Examine the learning process of the designed network.
+
+\section{Theory}
+\subsection{Artificial neural networks}
+\subsubsection{Definition}
+
+Artificial neural network is a mathematical model of biological neural network. It consists of artificial neurons and processes information using a connectionist approach to computation. Neural networks are used for modeling complex relationships between inputs and outputs or searching of patterns in data.
+
+\subsubsection{Types of artificial neural networks}
+
+There are many different types of the artificial neural networks used for different purposes. They may be classified by such parameters as:
+\begin{itemize}
+ \item number of layers
+  \begin{itemize}
+   \item one layer
+   \item two layers
+   \item multilayer
+  \end{itemize}
+  \item number of information move directions
+  \begin{itemize}
+   \item one direction
+   \item many directions
+  \end{itemize}
+  \item number of inputs
+  \begin{itemize}
+   \item single input 
+   \item multiple input
+  \end{itemize}
+  \item existance of recursive feedback loops
+  \item type of learning
+  \begin{itemize}
+   \item outside teaching
+   \item self-teaching
+  \end{itemize}
+
+\end{itemize}
+
+ %(one-, two-, multilayer),  directions(one, many), inputs (single, multiple), existance of recursive feedback loops and type of learning. 
+
+The feed-forward neural network is the most simple type of artificial neural network. In this type network the information moves in only one direction — forwards: from the input nodes data goes through the hidden nodes and to the output nodes. There are no cycles or loops in the network.
+
+\subsubsection{Training process}
+
+Training a neural network model essentially means selecting one model from the set of allowed models that minimizes the cost criterion.
+
+A commonly used cost is the mean-squared error, which tries to minimize the average squared error between the network's output, $f(x)$, and the target value y over all the example pairs. When one tries to minimize this cost using gradient descent for the class of neural networks called multilayer perceptrons, one obtains the common and well-known backpropagation algorithm for training neural networks.
+
+\subsection{Approximation}
+\subsubsection{What approximation is}
+
+Function approximation, which finds the underlying relationship from a given finite input-output data is the fundamental problem in a vast majority of real world applications, such as prediction, pattern recognition, data mining and classification. Various methods have been developed to address this problem, where one of them is by using artificial neural networks.
+
+\subsubsection{Artificial neural network using for function approximation}
+
+Due to the universal approximation theorem, the standard multilayer feed-forward neural network with a single hidden layer, which contains finite number of hidden neurons, is a universal approximator for continuous functions on compact subsets of $R^n$.
+
+Let $\varphi(\bullet) $ be a nonconstant, bounded, and monotonically-increasing continuous function. Let $I_m$ denote the m-dimensional unit hypercube $ [0,1]_m. $ The space of continuous functions on $ I_m $ is denoted by $C(I_m)$. Then, given any function $ f \in C(I_m) $ and $ \varepsilon > 0 $, there exist an integer $ N $ and real constants $ \alpha_i, b_i \in R, \omega_i \in Rm $, where $ i = 1, \hdots, N $ such that we may define:
+
+\begin{equation}
+ F(x) = \sum\limits_{i=1}^N\alpha_i\varphi(\omega_i^Tx+b_i) 
+\end{equation}
+
+as an approximate realization of the function $ f $ ; that is,
+
+\begin{equation}
+ |F(x)-f(x)|<\varepsilon
+\end{equation}
+
+for all $ x \in I_m$. In other words, function of the form $ F(x) $ are dence in $ C(I_m) $.   
+
+\section{Domain description}
+Function for approximation we using in our project is ''Sombrero'' function which formula is such:
+\begin{equation}
+ t = \sqrt{((a+bx)^2+(a+by)^2)} \text{, where } a = -8, b = 16
+ \end{equation}
+ \begin{equation}
+ z = \frac
+ {\sin(t)}
+ {t}
+\end{equation}
+
+The function is mapped on $[0,1]_2$ hypercube due to the requirements of universal approximation theorem.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.75]{gui10.png}
+ \caption{Graphical representation}
+\end{figure}
+
+
+\end{document}
+
+
