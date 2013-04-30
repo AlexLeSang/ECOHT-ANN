@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>742</width>
-    <height>553</height>
+    <height>607</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -197,19 +197,6 @@
                 <layout class="QGridLayout" name="gridLayout_2">
                  <item row="0" column="0">
                   <layout class="QGridLayout" name="gridLayout_4">
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="percentLabel">
-                     <property name="toolTip">
-                      <string>Amount of data that will be used for testing in percents</string>
-                     </property>
-                     <property name="text">
-                      <string>Percent of test data</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="3" column="2">
                     <widget class="QSpinBox" name="maxEpoch">
                      <property name="sizePolicy">
@@ -220,7 +207,7 @@
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>102</width>
+                       <width>134</width>
                        <height>23</height>
                       </size>
                      </property>
@@ -264,6 +251,19 @@
                      </property>
                     </spacer>
                    </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="percentLabel">
+                     <property name="toolTip">
+                      <string>Amount of data that will be used for testing in percents</string>
+                     </property>
+                     <property name="text">
+                      <string>Percent of test data</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="0" column="2">
                     <widget class="QSpinBox" name="testDataPercent">
                      <property name="sizePolicy">
@@ -274,7 +274,7 @@
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>102</width>
+                       <width>134</width>
                        <height>23</height>
                       </size>
                      </property>
@@ -306,29 +306,6 @@
                    </item>
                    <item row="3" column="1">
                     <spacer name="horizontalSpacer_11">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item row="3" column="0">
-                    <widget class="QLabel" name="maxEpochlabel">
-                     <property name="toolTip">
-                      <string>Maximim number of epochs</string>
-                     </property>
-                     <property name="text">
-                      <string>Max epoch</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="1">
-                    <spacer name="horizontalSpacer_12">
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
                      </property>
@@ -383,107 +360,139 @@
                      </property>
                     </spacer>
                    </item>
-                   <item row="4" column="2">
-                    <widget class="QScienceSpinBox" name="precision">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>102</width>
-                       <height>23</height>
-                      </size>
-                     </property>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="maxEpochlabel">
                      <property name="toolTip">
-                      <string>Precision</string>
+                      <string>Maximim number of epochs</string>
                      </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                     <property name="decimals">
-                      <number>6</number>
-                     </property>
-                     <property name="maximum">
-                      <double>100.000000000000000</double>
-                     </property>
-                     <property name="singleStep">
-                      <double>0.000100000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>0.000100000000000</double>
+                     <property name="text">
+                      <string>Max epoch</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="2">
-                    <widget class="QScienceSpinBox" name="betaCoef">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
+                   <item row="4" column="1">
+                    <spacer name="horizontalSpacer_12">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
                      </property>
-                     <property name="maximumSize">
+                     <property name="sizeHint" stdset="0">
                       <size>
-                       <width>102</width>
-                       <height>23</height>
+                       <width>40</width>
+                       <height>20</height>
                       </size>
                      </property>
-                     <property name="toolTip">
-                      <string>Stretch coefficient</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                     <property name="decimals">
-                      <number>4</number>
-                     </property>
-                     <property name="maximum">
-                      <double>1.000000000000000</double>
-                     </property>
-                     <property name="singleStep">
-                      <double>0.000100000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>1.000000000000000</double>
-                     </property>
-                    </widget>
+                    </spacer>
                    </item>
                    <item row="1" column="2">
-                    <widget class="QScienceSpinBox" name="alphaCoef">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>102</width>
-                       <height>23</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Training coefficient</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                     <property name="decimals">
-                      <number>4</number>
-                     </property>
-                     <property name="maximum">
-                      <double>1.000000000000000</double>
-                     </property>
-                     <property name="singleStep">
-                      <double>0.000100000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>1.000000000000000</double>
-                     </property>
-                    </widget>
+                    <layout class="QHBoxLayout" name="horizontalLayout_6">
+                     <item>
+                      <widget class="QDoubleSpinBox" name="alphaMantiss">
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="maximum">
+                        <double>10.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>1.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_3">
+                       <property name="text">
+                        <string>e</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSpinBox" name="alphaDegree">
+                       <property name="minimum">
+                        <number>-16</number>
+                       </property>
+                       <property name="maximum">
+                        <number>16</number>
+                       </property>
+                       <property name="value">
+                        <number>1</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="2" column="2">
+                    <layout class="QHBoxLayout" name="horizontalLayout_8">
+                     <item>
+                      <widget class="QDoubleSpinBox" name="betaMantiss">
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="maximum">
+                        <double>10.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>1.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_4">
+                       <property name="text">
+                        <string>e</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSpinBox" name="betaDegree">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>2</number>
+                       </property>
+                       <property name="value">
+                        <number>1</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="4" column="2">
+                    <layout class="QHBoxLayout" name="horizontalLayout_9">
+                     <item>
+                      <widget class="QDoubleSpinBox" name="precisionMantiss">
+                       <property name="decimals">
+                        <number>3</number>
+                       </property>
+                       <property name="maximum">
+                        <double>10.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>1.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_5">
+                       <property name="text">
+                        <string>e</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSpinBox" name="precisionDegree">
+                       <property name="minimum">
+                        <number>-16</number>
+                       </property>
+                       <property name="maximum">
+                        <number>16</number>
+                       </property>
+                       <property name="value">
+                        <number>-4</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </item>
                   </layout>
                  </item>
@@ -564,8 +573,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>404</width>
-                   <height>239</height>
+                   <width>363</width>
+                   <height>293</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -805,21 +814,13 @@
    <header>qwt_plot.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>QScienceSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>QScienceSpinBox.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>inputOpenButton</tabstop>
   <tabstop>inputsNumber</tabstop>
   <tabstop>outputsNumber</tabstop>
   <tabstop>testDataPercent</tabstop>
-  <tabstop>alphaCoef</tabstop>
-  <tabstop>betaCoef</tabstop>
   <tabstop>maxEpoch</tabstop>
-  <tabstop>precision</tabstop>
   <tabstop>numberOfLayers</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>startButton</tabstop>

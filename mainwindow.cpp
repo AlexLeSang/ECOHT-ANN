@@ -18,8 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->qwtPlot->setTitle("Error");
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->xBottom, "Epoch");
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->yLeft,"Error");
-
+    ui->qwtPlot->setAxisAutoScale( ui->qwtPlot->xBottom, true );
+    ui->qwtPlot->setAxisAutoScale( ui->qwtPlot->yLeft, true );
     ui->stopButton->setVisible( false );
+    ui->saveButton->setVisible( false );
 
     QPen pen = QPen( Qt::red );
     curve.setRenderHint( QwtPlotItem::RenderAntialiased );
@@ -36,8 +38,18 @@ MainWindow::MainWindow(QWidget *parent)
                           this, SLOT( openInputFile() ) );
         QObject::connect( ui->saveButton, SIGNAL( clicked() ),
                           this, SLOT( openOutputFile() ) );
-                QObject::connect( ui->startButton, SIGNAL( clicked() ),
-                                  this, SLOT( start() ) );
+        QObject::connect( ui->startButton, SIGNAL( clicked() ),
+                          this, SLOT( start() ) );
+        QObject::connect( ui->startButton, SIGNAL( clicked( bool ) ),
+                          ui->stopButton, SLOT( setVisible(bool) ) );
+        QObject::connect( ui->alphaMantiss, SIGNAL( valueChanged( double ) ),
+                          this, SLOT( sendAlpha() ) );
+        QObject::connect( ui->alphaDegree, SIGNAL( valueChanged( int ) ),
+                          this, SLOT( sendAlpha() ) );
+        QObject::connect( ui->betaMantiss, SIGNAL( valueChanged( double ) ),
+                          this, SLOT( sendBeta() ) );
+        QObject::connect( ui->betaDegree, SIGNAL( valueChanged( int ) ),
+                          this, SLOT( sendBeta() ) );
     }
 
     // INFO connection ui to facade
@@ -48,14 +60,19 @@ MainWindow::MainWindow(QWidget *parent)
                           &Facade::getInstance(), SLOT( stopProcess() ) );
         QObject::connect( ui->testDataPercent, SIGNAL( valueChanged(int) ),
                           &Facade::getInstance(), SLOT( setTrainingDataPercent(int) ) );
-        QObject::connect( ui->alphaCoef, SIGNAL( valueChanged(double) ),
-                          &Facade::getInstance(), SLOT( setAlhpa(double) ) );
-        QObject::connect( ui->betaCoef, SIGNAL( valueChanged(double) ),
-                          &Facade::getInstance(), SLOT( setBeta(double) ) );
+      //  QObject::connect( ui->alphaCoef, SIGNAL( valueChanged(double) ),
+                          //&Facade::getInstance(), SLOT( setAlhpa(double) ) );
+     //   QObject::connect( ui->betaCoef, SIGNAL( valueChanged(double) ),
+                       //   &Facade::getInstance(), SLOT( setBeta(double) ) );
         QObject::connect( ui->maxEpoch, SIGNAL( valueChanged(int) ),
                           &Facade::getInstance(), SLOT( setMaxNumberOfEpoh(int) ) );
-        QObject::connect( ui->precision, SIGNAL( valueChanged(double)),
-                          &Facade::getInstance(), SLOT( setAccuracy(double)) );
+     //   QObject::connect( ui->precision, SIGNAL( valueChanged(double)),
+                //          &Facade::getInstance(), SLOT( setAccuracy(double)) );
+
+        QObject::connect( this, SIGNAL( setAlpha( double ) ),
+                          &Facade::getInstance(), SLOT( setAlhpa( double ) ) );
+        QObject::connect( this, SIGNAL( setBeta( double ) ),
+                          &Facade::getInstance(), SLOT( setBeta( double ) ) );
     }
 
     // INFO connection facade to main window
@@ -78,13 +95,10 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
 
-    // TODO set default accuracy at level of 1e-4 DONE
-    // TODO implement or enable 'scientific' notation for all numeric controls ONGOING
-    // TODO prepare test points for project function DONE
-    // TODO In Data widget display current file name DONE
-    // TODO in Data widget display number of inputs and results for current file DONE
-    // TODO based on this paramiters predefine number of neurons and numer of outputs for layer description DONE
-    // TODO for this values implemen signal/slot connection and delare slots in Facade class DONE
+
+
+
+
 }
 
 /*!
@@ -262,3 +276,22 @@ void MainWindow::start() {
     Facade::getInstance().setLayersDescription( info );
     Facade::getInstance().startProcess();
 }
+
+/*!
+ * \brief MainWindow::sendAlpha
+ */
+void MainWindow::sendAlpha(){
+    double mantis = ui->alphaMantiss->value();
+    int deg = ui->alphaDegree->value();
+    emit setAlpha( mantis * pow10( deg ) );
+}
+
+/*!
+ * \brief MainWindow::sendBeta
+ */
+void MainWindow::sendBeta(){
+    double mantis = ui->betaMantiss->value();
+    int deg = ui->betaDegree->value();
+    emit setBeta( mantis * pow10( deg ) );
+}
+

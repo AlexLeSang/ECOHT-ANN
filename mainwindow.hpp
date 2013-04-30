@@ -34,7 +34,8 @@ signals:
     void setInputFileName( const QString fileName );
     void setOutputFileName( const QString fileName );
     void setLayerDescription( const QVector<QPair<quint32,quint32> > info );
-
+    void setAlpha( double );
+    void setBeta( double );
 private slots:
     void start();
     void openInputFile();
@@ -43,6 +44,8 @@ private slots:
     void saveImage();
     void changeLayers( int );
     void setInitialLayerInfo( const LayerDescription & );
+    void sendAlpha();
+    void sendBeta();
 private:
     void showResults( const Dataset& data );
     LayersInfo getLayerInfo();

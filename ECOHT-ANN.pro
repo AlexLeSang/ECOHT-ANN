@@ -27,8 +27,7 @@ SOURCES += main.cpp\
     Network.cpp \
     Sample.cpp \
     Facade.cpp \
-    Preprocessor.cpp \
-    QScienceSpinBox.cpp
+    Preprocessor.cpp
 
 HEADERS  += \
     mainwindow.hpp \
@@ -40,8 +39,7 @@ HEADERS  += \
     Helpers.hpp \
     Facade.hpp \
     Preprocessor.hpp \
-    Exceptions.hpp \
-    QScienceSpinBox.h
+    Exceptions.hpp
 
 LIBS += -L/usr/local/qwt-6.1.0-rc3/lib/ -lqwt
 

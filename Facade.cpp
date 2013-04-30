@@ -48,7 +48,7 @@ void Facade::setBeta(double val) {
  * \brief Facade::setAlhpa
  * \param val
  */
-void Facade::setAlhpa(double val) {
+void Facade::setAlhpa( double val ) {
     alpha = val;
 }
 
