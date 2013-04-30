@@ -36,6 +36,7 @@ signals:
     void setLayerDescription( const QVector<QPair<quint32,quint32> > info );
 
 private slots:
+    void start();
     void openInputFile();
     void openOutputFile();
     void displayResults();

@@ -36,12 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
                           this, SLOT( openInputFile() ) );
         QObject::connect( ui->saveButton, SIGNAL( clicked() ),
                           this, SLOT( openOutputFile() ) );
+                QObject::connect( ui->startButton, SIGNAL( clicked() ),
+                                  this, SLOT( start() ) );
     }
 
     // INFO connection ui to facade
     {
-//        QObject::connect( ui->startButton, SIGNAL( clicked() ),
-//                          &Facade::getInstance(), SLOT( startProcess() ) );
 
         // TODO implement slot for process start
         QObject::connect( ui->stopButton, SIGNAL( clicked() ),
@@ -104,7 +104,7 @@ void MainWindow::displayResults() {
     }
     curve.setSamples( QPolygonF ( points ) );
     curve.attach( ui->qwtPlot );
-    ui->qwtPlot->replot();
+//    ui->qwtPlot->replot();
 
     // TODO Oleksandr Halushko get testing error results from the facade
     // TODO Oleksandr Halushko display error results
@@ -249,4 +249,16 @@ void MainWindow::setInitialLayerInfo(const LayerDescription &val ){
     ui->numberOfLayers->setValue( 1 );
     layers.first().neuronsNumber->setValue( val.second );
     layers.first().inputsNumber->setValue( val.first );
+}
+
+
+/*!
+ * \brief MainWindow::start
+ */
+void MainWindow::start() {
+    // TODO get layers declaration
+
+    auto info = getLayerInfo();
+    Facade::getInstance().setLayersDescription( info );
+    Facade::getInstance().startProcess();
 }
