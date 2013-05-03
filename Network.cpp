@@ -144,8 +144,7 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
             std::for_each( layers.begin(), layers.end(), [&]( Layer & layer ) {
                 auto currentDeltaVector = (*deltaIt);
                 Q_ASSERT( layer.getNeurons().size() == currentDeltaVector.size() );
-                auto deltaIt = currentDeltaVector.constBegin();
-                ++ deltaIt;
+
             } );
 
             // Go to the next part of trainign data
