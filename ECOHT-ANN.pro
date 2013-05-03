@@ -41,10 +41,10 @@ HEADERS  += \
     Preprocessor.hpp \
     Exceptions.hpp
 
-LIBS += -L/usr/local/qwt-6.1.0-rc3/lib/ -lqwt
+LIBS += -L/usr/lib -lqwt
 
-INCLUDEPATH += /usr/local/qwt-6.1.0-rc3/include
-DEPENDPATH += /usr/local/qwt-6.1.0-rc3/include
+INCLUDEPATH += /usr/include/qwt
+DEPENDPATH += /usr/include/qwt
 
 
 FORMS += \

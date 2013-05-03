@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QtGui>
 #include <QtCore>
-#include <qwt.h>
-#include <qwt_plot_curve.h>
+#include <qwt/qwt.h>
+#include <qwt/qwt_plot_curve.h>
 //#include <Preprocessor.hpp>
 
 

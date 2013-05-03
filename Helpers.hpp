@@ -42,4 +42,24 @@ constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta ) {
     return beta * (1.0 * std::pow( std::tanh( value ), 2 ) );
 };
 
+
+namespace std {
+
+template < typename _InputIterator1, typename _InputIterator2, typename _InputIterator3, typename _OutputIterator, typename _Function >
+_OutputIterator transform_3 ( _InputIterator1 _begin1, _InputIterator1 _end1, _InputIterator2 _begin2, _InputIterator3 _begin3, _OutputIterator _result, _Function function )
+{
+    while ( _begin1 != _end1 ) {
+        *_result = function( *_begin1, *_begin2, *_begin3 );
+        ++ _result;
+        ++ _begin1;
+        ++ _begin2;
+        ++ _begin3;
+    }
+    return _result;
+}
+
+}
+
+#define DO_NOTHING 0
+
 #endif // HELPERS_HPP

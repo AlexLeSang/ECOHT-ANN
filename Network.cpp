@@ -37,8 +37,8 @@ void Network::run() {
  * \param desiredResult
  */
 void Network::training(const Data &dataSet, const Result &desiredResult) {
-    Q_ASSERT(dataSet.size() == desiredResult.size());
-
+    Q_ASSERT( dataSet.size() == desiredResult.size() );
+    Q_ASSERT( maxNumberOfEpoch > 0 );
     quint32 epochCounter = 0;
     qreal achievedAccuracy = 1.0;
 
@@ -51,21 +51,116 @@ void Network::training(const Data &dataSet, const Result &desiredResult) {
         if ( achievedAccuracy <= accuracy ) break;
         if ( stopFlag ) break;
 
-        // TODO for each part of data
-        // Process data through the network
-        // Calculate network error for this data and add it to error in current epoch
-        // Calculate difference between obtained and desired output for the last layer
-        // Calculate \delta for the last layer
-        // For each neuron from nonlast layer calculate product of childrens \delta and weights
-        // For each neuron calculate \delta as obtained result for this neuron multiplyed by prod
-        // For each layer and neuron change weights
+        qreal networkError = 0.0;
 
-        achievedAccuracy = errorList.last(); // Get last error
+        // TODO for each part of data
+        auto desiredResultIt = desiredResult.begin();
+        std::for_each( dataSet.constBegin(), dataSet.constEnd(), [&]( Data::const_reference dataSample ) {
+
+            // Process data through the network
+            QVector < QVector < qreal > > intermidResult( layers.size() + 1 );
+            {
+                auto intermidIt = intermidResult.begin();
+                (*intermidIt) = dataSample.getData();
+                ++ intermidIt;
+                // Iterate over each layer
+                std::for_each( layers.constBegin(), layers.constEnd(), [&]( const Layer & layer ) {
+                    // Get prev result
+                    auto prevResult = intermidIt;
+                    std::advance( prevResult, -1 );
+                    (*intermidIt) = layer.process( (*prevResult) );
+                    ++ intermidIt;
+                } );
+                intermidResult.remove(0);
+            }
+
+            // Calculate network error for this data and add it to error in current epoch
+            {
+                const auto & obtainedResult = intermidResult.last(); // Get network result
+                auto obtainedResutlIt = obtainedResult.constBegin(); // Result sample
+                std::for_each( (*desiredResultIt).getData().constBegin(), (*desiredResultIt).getData().constEnd(), [&]( const Result::value_type::value_type & sampleData  ) {
+                    networkError += std::pow( ( sampleData - (*obtainedResutlIt) ), 2.0 );
+                    ++ obtainedResutlIt;
+                } );
+            }
+
+            // Calculate difference between obtained and desired output for the last layer
+            QVector < QVector < qreal > > deltaVector( layers.size() );
+            {
+                QVector < qreal > lastLayerDiff( layers.last().getNeurons().size() );
+                const auto & obtainedResult = intermidResult.last();
+                {
+                    Q_ASSERT( lastLayerDiff.size() == (*desiredResultIt).getData().size() );
+                    const auto & desiredData = (*desiredResultIt).getData();
+                    Q_ASSERT( obtainedResult.size() == desiredData.size() );
+                    std::transform( obtainedResult.constBegin(), obtainedResult.constEnd(), desiredData.constBegin(), lastLayerDiff.begin(), [] ( const qreal & obtained, const qreal & desired ) {
+                        return desired - obtained;
+                    } );
+
+                }
+
+                // Calculate \delta for the last layer
+                {
+                    auto & lastLayerDeltaIt = deltaVector.last();
+                    lastLayerDeltaIt.resize( lastLayerDiff.size() );
+                    Q_ASSERT( lastLayerDeltaIt.size() == layers.last().getNeurons().size() );
+                    std::transform( obtainedResult.constBegin(), obtainedResult.constEnd(), lastLayerDiff.constBegin(), lastLayerDeltaIt.begin(), [] ( const qreal & obtained, const qreal & diff ) {
+                        return -obtained * derivLinLambda( obtained ) * diff;
+                    } );
+                }
+            }
+
+            // For each neuron from nonlast layer calculate product of childrens \delta and weights
+            for ( qint32 layerIndex = layers.size() - 2; layerIndex >= 0; -- layerIndex ) {
+                // Calculate sum of children
+                qreal sum = 0.0;
+                {
+                    const auto & nextLayer = layers.at( layerIndex + 1 );
+                    const auto & nextLayerDeltas = deltaVector.at( layerIndex + 1 );
+                    auto deltaIt = nextLayerDeltas.begin();
+                    Q_ASSERT( nextLayer.getNeurons().size() == nextLayerDeltas.size() );
+                    std::for_each( nextLayer.getNeurons().constBegin(), nextLayer.getNeurons().constEnd(), [&]( const Neuron & neuron ) {
+                        const auto & delta = (*deltaIt);
+                        std::for_each( neuron.getWeights().constBegin(), neuron.getWeights().constEnd(), [&]( const qreal & weight ) {
+                            sum += weight * delta;
+                        } );
+                        ++ deltaIt;
+                    } );
+                }
+                // For each neuron calculate delta
+                {
+                    const auto & currentLayer = layers.at( layerIndex );
+                    const auto & currentIntermidOutput = intermidResult.at( layerIndex );
+                    Q_ASSERT( currentLayer.getNeurons().size() == currentIntermidOutput.size() );
+                    auto & currentDeltaVector = deltaVector[ layerIndex ];
+                    currentDeltaVector.resize( currentIntermidOutput.size() );
+                    std::transform( currentIntermidOutput.constBegin(), currentIntermidOutput.constEnd(), currentDeltaVector.begin(), [&]( const qreal & output ) {
+                        return - output * derivTanhLambda( output, beta ) * sum;
+                    } );
+                }
+            }
+            // For each layer and neuron change weights
+            auto deltaIt = deltaVector.constBegin();
+            std::for_each( layers.begin(), layers.end(), [&]( Layer & layer ) {
+                auto currentDeltaVector = (*deltaIt);
+                Q_ASSERT( layer.getNeurons().size() == currentDeltaVector.size() );
+                auto deltaIt = currentDeltaVector.constBegin();
+                ++ deltaIt;
+            } );
+
+            // Go to the next part of trainign data
+            ++ desiredResultIt;
+        } );
+
+
+        networkError /= 2;
+        errorList.append( networkError ); // Save current error
+        achievedAccuracy = networkError; // Get last error
         ++ epochCounter;
     }
     // TODO Oleksandr Halushko remove debug output
     qDebug() << "Error list size = " << errorList.size();
-    qDebug() << "Firt error = " << errorList.first();
+    qDebug() << "First error = " << errorList.first();
     qDebug() << "Last error = " << errorList.last();
 }
 
@@ -285,11 +380,11 @@ void NetworkTest::ProcessTest() {
 
     Network & network = Network::getInstance();
     QVector< LayerDescription > layersDesciption;
-    layersDesciption.append(LayerDescription(numberOfOutputs, numberOfInputs));
-//    layersDesciption.append(LayerDescription(5, numberOfInputs)); // Input
-//    layersDesciption.append(LayerDescription(10, 5)); // Hidden
-//    layersDesciption.append(LayerDescription(5, 10)); // Hidden
-//    layersDesciption.append(LayerDescription(numberOfOutputs, 5)); // Ouput
+    //    layersDesciption.append(LayerDescription(numberOfOutputs, numberOfInputs));
+    layersDesciption.append(LayerDescription(5, numberOfInputs)); // Input
+    layersDesciption.append(LayerDescription(10, 5)); // Hidden
+    layersDesciption.append(LayerDescription(5, 10)); // Hidden
+    layersDesciption.append(LayerDescription(numberOfOutputs, 5)); // Ouput
 
     QVector < QVector < qreal > > data( numberOfDataSamples );
     std::for_each( data.begin(), data.end(), []( QVector< qreal > & sample ) {
@@ -307,7 +402,6 @@ void NetworkTest::ProcessTest() {
         } );
     } );
 
-    network.setLayersDescription( layersDesciption );
 
     network.setTestingData( data );
     network.setTestingResult( result );
@@ -318,6 +412,9 @@ void NetworkTest::ProcessTest() {
     network.setAccuracy( 1e-16 );
     network.setAlpha( 1e-5 );
     network.setBeta( 1.0 );
+    network.setMaxNumberOfEpoch( 3 );
+
+    network.setLayersDescription( layersDesciption );
     network.run();
 }
 #endif
