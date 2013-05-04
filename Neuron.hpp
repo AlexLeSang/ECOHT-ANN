@@ -9,8 +9,8 @@
 /*!
  * \brief The Neuron class
  */
-class Neuron {
-
+class Neuron
+{
 public:
     Neuron();
     quint32 getId() const;

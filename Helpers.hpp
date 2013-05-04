@@ -6,7 +6,8 @@
 
 #include <QVector>
 
-constexpr auto randomLambda = [](qreal & val) {
+constexpr auto randomLambda = [](qreal & val)
+{
     static bool seeded = false;
     if( !seeded ) {
         srand(time(NULL));
@@ -15,7 +16,8 @@ constexpr auto randomLambda = [](qreal & val) {
     val = ((qreal)rand() / RAND_MAX);
 };
 
-constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias ) {
+constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias )
+{
     qreal result = 0.0;
     // NOTE Oleksandr Halushko it can be done better
     auto weightIt = weights.constBegin();
@@ -26,11 +28,13 @@ constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal
     return result;
 };
 
-constexpr auto derivLinLambda = []( const qreal & value ) {
+constexpr auto derivLinLambda = []( const qreal & value )
+{
     return value;
 };
 
-constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias, const qreal beta ) {
+constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias, const qreal beta )
+{
     Q_ASSERT( beta != 0.0 );
     qreal result = 0.0;
     result = linLambda( inputs, weights, bias );
@@ -38,7 +42,8 @@ constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qrea
     return result;
 };
 
-constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta ) {
+constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta )
+{
     return beta * (1.0 * std::pow( std::tanh( value ), 2 ) );
 };
 
@@ -46,6 +51,16 @@ constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta ) {
 namespace std {
 
 template < typename _InputIterator1, typename _InputIterator2, typename _InputIterator3, typename _OutputIterator, typename _Function >
+/*!
+ * \brief transform_3
+ * \param _begin1
+ * \param _end1
+ * \param _begin2
+ * \param _begin3
+ * \param _result
+ * \param function
+ * \return
+ */
 _OutputIterator transform_3 ( _InputIterator1 _begin1, _InputIterator1 _end1, _InputIterator2 _begin2, _InputIterator3 _begin3, _OutputIterator _result, _Function function )
 {
     while ( _begin1 != _end1 ) {
@@ -59,7 +74,5 @@ _OutputIterator transform_3 ( _InputIterator1 _begin1, _InputIterator1 _end1, _I
 }
 
 }
-
-#define DO_NOTHING 0
 
 #endif // HELPERS_HPP

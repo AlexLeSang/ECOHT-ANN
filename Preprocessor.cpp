@@ -9,7 +9,8 @@ Preprocessor::Preprocessor() : percentageOfTest( defaultPercent ) {}
  * \brief Preprocessor::getInstance
  * \return
  */
-Preprocessor &Preprocessor::getInstance() {
+Preprocessor &Preprocessor::getInstance()
+{
     static Preprocessor instance;
     return instance;
 }
@@ -18,7 +19,8 @@ Preprocessor &Preprocessor::getInstance() {
  * \brief Preprocessor::getTrainingData
  * \return
  */
-const SplittedDataSet &Preprocessor::getTrainingData() const {
+const SplittedDataSet &Preprocessor::getTrainingData() const
+{
     return trainingData;
 }
 
@@ -26,7 +28,8 @@ const SplittedDataSet &Preprocessor::getTrainingData() const {
  * \brief Preprocessor::getTrainingResult
  * \return
  */
-const SplittedDataSet &Preprocessor::getTrainingResult() const {
+const SplittedDataSet &Preprocessor::getTrainingResult() const
+{
     return trainingResults;
 }
 
@@ -34,7 +37,8 @@ const SplittedDataSet &Preprocessor::getTrainingResult() const {
  * \brief Preprocessor::getTestingData
  * \return
  */
-const SplittedDataSet &Preprocessor::getTestingData() const {
+const SplittedDataSet &Preprocessor::getTestingData() const
+{
     return testingData;
 }
 
@@ -42,14 +46,16 @@ const SplittedDataSet &Preprocessor::getTestingData() const {
  * \brief Preprocessor::getTestingResult
  * \return
  */
-const SplittedDataSet &Preprocessor::getTestingResult() const {
+const SplittedDataSet &Preprocessor::getTestingResult() const
+{
     return testingResult;
 }
 
 /*!
  * \brief Preprocessor::readFile
  */
-void Preprocessor::readFile() {
+void Preprocessor::readFile()
+{
     QFile inputFile( fileNameIn );
     if ( !inputFile.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::readFile" );
@@ -101,7 +107,8 @@ void Preprocessor::readFile() {
  * \brief Preprocessor::writeFile
  * \param data
  */
-void Preprocessor::writeFile( const Dataset & data ) {
+void Preprocessor::writeFile( const Dataset & data )
+{
     QFile outputFile( fileNameOut );
     if ( !outputFile.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
         throw FileOpeningErrorException( "Preprocessor::writeFile" );
@@ -129,7 +136,9 @@ void Preprocessor::writeFile( const Dataset & data ) {
  * \brief Preprocessor::setInputFileName
  * \param fileName
  */
-void Preprocessor::setInputFileName(const QString & fileName ) {
+void Preprocessor::setInputFileName(const QString & fileName )
+{
+    // TODO handle an exception
     // TODO parse and get number of inputs
     // TODO call method of the facade and set number of inputs
     // TODO call method of the facade and set number of outputs
@@ -161,16 +170,17 @@ void Preprocessor::setInputFileName(const QString & fileName ) {
  * \brief Preprocessor::setOutputFileName
  * \param fileName
  */
-void Preprocessor::setOutputFileName(const QString &fileName) {
+void Preprocessor::setOutputFileName(const QString &fileName)
+{
     fileNameOut = fileName;
-    // TODO check it
 }
 
 /*!
  * \brief Preprocessor::setPercentageOfTest
  * \param value
  */
-void Preprocessor::setPercentageOfTest(const quint32 value) {
+void Preprocessor::setPercentageOfTest(const quint32 value)
+{
     percentageOfTest = value;
 }
 
@@ -178,14 +188,16 @@ void Preprocessor::setPercentageOfTest(const quint32 value) {
  * \brief Preprocessor::saveFile
  * \param data
  */
-void Preprocessor::saveFile(const Dataset &data) {
+void Preprocessor::saveFile(const Dataset &data)
+{
     writeFile(data);
 }
 
 /*!
  * \brief Preprocessor::flush
  */
-void Preprocessor::flush() {
+void Preprocessor::flush()
+{
     readFile();
     splitData();
 }
@@ -193,7 +205,8 @@ void Preprocessor::flush() {
 /*!
  * \brief Preprocessor::splitData
  */
-void Preprocessor::splitData() {
+void Preprocessor::splitData()
+{
     qint32 trainingNumber = static_cast< qint32 >( cache.size() * ( ( 100 - percentageOfTest ) / 100.) );
 
     trainingData.clear();
@@ -218,17 +231,19 @@ void Preprocessor::splitData() {
 }
 
 #ifdef TEST_MODE
-void PreprocessorTest::EmptyTest() {
+void PreprocessorTest::EmptyTest()
+{
     QCOMPARE(Preprocessor::getInstance().getTestingData().size(), 0);
 }
 
-void PreprocessorTest::InitializationTest() {
+void PreprocessorTest::InitializationTest()
+{
     Preprocessor::getInstance().setInputFileName( "/home/dan/1.dat" );
     QCOMPARE(Preprocessor::getInstance().getTestingData().size(), 3);
 }
 
-void PreprocessorTest::ProcessTest() {
+void PreprocessorTest::ProcessTest()
+{
     QCOMPARE(Preprocessor::getInstance().getTrainingData().size(),7);
-
 }
 #endif

@@ -121,6 +121,8 @@ void Facade::startProcess() {
     networkRef.setBeta( beta );
     networkRef.setMaxNumberOfEpoch( maxNumberOfEpoch );
 
+    // TODO set alpha, beta and number of epoch
+
     QThreadPool::globalInstance()->start( &networkRef );
 }
 

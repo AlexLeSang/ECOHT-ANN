@@ -16,7 +16,8 @@ Neuron::Neuron() : id(++idCounter), weights( QVector< qreal> () ) {}
  * \brief Neuron::getWeights
  * \return
  */
-QVector<qreal> &Neuron::getWeights() {
+QVector<qreal> &Neuron::getWeights()
+{
     return weights;
 }
 
@@ -24,7 +25,8 @@ QVector<qreal> &Neuron::getWeights() {
  * \brief Neuron::getWeights
  * \return
  */
-const QVector<qreal> &Neuron::getWeights() const {
+const QVector<qreal> &Neuron::getWeights() const
+{
     return weights;
 }
 
@@ -34,7 +36,8 @@ const QVector<qreal> &Neuron::getWeights() const {
  * \param bias
  * \return
  */
-qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const {
+qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const
+{
     Q_ASSERT(inputs.size() == weights.size());
     if ( lastLayer ) {
         return linLambda( inputs, weights, bias );
@@ -49,7 +52,8 @@ qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const {
  * \param rNeuron
  * \return
  */
-Neuron & Neuron::operator =(const Neuron &rNeuron) {
+Neuron & Neuron::operator =(const Neuron &rNeuron)
+{
     if ( &rNeuron != this ) {
         weights = rNeuron.getWeights();
     }
@@ -62,7 +66,8 @@ Neuron & Neuron::operator =(const Neuron &rNeuron) {
  * \param beta
  * \param lastLayer
  */
-void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bool lastLayer) {
+void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bool lastLayer)
+{
     Q_ASSERT(numberOfInputs > 0);
     this->lastLayer = lastLayer;
     this->beta = beta;
@@ -74,24 +79,28 @@ void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bo
  * \brief Neuron::getId
  * \return
  */
-quint32 Neuron::getId() const {
+quint32 Neuron::getId() const
+{
     return id;
 }
 
 
 #ifdef TEST_MODE
-void NeuronTest::EmptyTest() {
+void NeuronTest::EmptyTest()
+{
     Neuron neuron;
     QCOMPARE(neuron.getWeights().size(), 0);
 }
 
-void NeuronTest::InitializationTest() {
+void NeuronTest::InitializationTest()
+{
     Neuron neuron;
     neuron.initNeuron(10);
     QCOMPARE(neuron.getWeights().size(), 10);
 }
 
-void NeuronTest::ProcessTest() {
+void NeuronTest::ProcessTest()
+{
     Neuron neuron;
     {
         QVector< qreal > inputVector( 30 );

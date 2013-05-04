@@ -14,8 +14,8 @@ typedef QVector< qreal > LayerOutput;
 /*!
  * \brief The Layer class
  */
-class Layer {
-
+class Layer
+{
 public:
     Layer();
     quint32 getId() const;
@@ -24,6 +24,7 @@ public:
     QVector< Neuron > & getNeurons();
     const QVector< Neuron > & getNeurons() const;
     const QVector< qreal > process( const QVector<qreal> &inputs ) const;
+
 private:
     static quint32 layerCounter;
     const quint32 id;

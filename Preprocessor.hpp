@@ -24,7 +24,8 @@ constexpr quint32 defaultPercent = 30;
  */
 typedef QVector < QVector < qreal > > SplittedDataSet;
 
-class Preprocessor {
+class Preprocessor
+{
 public:
     static Preprocessor & getInstance();
 

@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     currLayerNumber = 0;
 
     ui->setupUi(this);
+    ui->stopButton->hide();
 
     ui->qwtPlot->setTitle("Error");
     ui->qwtPlot->setAxisTitle(ui->qwtPlot->xBottom, "Epoch");
@@ -54,27 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     // INFO connection ui to facade
     {
-
-        // TODO implement slot for process start
         QObject::connect( ui->stopButton, SIGNAL( clicked() ),
                           &Facade::getInstance(), SLOT( stopProcess() ) );
         QObject::connect( ui->testDataPercent, SIGNAL( valueChanged(int) ),
                           &Facade::getInstance(), SLOT( setTrainingDataPercent(int) ) );
-      //  QObject::connect( ui->alphaCoef, SIGNAL( valueChanged(double) ),
-                          //&Facade::getInstance(), SLOT( setAlhpa(double) ) );
-     //   QObject::connect( ui->betaCoef, SIGNAL( valueChanged(double) ),
-                       //   &Facade::getInstance(), SLOT( setBeta(double) ) );
         QObject::connect( ui->maxEpoch, SIGNAL( valueChanged(int) ),
                           &Facade::getInstance(), SLOT( setMaxNumberOfEpoh(int) ) );
-     //   QObject::connect( ui->precision, SIGNAL( valueChanged(double)),
-                //          &Facade::getInstance(), SLOT( setAccuracy(double)) );
-
-        QObject::connect( this, SIGNAL( setAlpha( double ) ),
-                          &Facade::getInstance(), SLOT( setAlhpa( double ) ) );
-        QObject::connect( this, SIGNAL( setBeta( double ) ),
-                          &Facade::getInstance(), SLOT( setBeta( double ) ) );
     }
-
     // INFO connection facade to main window
     {
         QObject::connect( &Facade::getInstance(), SIGNAL( sendInitialLayerInfo(LayerDescription)),
@@ -82,8 +69,6 @@ MainWindow::MainWindow(QWidget *parent)
         QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
                           this, SLOT( displayResults() ) );
     }
-
-
     // INFO connection main window to facade
     {
         QObject::connect( this, SIGNAL( setInputFileName(QString) ),
@@ -92,19 +77,18 @@ MainWindow::MainWindow(QWidget *parent)
                           &Facade::getInstance(), SLOT( setOutputFileName(QString) ) );
         QObject::connect( this, SIGNAL( setLayerDescription(QVector<QPair<quint32,quint32> >) ),
                           &Facade::getInstance(), SLOT( setLayersDescription(QVector<QPair<quint32,quint32> >) ) );
+        QObject::connect( this, SIGNAL( setAlpha( double ) ),
+                          &Facade::getInstance(), SLOT( setAlhpa( double ) ) );
+        QObject::connect( this, SIGNAL( setBeta( double ) ),
+                          &Facade::getInstance(), SLOT( setBeta( double ) ) );
     }
-
-
-
-
-
-
 }
 
 /*!
  * \brief MainWindow::DisplayResults
  */
-void MainWindow::displayResults() {
+void MainWindow::displayResults()
+{
     ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
     ui->qwtPlot->replot();
 
@@ -118,7 +102,6 @@ void MainWindow::displayResults() {
     }
     curve.setSamples( QPolygonF ( points ) );
     curve.attach( ui->qwtPlot );
-//    ui->qwtPlot->replot();
 
     // TODO Oleksandr Halushko get testing error results from the facade
     // TODO Oleksandr Halushko display error results
@@ -128,7 +111,8 @@ void MainWindow::displayResults() {
 /*!
  * \brief MainWindow::saveImage
  */
-void MainWindow::saveImage(){
+void MainWindow::saveImage()
+{
     QString filename = QFileDialog::getSaveFileName(this,tr("Save Image"), "image.png", tr("Image Files (*.png *.jpg *.bmp)"));
     QPixmap pixmap = QPixmap::grabWidget(ui->qwtPlot);
 
@@ -139,7 +123,8 @@ void MainWindow::saveImage(){
  * \brief MainWindow::changeLayers
  * \param layersNumber
  */
-void MainWindow::changeLayers( int layersNumber ){
+void MainWindow::changeLayers( int layersNumber )
+{
     if( layersNumber > currLayerNumber ){
         layers.resize( layersNumber );
     }
@@ -184,9 +169,14 @@ void MainWindow::changeLayers( int layersNumber ){
     currLayerNumber = layersNumber;
 }
 
-void MainWindow::showResults(const Dataset & data){
-    quint32 tableWidth = data.first().first.size() + data.first().second.size();
-    quint32 inputLength = data.first().first.size();
+/*!
+ * \brief MainWindow::showResults
+ * \param data
+ */
+void MainWindow::showResults(const Dataset & data)
+{
+    const quint32 tableWidth = data.first().first.size() + data.first().second.size();
+    const quint32 inputLength = data.first().first.size();
     ui->resultsTable->setColumnCount( tableWidth );
     ui->resultsTable->setRowCount( data.size() );
 
@@ -218,20 +208,20 @@ void MainWindow::showResults(const Dataset & data){
  * \brief MainWindow::getLayerInfo
  * \return
  */
-LayersInfo MainWindow::getLayerInfo(){
+LayersInfo MainWindow::getLayerInfo()
+{
     LayersInfo result;
-
     for ( auto it = layers.constBegin(); it != layers.constEnd(); ++it ){
         result.append( LayerDescription((*it).neuronsNumber->value(), (*it).inputsNumber->value() ) );
     }
-
     return result;
 }
 
 /*!
  * \brief MainWindow::~MainWindow
  */
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     Facade::getInstance().stopProcess();
     delete ui;
 }
@@ -239,7 +229,8 @@ MainWindow::~MainWindow() {
 /*!
  * \brief MainWindow::openFile
  */
-void MainWindow::openInputFile() {
+void MainWindow::openInputFile()
+{
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open data file"), "", tr("Data files (*.dat)"));
     ui->currentFileName->setText( fileName );
     emit setInputFileName( fileName );
@@ -248,7 +239,8 @@ void MainWindow::openInputFile() {
 /*!
  * \brief MainWindow::openOutputFile
  */
-void MainWindow::openOutputFile() {
+void MainWindow::openOutputFile()
+{
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open result file"), "", tr("Result files (*.res)"));
     emit setOutputFileName( fileName );
 }
@@ -257,7 +249,8 @@ void MainWindow::openOutputFile() {
  * \brief MainWindow::setInitialLayerInfo
  * \param val
  */
-void MainWindow::setInitialLayerInfo(const LayerDescription &val ){
+void MainWindow::setInitialLayerInfo(const LayerDescription &val )
+{
     ui->inputsNumber->setText( QString::number( val.first ) );
     ui->outputsNumber->setText( QString::number( val.second ) );
     ui->numberOfLayers->setValue( 1 );
@@ -269,29 +262,36 @@ void MainWindow::setInitialLayerInfo(const LayerDescription &val ){
 /*!
  * \brief MainWindow::start
  */
-void MainWindow::start() {
-    // TODO get layers declaration
-
+void MainWindow::start()
+{
     auto info = getLayerInfo();
     Facade::getInstance().setLayersDescription( info );
+    sendAlpha();
+    sendBeta();
+    // TODO get alpha
+    // TODO get beta
+    // TODO get number of epoch
+    // TODO O. H. this to the network
+
     Facade::getInstance().startProcess();
 }
 
 /*!
  * \brief MainWindow::sendAlpha
  */
-void MainWindow::sendAlpha(){
-    double mantis = ui->alphaMantiss->value();
-    int deg = ui->alphaDegree->value();
+void MainWindow::sendAlpha()
+{
+    const double mantis = ui->alphaMantiss->value();
+    const int deg = ui->alphaDegree->value();
     emit setAlpha( mantis * pow10( deg ) );
 }
 
 /*!
  * \brief MainWindow::sendBeta
  */
-void MainWindow::sendBeta(){
-    double mantis = ui->betaMantiss->value();
-    int deg = ui->betaDegree->value();
+void MainWindow::sendBeta()
+{
+    const double mantis = ui->betaMantiss->value();
+    const int deg = ui->betaDegree->value();
     emit setBeta( mantis * pow10( deg ) );
 }
-

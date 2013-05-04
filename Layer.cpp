@@ -17,7 +17,8 @@ Layer::Layer() : id( layerCounter++ ), neurons( QVector< Neuron > () ) {}
  * \param beta
  * \param lastLayer
  */
-void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta, const bool lastLayer ) {
+void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta, const bool lastLayer )
+{
     Q_ASSERT(numberOfNeurons > 0);
     Q_ASSERT(numberOfInputs > 0);
     this->beta = beta;
@@ -31,7 +32,8 @@ void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInput
  * \brief Layer::getBeta
  * \return
  */
-qreal Layer::getBeta() const {
+qreal Layer::getBeta() const
+{
     return beta;
 }
 
@@ -39,7 +41,8 @@ qreal Layer::getBeta() const {
  * \brief Layer::getNeurons
  * \return
  */
-QVector<Neuron> &Layer::getNeurons() {
+QVector<Neuron> &Layer::getNeurons()
+{
     return neurons;
 }
 
@@ -47,7 +50,8 @@ QVector<Neuron> &Layer::getNeurons() {
  * \brief Layer::getNeurons
  * \return
  */
-const QVector<Neuron> &Layer::getNeurons() const {
+const QVector<Neuron> &Layer::getNeurons() const
+{
     return neurons;
 }
 
@@ -56,7 +60,8 @@ const QVector<Neuron> &Layer::getNeurons() const {
  * \param inputs
  * \return
  */
-const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const {
+const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const
+{
     QVector< qreal > result( neurons.size() );
     auto resultIt = result.begin();
     /*
@@ -75,18 +80,21 @@ const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const {
  * \brief Layer::getId
  * \return
  */
-quint32 Layer::getId() const {
+quint32 Layer::getId() const
+{
     return id;
 }
 
 
 #ifdef TEST_MODE
-void LayerTest::EmptyTest() {
+void LayerTest::EmptyTest()
+{
     Layer layer;
     QCOMPARE(layer.getNeurons().size(), 0);
 }
 
-void LayerTest::InitializationTest() {
+void LayerTest::InitializationTest()
+{
     Layer layer;
     layer.initLayer(20, 5);
     const auto neurons = layer.getNeurons();
@@ -96,7 +104,8 @@ void LayerTest::InitializationTest() {
     });
 }
 
-void LayerTest::ProcessTest() {
+void LayerTest::ProcessTest()
+{
     Layer layer;
     {
         const quint32 numberOfInputs = 5;

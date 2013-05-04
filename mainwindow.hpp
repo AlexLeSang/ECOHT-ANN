@@ -19,6 +19,9 @@ typedef QPair < QVector < qreal >, QVector < qreal > >  DataSample;
  */
 typedef QVector< DataSample > Dataset;
 
+/*!
+ * \brief The LayerStruct struct
+ */
 struct LayerStruct{
     QLabel* label;
     QSpinBox* neuronsNumber;
@@ -26,15 +29,30 @@ struct LayerStruct{
     QSpacerItem* spacer;
 };
 
+/*!
+ * \brief LayerDescription
+ */
 typedef QPair < quint32, quint32 > LayerDescription;
+
+/*!
+ * \brief LayersInfo
+ */
 typedef QVector < LayerDescription > LayersInfo;
+
+/*!
+ * \brief LayersGUI
+ */
 typedef QVector < LayerStruct > LayersGUI;
 
 namespace Ui{
     class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+/*!
+ * \brief The MainWindow class
+ */
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
     
 public:
@@ -47,6 +65,7 @@ signals:
     void setLayerDescription( const QVector<QPair<quint32,quint32> > info );
     void setAlpha( double );
     void setBeta( double );
+
 private slots:
     void start();
     void openInputFile();
@@ -57,6 +76,7 @@ private slots:
     void setInitialLayerInfo( const LayerDescription & );
     void sendAlpha();
     void sendBeta();
+
 private:
     void showResults( const Dataset& data );
     LayersInfo getLayerInfo();

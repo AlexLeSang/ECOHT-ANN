@@ -17,12 +17,12 @@
 /*!
  * \brief numberOfInputs
  */
-constexpr quint32 numberOfInputs = 2;
+constexpr quint32 numberOfInputs = 2; // TODO read this from the facade
 
 /*!
  * \brief numberOfOutputs
  */
-constexpr quint32 numberOfOutputs = 1;
+constexpr quint32 numberOfOutputs = 1; // TODO read this from the facade
 
 /*!
  * \brief Data
@@ -52,8 +52,8 @@ typedef QPair< neuronsNumber, inputsNumber > LayerDescription;
 /*!
  * \brief The Network class
  */
-class Network : public QRunnable {
-
+class Network : public QRunnable
+{
 public:
     static Network & getInstance();
     void run();
@@ -78,10 +78,10 @@ public:
     void setAccuracy(const qreal &value);
 
     qreal getAlpha() const;
-    void setAlpha(const qreal &value);
+    void setAlpha(const qreal value);
 
     qreal getBeta() const;
-    void setBeta(const qreal &value);
+    void setBeta(const qreal value);
 
     quint32 getMaxNumberOfEpoch() const;
     void setMaxNumberOfEpoch(const quint32 &value);

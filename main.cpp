@@ -2,33 +2,35 @@
 #include "mainwindow.hpp"
 #include "Defines.hpp"
 
+
+// TODO All reports should be added to the Report Directory
+// TODO The reports content should be placed on the main page of the site
+
 #ifdef TEST_MODE
 #include "Facade.hpp"
 
-int main(int argc, char *argv[]) {
-    Q_UNUSED(argc);
-    Q_UNUSED(argv);
+int main()
+{
     Facade::getInstance();
 
-    /*
     NeuronTest neuronTest;
     QTest::qExec(&neuronTest);
 
     LayerTest layerTest;
     QTest::qExec(&layerTest);
 
-    PreprocessorTest preprocessorTest;
-    QTest::qExec(&preprocessorTest);
-    */
-
     NetworkTest networkTest;
     QTest::qExec(&networkTest);
+
+    PreprocessorTest preprocessorTest;
+    QTest::qExec(&preprocessorTest);
 
     return 0;
 }
 
 #else
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

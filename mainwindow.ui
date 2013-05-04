@@ -390,8 +390,11 @@
                        <property name="decimals">
                         <number>3</number>
                        </property>
+                       <property name="minimum">
+                        <double>-1000.000000000000000</double>
+                       </property>
                        <property name="maximum">
-                        <double>10.000000000000000</double>
+                        <double>1000.000000000000000</double>
                        </property>
                        <property name="value">
                         <double>1.000000000000000</double>
@@ -427,8 +430,11 @@
                        <property name="decimals">
                         <number>3</number>
                        </property>
+                       <property name="minimum">
+                        <double>-1000.000000000000000</double>
+                       </property>
                        <property name="maximum">
-                        <double>10.000000000000000</double>
+                        <double>1000.000000000000000</double>
                        </property>
                        <property name="value">
                         <double>1.000000000000000</double>
@@ -445,10 +451,10 @@
                      <item>
                       <widget class="QSpinBox" name="betaDegree">
                        <property name="minimum">
-                        <number>1</number>
+                        <number>-16</number>
                        </property>
                        <property name="maximum">
-                        <number>2</number>
+                        <number>16</number>
                        </property>
                        <property name="value">
                         <number>1</number>
@@ -573,7 +579,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>341</width>
+                   <width>321</width>
                    <height>287</height>
                   </rect>
                  </property>
@@ -831,5 +837,102 @@
   <tabstop>saveImageButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>stopButton</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>459</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>saveButton</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>469</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>459</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>stopButton</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>98</x>
+     <y>467</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>117</x>
+     <y>464</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>startButton</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>34</x>
+     <y>466</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>468</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopButton</sender>
+   <signal>clicked()</signal>
+   <receiver>startButton</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>471</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>67</x>
+     <y>458</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>saveButton</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>33</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>208</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

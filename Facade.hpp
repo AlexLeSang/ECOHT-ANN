@@ -6,8 +6,13 @@
 #include "Network.hpp"
 #include "Preprocessor.hpp"
 
-class Facade : public QObject {
+/*!
+ * \brief The Facade class
+ */
+class Facade : public QObject
+{
     Q_OBJECT
+
 public:
     static Facade & getInstance();
     void processFinished();
@@ -15,8 +20,6 @@ public:
     QVector< qreal > getErrors() const;
 
 public slots:
-    // Set network paramiters
-
     void setBeta( double val );
     void setAlhpa( double val );
     void setAccuracy( double val );
@@ -35,6 +38,7 @@ public slots:
 signals:
     void processEnd();
     void sendInitialLayerInfo( const LayerDescription & val );
+
 private:
     Facade();
 
