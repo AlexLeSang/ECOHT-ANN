@@ -9,7 +9,7 @@
 /*!
  * \brief Network::Network
  */
-Network::Network()
+Network::Network() : maxNumberOfEpoch( 50 ), accuracy( 1e-4 ), alpha( 1.0 ), beta( 1.0 )
 {
     setAutoDelete( false );
 }
@@ -25,10 +25,34 @@ Network &Network::getInstance()
 }
 
 /*!
+ * \brief Network::initLayers
+ */
+void Network::initLayers()
+{
+    Q_ASSERT( beta != 0.0 );
+    Q_ASSERT( alpha != 0.0 );
+    Q_ASSERT( layersDescription.size() != 0 );
+    Q_ASSERT( layersDescription.first().second == numberOfInputs ); // "Number of inputs to the network"
+    Q_ASSERT( layersDescription.last().first == numberOfOutputs ); // "Number of outputs of the network")
+
+    // Init new layer structure
+    layers = QVector < Layer >( layersDescription.size() );
+
+    // Init layers
+    auto descriptionIt = layersDescription.begin();
+    qint32 layerCount = 0;
+    for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
+        (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, layerCount == (layers.size() - 1) );
+    }
+}
+
+/*!
  * \brief Network::run
  */
 void Network::run()
 {
+
+    initLayers();
     training( trainingData, trainigResult );
     testing( testingData, testingResult );
     Facade::getInstance().processFinished();
@@ -295,20 +319,6 @@ void Network::setTrainigResult(const QVector < QVector< qreal > > &value)
 void Network::setLayersDescription(const QVector<LayerDescription> &value)
 {
     layersDescription = value;
-
-    Q_ASSERT( layersDescription.size() != 0 );
-    Q_ASSERT( layersDescription.first().second == numberOfInputs ); // "Number of inputs to the network"
-    Q_ASSERT( layersDescription.last().first == numberOfOutputs ); // "Number of outputs of the network")
-
-    // Init new layer structure
-    layers = QVector < Layer >( layersDescription.size() );
-
-    // Init layers
-    auto descriptionIt = layersDescription.begin();
-    qint32 layerCount = 0;
-    for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
-        (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, layerCount == (layers.size() - 1) );
-    }
 }
 
 /*!
@@ -346,7 +356,6 @@ qreal Network::getBeta() const
 void Network::setBeta(const qreal value)
 {
     beta = value;
-    Q_ASSERT( beta != 0.0 );
 }
 
 /*!
@@ -365,7 +374,6 @@ qreal Network::getAlpha() const
 void Network::setAlpha(const qreal value)
 {
     alpha = value;
-    Q_ASSERT( alpha != 0.0 );
 }
 
 /*!
@@ -381,7 +389,7 @@ qreal Network::getAccuracy() const
  * \brief Network::setAccuracy
  * \param value
  */
-void Network::setAccuracy(const qreal &value)
+void Network::setAccuracy(const qreal value)
 {
     accuracy = value;
     Q_ASSERT( accuracy < 1.0 );
@@ -400,7 +408,7 @@ quint32 Network::getMaxNumberOfEpoch() const
  * \brief Network::setMaxNumberOfEpoch
  * \param value
  */
-void Network::setMaxNumberOfEpoch(const quint32 &value)
+void Network::setMaxNumberOfEpoch(const quint32 value)
 {
     maxNumberOfEpoch = value;
     Q_ASSERT( maxNumberOfEpoch >= 1 );
