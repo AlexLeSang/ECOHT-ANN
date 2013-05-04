@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
     curve.setRenderHint( QwtPlotItem::RenderAntialiased );
     curve.setPen( pen );
     curve.attach( ui->qwtPlot );
+    sendAlpha();
+    sendBeta();
 
     // INFO connect ui to mainwindow
     {
@@ -150,6 +152,7 @@ void MainWindow::changeLayers( int layersNumber )
             if ( 1 != num ){
                 (*it).inputsNumber->setReadOnly( true );
                 connect((*( it - 1 )).neuronsNumber,SIGNAL(valueChanged( int )),(*it).inputsNumber,SLOT(setValue( int )));
+                (*it).inputsNumber->setValue( (*( it - 1 )).neuronsNumber->value() );
             }
 
             ui->layersGrid->addWidget( (*it).label, num, 0, 1, 1 );
