@@ -271,7 +271,6 @@ void MainWindow::setInitialLayerInfo(const LayerDescription &val )
     layers.first().inputsNumber->setValue( val.first );
 }
 
-
 /*!
  * \brief MainWindow::start
  */

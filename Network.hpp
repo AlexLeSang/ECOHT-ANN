@@ -86,6 +86,7 @@ public:
     quint32 getMaxNumberOfEpoch() const;
     void setMaxNumberOfEpoch(const quint32 value);
 
+    QVector< QVector < qreal > > processInNetwork (Data::const_reference dataSample );
 private:
     Network();
     Network(const Network & rNetwork) = delete;
@@ -113,7 +114,7 @@ private:
     Data testingData;
 
     Result obtainedTestingResult;
-    QVector < qreal > obtainedTestingError;
+    QVector < qreal > testingError;
 
     QVector< LayerDescription > layersDescription;
 };
