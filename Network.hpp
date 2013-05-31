@@ -75,7 +75,7 @@ public:
     QVector<qreal> getObtainedTestingError() const;
 
     qreal getAccuracy() const;
-    void setAccuracy(const qreal &value);
+    void setAccuracy(const qreal value);
 
     qreal getAlpha() const;
     void setAlpha(const qreal value);
@@ -84,12 +84,15 @@ public:
     void setBeta(const qreal value);
 
     quint32 getMaxNumberOfEpoch() const;
-    void setMaxNumberOfEpoch(const quint32 &value);
+    void setMaxNumberOfEpoch(const quint32 value);
 
+    QVector< QVector < qreal > > processInNetwork (Data::const_reference dataSample );
 private:
     Network();
     Network(const Network & rNetwork) = delete;
     Network & operator = (const Network & rNetwork) = delete;
+
+    void initLayers();
     void training(const Data & dataSet, const Result & desiredResult);
     void testing(const Data & data, const Result &desiredResult);
 
@@ -111,7 +114,7 @@ private:
     Data testingData;
 
     Result obtainedTestingResult;
-    QVector < qreal > obtainedTestingError;
+    QVector < qreal > testingError;
 
     QVector< LayerDescription > layersDescription;
 };

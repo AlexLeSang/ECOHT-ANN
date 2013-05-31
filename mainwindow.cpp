@@ -64,6 +64,16 @@ MainWindow::MainWindow(QWidget *parent)
         QObject::connect( ui->maxEpoch, SIGNAL( valueChanged(int) ),
                           &Facade::getInstance(), SLOT( setMaxNumberOfEpoh(int) ) );
     }
+    // INFO connection facade to ui
+    {
+        QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
+                          ui->startButton, SLOT( show() ) );
+        QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
+                          ui->saveButton, SLOT( show() ) );
+        QObject::connect( &Facade::getInstance(), SIGNAL( processEnd() ),
+                          ui->stopButton, SLOT( hide() ) );
+    }
+
     // INFO connection facade to main window
     {
         QObject::connect( &Facade::getInstance(), SIGNAL( sendInitialLayerInfo(LayerDescription)),
@@ -261,7 +271,6 @@ void MainWindow::setInitialLayerInfo(const LayerDescription &val )
     layers.first().inputsNumber->setValue( val.first );
 }
 
-
 /*!
  * \brief MainWindow::start
  */
@@ -269,12 +278,8 @@ void MainWindow::start()
 {
     auto info = getLayerInfo();
     Facade::getInstance().setLayersDescription( info );
-    // TODO get alpha
-    // TODO get beta
-    // TODO get number of epoch
-    // TODO O. H. this to the network
-
     Facade::getInstance().startProcess();
+    ui->stopButton->show();
 }
 
 /*!

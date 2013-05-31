@@ -9,7 +9,7 @@
 /*!
  * \brief Network::Network
  */
-Network::Network()
+Network::Network() : maxNumberOfEpoch( 50 ), accuracy( 1e-4 ), alpha( 1.0 ), beta( 1.0 )
 {
     setAutoDelete( false );
 }
@@ -25,13 +25,62 @@ Network &Network::getInstance()
 }
 
 /*!
+ * \brief Network::initLayers
+ */
+void Network::initLayers()
+{
+    Q_ASSERT( beta != 0.0 );
+    Q_ASSERT( alpha != 0.0 );
+    Q_ASSERT( layersDescription.size() != 0 );
+    Q_ASSERT( layersDescription.first().second == numberOfInputs ); // "Number of inputs to the network"
+    Q_ASSERT( layersDescription.last().first == numberOfOutputs ); // "Number of outputs of the network")
+
+    // Init new layer structure
+    layers = QVector < Layer >( layersDescription.size() );
+
+    // Init layers
+    auto descriptionIt = layersDescription.begin();
+    qint32 layerCount = 0;
+    for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
+        (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, layerCount == (layers.size() - 1) );
+    }
+}
+
+/*!
  * \brief Network::run
  */
 void Network::run()
 {
+    initLayers();
     training( trainingData, trainigResult );
     testing( testingData, testingResult );
     Facade::getInstance().processFinished();
+}
+
+/*!
+ * \brief Network::processInNetwork
+ * \param dataSample
+ * \return
+ */
+QVector < QVector< qreal > > Network::processInNetwork( Data::const_reference dataSample )
+{
+    QVector < QVector < qreal > > intermidResult( layers.size() + 1 );
+    {
+        auto intermidIt = intermidResult.begin();
+        (*intermidIt) = dataSample.getData();
+        ++ intermidIt;
+        // Iterate over each layer
+        std::for_each( layers.constBegin(), layers.constEnd(), [&]( const Layer & layer ) {
+            // Get prev result
+            auto prevResult = intermidIt;
+            std::advance( prevResult, -1 );
+            (*intermidIt) = layer.process( (*prevResult) );
+            ++ intermidIt;
+        } );
+        intermidResult.remove(0);
+    }
+
+    return intermidResult;
 }
 
 /*!
@@ -42,7 +91,7 @@ void Network::run()
 void Network::training(const Data &dataSet, const Result &desiredResult)
 {
     Q_ASSERT( dataSet.size() == desiredResult.size() );
-    Q_ASSERT( maxNumberOfEpoch > 0 );
+    Q_ASSERT( maxNumberOfEpoch >= 1 );
     quint32 epochCounter = 0;
     qreal achievedAccuracy = 1.0;
 
@@ -62,21 +111,7 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
         std::for_each( dataSet.constBegin(), dataSet.constEnd(), [&]( Data::const_reference dataSample ) {
 
             // Process data through the network
-            QVector < QVector < qreal > > intermidResult( layers.size() + 1 );
-            {
-                auto intermidIt = intermidResult.begin();
-                (*intermidIt) = dataSample.getData();
-                ++ intermidIt;
-                // Iterate over each layer
-                std::for_each( layers.constBegin(), layers.constEnd(), [&]( const Layer & layer ) {
-                    // Get prev result
-                    auto prevResult = intermidIt;
-                    std::advance( prevResult, -1 );
-                    (*intermidIt) = layer.process( (*prevResult) );
-                    ++ intermidIt;
-                } );
-                intermidResult.remove(0);
-            }
+            const QVector < QVector < qreal > > intermidResult = processInNetwork( dataSample );
 
             // Calculate network error for this data and add it to error in current epoch
             {
@@ -171,12 +206,14 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
         ++ epochCounter;
     }
     // TODO Oleksandr Halushko remove debug output
+    /*
     {
         qDebug() << "Error list: " << errorList;
         qDebug() << "Error list size = " << errorList.size();
         qDebug() << "First error = " << errorList.first();
         qDebug() << "Last error = " << errorList.last();
     }
+    */
 }
 
 /*!
@@ -186,8 +223,50 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
  */
 void Network::testing(const Data &data, const Result & desiredResult)
 {
-    // TODO process all data
+    Q_ASSERT( data.size() == desiredResult.size() );
+    // Process all data
+    {
+        obtainedTestingResult.resize( data.size() );
+        auto obtainedResultIt = obtainedTestingResult.begin();
+        std::for_each( data.constBegin(), data.constEnd(), [&, this] ( Data::const_reference dataSample ) {
+            const auto result = ( processInNetwork( dataSample ) ).last();
+            (*obtainedResultIt).getData() = result;
+            ++ obtainedResultIt;
+        } );
+    }
+    // TODO remove debug output
+    /*
+    {
+        qDebug() << "obtainedTestingResult = ";
+        std::for_each( obtainedTestingResult.constBegin(), obtainedTestingResult.constEnd(), [] ( Result::const_reference result ) {
+            qDebug() << result.getData();
+        } );
+    }
+    */
     // TODO calculate difference between result obtained from the network and desired result
+    {
+        Q_ASSERT( obtainedTestingResult.size() == desiredResult.size() );
+        testingError.resize( obtainedTestingResult.size() );
+        std::transform ( obtainedTestingResult.constBegin(), obtainedTestingResult.constEnd(), desiredResult.constBegin(), testingError.begin(),
+                        []( Result::const_reference obtained, Result::const_reference desired ) {
+            Q_ASSERT( obtained.getData().size() == desired.getData().size() );
+            qreal diff = 0.0;
+            auto obtainedDataIt = obtained.getData().constBegin();
+            std::for_each ( desired.getData().constBegin(), desired.getData().constEnd(), [&]( const Result::value_type::value_type value ) {
+                diff += std::sqrt( std::pow( (*obtainedDataIt) - value, 2 ) );
+                ++ obtainedDataIt;
+            } );
+            return diff;
+        } );
+    }
+    // TODO remove debug output
+    {
+        qDebug() << "\nMax testing error" << ( *(std::max_element( testingError.constBegin(), testingError.constEnd() )) );
+        qDebug() << "\nMin testing error" << ( *(std::min_element( testingError.constBegin(), testingError.constEnd() )) );
+        qDebug() << "\nAverage error = " << ( std::accumulate( testingError.constBegin(), testingError.constEnd(), 0.0 ) / testingError.size() );
+
+    }
+
 }
 
 /*!
@@ -215,7 +294,6 @@ const QVector<Layer> &Network::getLayers() const
 const QVector<qreal> Network::getNetworkError() const
 {
     const QVector< qreal > vector( errorList.toVector() );
-    qDebug() << "Error vector = " << vector; // TODO remove debug output
     return vector;
 }
 
@@ -295,20 +373,6 @@ void Network::setTrainigResult(const QVector < QVector< qreal > > &value)
 void Network::setLayersDescription(const QVector<LayerDescription> &value)
 {
     layersDescription = value;
-
-    Q_ASSERT( layersDescription.size() != 0 );
-    Q_ASSERT( layersDescription.first().second == numberOfInputs ); // "Number of inputs to the network"
-    Q_ASSERT( layersDescription.last().first == numberOfOutputs ); // "Number of outputs of the network")
-
-    // Init new layer structure
-    layers = QVector < Layer >( layersDescription.size() );
-
-    // Init layers
-    auto descriptionIt = layersDescription.begin();
-    qint32 layerCount = 0;
-    for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
-        (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, layerCount == (layers.size() - 1) );
-    }
 }
 
 /*!
@@ -317,7 +381,7 @@ void Network::setLayersDescription(const QVector<LayerDescription> &value)
  */
 QVector<qreal> Network::getObtainedTestingError() const
 {
-    return obtainedTestingError;
+    return testingError;
 }
 
 /*!
@@ -346,7 +410,6 @@ qreal Network::getBeta() const
 void Network::setBeta(const qreal value)
 {
     beta = value;
-    Q_ASSERT( beta != 0.0 );
 }
 
 /*!
@@ -365,7 +428,6 @@ qreal Network::getAlpha() const
 void Network::setAlpha(const qreal value)
 {
     alpha = value;
-    Q_ASSERT( alpha != 0.0 );
 }
 
 /*!
@@ -381,7 +443,7 @@ qreal Network::getAccuracy() const
  * \brief Network::setAccuracy
  * \param value
  */
-void Network::setAccuracy(const qreal &value)
+void Network::setAccuracy(const qreal value)
 {
     accuracy = value;
     Q_ASSERT( accuracy < 1.0 );
@@ -400,10 +462,9 @@ quint32 Network::getMaxNumberOfEpoch() const
  * \brief Network::setMaxNumberOfEpoch
  * \param value
  */
-void Network::setMaxNumberOfEpoch(const quint32 &value)
+void Network::setMaxNumberOfEpoch(const quint32 value)
 {
     maxNumberOfEpoch = value;
-    Q_ASSERT( maxNumberOfEpoch >= 1 );
 }
 
 #ifdef TEST_MODE

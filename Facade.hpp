@@ -45,11 +45,6 @@ private:
 private:
     Network & networkRef;
     Preprocessor & preprocessorRef;
-
-    qreal beta;
-    qreal alpha;
-    qreal accuracy;
-    quint32 maxNumberOfEpoch;
 };
 
 #endif // FACADE_HPP
