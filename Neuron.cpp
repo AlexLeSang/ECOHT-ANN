@@ -40,14 +40,12 @@ qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const
 {
     Q_ASSERT(inputs.size() == weights.size());
     // WARNING
-//    if ( lastLayer ) {
-//        return linLambda( inputs, weights, bias );
-//    }
-//    else {
-//        return tanhLambda( inputs, weights, bias, beta );
-//    }
-    return linLambda( inputs, weights, bias );
-//    return tanhLambda( inputs, weights, bias, beta );
+    if ( lastLayer ) {
+        return linLambda( inputs, weights, bias );
+    }
+    else {
+        return tanhLambda( inputs, weights, bias, beta );
+    }
 }
 
 /*!
