@@ -293,8 +293,8 @@ const QVector<Layer> &Network::getLayers() const
  */
 const QVector<qreal> Network::getNetworkError() const
 {
-    const QVector< qreal > vector( errorList.toVector() );
-    return vector;
+   // const QVector< qreal > vector( errorList.toVector() );
+    return testingError;
 }
 
 /*!

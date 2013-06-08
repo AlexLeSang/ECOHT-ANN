@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->qwtPlot->setAxisAutoScale( ui->qwtPlot->yLeft, true );
     ui->stopButton->setVisible( false );
     ui->saveButton->setVisible( false );
-
+    zoom = new QwtPlotZoomer(ui->qwtPlot->canvas());
+    zoom->setRubberBandPen(QPen(Qt::white));
     QPen pen = QPen( Qt::red );
     curve.setRenderHint( QwtPlotItem::RenderAntialiased );
     curve.setPen( pen );
@@ -112,9 +113,10 @@ void MainWindow::displayResults()
     for ( auto errorIt = errorVector.constBegin(); errorIt != errorVector.constEnd(); ++ errorIt, ++ pointsIt, ++ counter ) {
         (*pointsIt) = QPointF( counter, (*errorIt) );
     }
-    curve.setSamples( QPolygonF ( points ) );
+    QwtPointSeriesData * data = new QwtPointSeriesData(points);
+    curve.setData(data);
     curve.attach( ui->qwtPlot );
-
+    ui->qwtPlot->replot();
     // TODO Oleksandr Halushko get testing error results from the facade
     // TODO Oleksandr Halushko display error results
 }
@@ -236,6 +238,7 @@ LayersInfo MainWindow::getLayerInfo()
 MainWindow::~MainWindow()
 {
     Facade::getInstance().stopProcess();
+    delete zoom;
     delete ui;
 }
 

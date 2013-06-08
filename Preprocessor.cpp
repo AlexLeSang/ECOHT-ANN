@@ -219,10 +219,10 @@ void Preprocessor::splitData()
             trainingData.append( (*it).first );
             trainingResults.append( (*it).second );
         }
-        else {
+        //else {
             testingData.append( (*it).first );
             testingResult.append( (*it).second );
-        }
+       // }
     }
 
     Q_ASSERT( trainingData.size() == trainingResults.size() );
