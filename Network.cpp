@@ -64,23 +64,18 @@ void Network::run()
  */
 QVector < QVector< qreal > > Network::processInNetwork( Data::const_reference dataSample )
 {
-    QVector < QVector < qreal > > intermidResult( layers.size() + 1 );
+    QList < QVector < qreal > > intermidResult;
     {
-        auto intermidIt = intermidResult.begin();
-        (*intermidIt) = dataSample.getData();
-        ++ intermidIt;
+        intermidResult.append( dataSample.getData() );
         // Iterate over each layer
         std::for_each( layers.constBegin(), layers.constEnd(), [&]( const Layer & layer ) {
-            // Get prev result
-            auto prevResult = intermidIt;
-            std::advance( prevResult, -1 );
-            (*intermidIt) = layer.process( (*prevResult) );
-            ++ intermidIt;
+            auto result = layer.process( intermidResult.last() );
+            intermidResult.append( result );
         } );
-        intermidResult.remove(0);
+        intermidResult.removeFirst();
     }
 
-    return intermidResult;
+    return intermidResult.toVector();
 }
 
 /*!
@@ -135,7 +130,6 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
                     std::transform( obtainedResult.constBegin(), obtainedResult.constEnd(), desiredData.constBegin(), lastLayerDiff.begin(), [] ( const qreal & obtained, const qreal & desired ) {
                         return desired - obtained;
                     } );
-
                 }
 
                 // Calculate \delta for the last layer
@@ -174,7 +168,8 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
                     auto & currentDeltaVector = deltaVector[ layerIndex ];
                     currentDeltaVector.resize( currentIntermidOutput.size() );
                     std::transform( currentIntermidOutput.constBegin(), currentIntermidOutput.constEnd(), currentDeltaVector.begin(), [&]( const qreal & output ) {
-                        return - output * derivTanhLambda( output, beta ) * sum;
+//                         return - output * derivTanhLambda( output, beta ) * sum;
+                         return - output * derivLinLambda( output ) * sum;
                     } );
                 }
             }
@@ -264,7 +259,6 @@ void Network::testing(const Data &data, const Result & desiredResult)
         qDebug() << "\nMax testing error" << ( *(std::max_element( testingError.constBegin(), testingError.constEnd() )) );
         qDebug() << "\nMin testing error" << ( *(std::min_element( testingError.constBegin(), testingError.constEnd() )) );
         qDebug() << "\nAverage error = " << ( std::accumulate( testingError.constBegin(), testingError.constEnd(), 0.0 ) / testingError.size() );
-
     }
 
 }

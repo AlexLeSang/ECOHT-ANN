@@ -14,6 +14,7 @@ constexpr auto randomLambda = [](qreal & val)
         seeded = true;
     }
     val = ((qreal)rand() / RAND_MAX);
+//    val = 0.01;
 };
 
 constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias )
@@ -33,19 +34,19 @@ constexpr auto derivLinLambda = []( const qreal & value )
     return value;
 };
 
-constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias, const qreal beta )
-{
-    Q_ASSERT( beta != 0.0 );
-    qreal result = 0.0;
-    result = linLambda( inputs, weights, bias );
-    result = std::tanh( beta * result );
-    return result;
-};
+//constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias, const qreal beta )
+//{
+//    Q_ASSERT( beta != 0.0 );
+//    qreal result = 0.0;
+//    result = linLambda( inputs, weights, bias );
+//    result = std::tanh( beta * result );
+//    return result;
+//};
 
-constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta )
-{
-    return beta * (1.0 * std::pow( std::tanh( value ), 2 ) );
-};
+//constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta )
+//{
+//    return beta * (1.0 * std::pow( std::tanh( value ), 2 ) );
+//};
 
 
 namespace std {
