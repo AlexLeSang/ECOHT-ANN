@@ -56,6 +56,11 @@ MainWindow::MainWindow(QWidget *parent)
                           this, SLOT( sendBeta() ) );
     }
 
+    // INFO connectio ui to ui
+
+    {
+        QObject::connect(ui->startButton,SIGNAL(clicked()),ui->stopButton,SLOT(show()));
+    }
     // INFO connection ui to facade
     {
         QObject::connect( ui->stopButton, SIGNAL( clicked() ),
