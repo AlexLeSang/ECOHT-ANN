@@ -6,6 +6,7 @@
 #include <QtCore>
 #include <qwt/qwt.h>
 #include <qwt/qwt_plot_curve.h>
+#include <qwt/qwt_plot_zoomer.h>
 //#include <Preprocessor.hpp>
 
 
@@ -83,6 +84,7 @@ private:
 
 private:
     Ui::MainWindow *ui;
+    QwtPlotZoomer *zoom;
     QwtPlotCurve curve;
     LayersGUI layers;
     qint32 currLayerNumber;

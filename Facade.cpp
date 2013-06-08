@@ -96,6 +96,23 @@ void Facade::setInputFileName(const QString fileName)
 void Facade::setOutputFileName(const QString fileName)
 {
     preprocessorRef.setOutputFileName( fileName );
+    auto result = networkRef.getObtainedTestingResult();
+    auto data = preprocessorRef.getTestingData();
+    //auto trdata = preprocessorRef.getTrainingData();
+    //auto trres = preprocessorRef.getTrainingResult();
+    Dataset d;
+    d.resize(data.size());
+    for(auto it = d.begin(); it != d.end();++it){
+        auto i = it - d.begin();
+       // if(i < trdata.size()){
+       //     (*it).first = trdata[i];
+       //     (*it).second = trres[i];
+       // }else{
+            (*it).first = data[i/* - trdata.size()*/];
+            (*it).second = result[i /*- trdata.size()*/].getData();
+       // }
+    }
+    preprocessorRef.saveFile( d );
 }
 
 /*!
