@@ -53,4 +53,6 @@ FORMS += \
 OTHER_FILES += \
     data1.dat \
     data.dat \
-    data2.dat
+    data2.dat \
+    plotres.m \
+    data4.dat
