@@ -57,7 +57,6 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // INFO connectio ui to ui
-
     {
         QObject::connect(ui->startButton,SIGNAL(clicked()),ui->stopButton,SLOT(show()));
     }
