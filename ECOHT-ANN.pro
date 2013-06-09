@@ -55,4 +55,6 @@ OTHER_FILES += \
     data.dat \
     data2.dat \
     plotres.m \
-    data4.dat
+    data4.dat \
+    simple_data.dat \
+    parabolic_data.dat
