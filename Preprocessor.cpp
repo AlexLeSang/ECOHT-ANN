@@ -99,6 +99,7 @@ void Preprocessor::readFile()
     }
 
     numberOfOutputs = cache.first().second.size();
+    std::random_shuffle(cache.begin(),cache.end());
     Facade::getInstance().setInitialLayerInfo( LayerDescription ( numberOfInputs, numberOfOutputs ) );
 
 }
