@@ -13,17 +13,18 @@ int main()
 {
     Facade::getInstance();
 
-    NeuronTest neuronTest;
-    QTest::qExec(&neuronTest);
+//    NeuronTest neuronTest;
+//    QTest::qExec(&neuronTest);
 
-    LayerTest layerTest;
-    QTest::qExec(&layerTest);
+//    LayerTest layerTest;
+//    QTest::qExec(&layerTest);
 
     NetworkTest networkTest;
-    QTest::qExec(&networkTest);
+    networkTest.test();
+//    QTest::qExec(&networkTest);
 
-    PreprocessorTest preprocessorTest;
-    QTest::qExec(&preprocessorTest);
+//    PreprocessorTest preprocessorTest;
+//    QTest::qExec(&preprocessorTest);
 
     return 0;
 }

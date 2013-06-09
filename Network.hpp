@@ -87,6 +87,7 @@ public:
     void setMaxNumberOfEpoch(const quint32 value);
 
     QVector< QVector < qreal > > processInNetwork (Data::const_reference dataSample );
+
 private:
     Network();
     Network(const Network & rNetwork) = delete;
@@ -95,6 +96,8 @@ private:
     void initLayers();
     void training(const Data & dataSet, const Result & desiredResult);
     void testing(const Data & data, const Result &desiredResult);
+    qreal calculateNetworkError(const QVector<qreal> &desiredResult, const QVector<qreal> &obtainedResult) const;
+    const QVector<qreal> calculateOutputGradient(const QVector<qreal> &desiredResult, const QVector<qreal> &obtainedResult) const;
 
 private:
     QVector< Layer > layers;
@@ -127,6 +130,9 @@ private:
 
 class NetworkTest : public QObject {
     Q_OBJECT
+public:
+    void test();
+
 private slots:
     void ProcessTest();
 };

@@ -64,11 +64,6 @@ const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const
 {
     QVector< qreal > result( neurons.size() );
     auto resultIt = result.begin();
-    /*
-    for ( auto neuronIt = neurons.constBegin(); neuronIt != neurons.constEnd(); ++ neuronIt, ++resultIt ) {
-        (*resultIt) = (*neuronIt).process(inputs);
-    }
-    */
     std::for_each( neurons.constBegin(), neurons.constEnd(), [&] ( const Neuron & neuron ) {
         (*resultIt) = neuron.process( inputs );
         ++ resultIt;

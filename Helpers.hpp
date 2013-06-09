@@ -5,7 +5,7 @@
 #include <ctime>
 
 #include <QVector>
-
+#include <QDebug>
 #include <functional>
 
 constexpr auto randomLambda = [](qreal & val)
@@ -15,54 +15,54 @@ constexpr auto randomLambda = [](qreal & val)
         srand(time(NULL));
         seeded = true;
     }
-    val = ((qreal)rand() / RAND_MAX);
-    val = 0.01;
+    val = (0.5) + ((qreal)rand() / RAND_MAX);
+//    qDebug() << "val:" << val;
 };
 
-constexpr auto sigmLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights )
-{
-    QVector< qreal > resultVector( inputs.size() );
-    std::transform( inputs.constBegin(), inputs.constEnd(), weights.constBegin(), resultVector.begin(), std::multiplies<qreal>() );
-    const qreal sum = - std::accumulate( resultVector.constBegin(), resultVector.constEnd(), 0 );
-    return 1.0/(1.0 - exp(sum));
-};
+//constexpr auto sigmLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights )
+//{
+//    QVector< qreal > resultVector( inputs.size() );
+//    std::transform( inputs.constBegin(), inputs.constEnd(), weights.constBegin(), resultVector.begin(), std::multiplies<qreal>() );
+//    const qreal sum = - std::accumulate( resultVector.constBegin(), resultVector.constEnd(), 0 );
+//    return 1.0/(1.0 - exp(sum));
+//};
 
-constexpr auto derivSigmLambda = []( const qreal & x )
-{
-    return (exp(x))/( pow( 1.0 + exp(x), 2.0) );
-};
+//constexpr auto derivSigmLambda = []( const qreal & x )
+//{
+//    return (exp(x))/( pow( 1.0 + exp(x), 2.0) );
+//};
 
 
-constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias )
-{
-    qreal result = 0.0;
-    // NOTE Oleksandr Halushko it can be done better
-    auto weightIt = weights.constBegin();
-    for ( auto inputIt = inputs.constBegin(); inputIt != inputs.constEnd(); ++ inputIt, ++ weightIt ) {
-        result += (*inputIt) * (*weightIt);
-    }
-    result -= bias;
-    return result;
-};
+//constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias )
+//{
+//    qreal result = 0.0;
+//    // NOTE Oleksandr Halushko it can be done better
+//    auto weightIt = weights.constBegin();
+//    for ( auto inputIt = inputs.constBegin(); inputIt != inputs.constEnd(); ++ inputIt, ++ weightIt ) {
+//        result += (*inputIt) * (*weightIt);
+//    }
+//    result -= bias;
+//    return result;
+//};
 
-constexpr auto derivLinLambda = []( const qreal & value )
-{
-    return value;
-};
+//constexpr auto derivLinLambda = []( const qreal & value )
+//{
+//    return value;
+//};
 
-constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias, const qreal beta )
-{
-    Q_ASSERT( beta != 0.0 );
-    qreal result = 0.0;
-    result = linLambda( inputs, weights, bias );
-    result = std::tanh( beta * result );
-    return result;
-};
+//constexpr auto tanhLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias, const qreal beta )
+//{
+//    Q_ASSERT( beta != 0.0 );
+//    qreal result = 0.0;
+//    result = linLambda( inputs, weights, bias );
+//    result = std::tanh( beta * result );
+//    return result;
+//};
 
-constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta )
-{
-    return beta * (1.0 * std::pow( std::tanh( value ), 2 ) );
-};
+//constexpr auto derivTanhLambda = []( const qreal & value, const qreal & beta )
+//{
+//    return beta * (1.0 * std::pow( std::tanh( value ), 2 ) );
+//};
 
 
 namespace std {

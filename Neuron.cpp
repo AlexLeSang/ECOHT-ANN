@@ -39,13 +39,40 @@ const QVector<qreal> &Neuron::getWeights() const
 qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const
 {
     Q_ASSERT(inputs.size() == weights.size());
-    // WARNING
-    if ( lastLayer ) {
-        return linLambda( inputs, weights, bias );
+    // Sigmoidal
+    {
+        Q_UNUSED(bias);
+//        qDebug() << "weights: " << weights;
+//        qDebug() << "inputs: " << inputs;
+        qreal sum = 0.0;
+        for ( auto iIt = inputs.constBegin(), wIt = weights.constBegin(); iIt != inputs.constEnd(); ++ iIt, ++ wIt ) {
+            sum += (*iIt) * (*wIt);
+        }
+        sum = - sum;
+//        qDebug() << "sum:" << sum;
+        qreal value;
+        value = 1.0/(1.0 - exp(sum));
+//        if ( fabs(sum) < 1e-200 ) {
+//            value = 1e10;
+//        }
+//        else {
+//            value = 1.0/(1.0 - exp(sum));
+//        }
+
+        value /= weights.size();
+
+//        qDebug() << "value:" << value;
+
+//        exit(1);
+        return value;
     }
-    else {
-        return tanhLambda( inputs, weights, bias, beta );
-    }
+
+//    if ( lastLayer ) {
+//        return linLambda( inputs, weights, bias );
+//    }
+//    else {
+//        return tanhLambda( inputs, weights, bias, beta );
+//    }
 }
 
 /*!
