@@ -5,6 +5,7 @@
 
 #include "Exceptions.hpp"
 #include "Defines.hpp"
+#include <algorithm>
 
 /*!
  * \brief DataSample
