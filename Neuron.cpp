@@ -39,6 +39,7 @@ const QVector<qreal> &Neuron::getWeights() const
 qreal Neuron::process(const QVector<qreal> &inputs, const qreal bias) const
 {
     Q_ASSERT(inputs.size() == weights.size());
+    // WARNING
     if ( lastLayer ) {
         return linLambda( inputs, weights, bias );
     }

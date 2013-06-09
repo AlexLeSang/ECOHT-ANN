@@ -6,6 +6,8 @@
 
 #include <QVector>
 
+#include <functional>
+
 constexpr auto randomLambda = [](qreal & val)
 {
     static bool seeded = false;
@@ -14,7 +16,22 @@ constexpr auto randomLambda = [](qreal & val)
         seeded = true;
     }
     val = ((qreal)rand() / RAND_MAX);
+    val = 0.01;
 };
+
+constexpr auto sigmLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights )
+{
+    QVector< qreal > resultVector( inputs.size() );
+    std::transform( inputs.constBegin(), inputs.constEnd(), weights.constBegin(), resultVector.begin(), std::multiplies<qreal>() );
+    const qreal sum = - std::accumulate( resultVector.constBegin(), resultVector.constEnd(), 0 );
+    return 1.0/(1.0 - exp(sum));
+};
+
+constexpr auto derivSigmLambda = []( const qreal & x )
+{
+    return (exp(x))/( pow( 1.0 + exp(x), 2.0) );
+};
+
 
 constexpr auto linLambda = []( const QVector<qreal> &inputs, const QVector<qreal> &weights, const qreal bias )
 {
