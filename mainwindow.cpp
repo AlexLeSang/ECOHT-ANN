@@ -106,8 +106,24 @@ MainWindow::MainWindow(QWidget *parent)
  */
 void MainWindow::displayResults()
 {
-    ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
-    ui->qwtPlot->replot();
+//    ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
+//    ui->qwtPlot->replot();
+
+//    const auto errorVector = Facade::getInstance().getErrors();
+//    QVector < QPointF > points( errorVector.size() );
+//    quint32 counter = 0;
+//    auto pointsIt = points.begin();
+//    // Create a
+//    for ( auto errorIt = errorVector.constBegin(); errorIt != errorVector.constEnd(); ++ errorIt, ++ pointsIt, ++ counter ) {
+//        (*pointsIt) = QPointF( counter, (*errorIt) );
+//    }
+//    QwtPointSeriesData * data = new QwtPointSeriesData(points);
+//    curve.setData(data);
+//    curve.attach( ui->qwtPlot );
+//    ui->qwtPlot->replot();
+
+//    ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
+//    ui->qwtPlot->replot();
 
     const auto errorVector = Facade::getInstance().getErrors();
     QVector < QPointF > points( errorVector.size() );
@@ -117,10 +133,9 @@ void MainWindow::displayResults()
     for ( auto errorIt = errorVector.constBegin(); errorIt != errorVector.constEnd(); ++ errorIt, ++ pointsIt, ++ counter ) {
         (*pointsIt) = QPointF( counter, (*errorIt) );
     }
-    QwtPointSeriesData * data = new QwtPointSeriesData(points);
-    curve.setData(data);
+
+    curve.setSamples( QPolygonF ( points ) );
     curve.attach( ui->qwtPlot );
-    ui->qwtPlot->replot();
     // TODO Oleksandr Halushko get testing error results from the facade
     // TODO Oleksandr Halushko display error results
 }
@@ -151,14 +166,18 @@ void MainWindow::changeLayers( int layersNumber )
         if( num > currLayerNumber && num <= layersNumber ){
             (*it).label = new QLabel( QString::number( num ) );
             (*it).neuronsNumber = new QSpinBox();
+            (*it).neuronsNumber->setMaximum(666);
             (*it).spacer = new QSpacerItem( 20, 20 );
             (*it).inputsNumber = new QSpinBox();
-
 
             if ( 1 != num ){
                 (*it).inputsNumber->setReadOnly( true );
                 connect((*( it - 1 )).neuronsNumber,SIGNAL(valueChanged( int )),(*it).inputsNumber,SLOT(setValue( int )));
                 (*it).inputsNumber->setValue( (*( it - 1 )).neuronsNumber->value() );
+            }
+
+            if( num == layersNumber){
+                (*it).neuronsNumber->setValue(1);
             }
 
             ui->layersGrid->addWidget( (*it).label, num, 0, 1, 1 );
@@ -178,6 +197,7 @@ void MainWindow::changeLayers( int layersNumber )
             delete (*it).spacer;
             delete (*it).inputsNumber;
         }
+
         ui->layersGrid->update();
     }
 
@@ -252,6 +272,7 @@ MainWindow::~MainWindow()
 void MainWindow::openInputFile()
 {
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open data file"), "", tr("Data files (*.dat)"));
+    if(fileName.isEmpty()) return;
     ui->currentFileName->setText( fileName );
     emit setInputFileName( fileName );
 }
@@ -262,6 +283,7 @@ void MainWindow::openInputFile()
 void MainWindow::openOutputFile()
 {
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open result file"), "", tr("Result files (*.res)"));
+    if(fileName.isEmpty()) return;
     emit setOutputFileName( fileName );
 }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Facade.hpp"
 
 /*!
@@ -86,7 +87,11 @@ void Facade::setTrainingDataPercent(int val)
  */
 void Facade::setInputFileName(const QString fileName)
 {
-    preprocessorRef.setInputFileName( fileName );
+    try{
+        preprocessorRef.setInputFileName( fileName );
+    }catch(std::exception e){
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 /*!
@@ -95,7 +100,13 @@ void Facade::setInputFileName(const QString fileName)
  */
 void Facade::setOutputFileName(const QString fileName)
 {
-    preprocessorRef.setOutputFileName( fileName );
+    try{
+        preprocessorRef.setOutputFileName( fileName );
+    }catch(std::exception e){
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+
     auto result = networkRef.getObtainedTestingResult();
     auto data = preprocessorRef.getTestingData();
     //auto trdata = preprocessorRef.getTrainingData();
@@ -104,13 +115,13 @@ void Facade::setOutputFileName(const QString fileName)
     d.resize(data.size());
     for(auto it = d.begin(); it != d.end();++it){
         auto i = it - d.begin();
-       // if(i < trdata.size()){
-       //     (*it).first = trdata[i];
-       //     (*it).second = trres[i];
-       // }else{
-            (*it).first = data[i/* - trdata.size()*/];
-            (*it).second = result[i /*- trdata.size()*/].getData();
-       // }
+        // if(i < trdata.size()){
+        //     (*it).first = trdata[i];
+        //     (*it).second = trres[i];
+        // }else{
+        (*it).first = data[i/* - trdata.size()*/];
+        (*it).second = result[i /*- trdata.size()*/].getData();
+        // }
     }
     preprocessorRef.saveFile( d );
 }
