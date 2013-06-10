@@ -260,7 +260,7 @@ LayersInfo MainWindow::getLayerInfo()
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_R){
+    if(e->key() == Qt::Key_S && ui->stopButton->isHidden()){
         this->start();
     }
 }
@@ -281,7 +281,7 @@ MainWindow::~MainWindow()
 void MainWindow::openInputFile()
 {
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open data file"), "", tr("Data files (*.dat)"));
-    if(fileName.isEmpty()) return;
+    if(fileName.isNull()) return;
     ui->currentFileName->setText( fileName );
     emit setInputFileName( fileName );
 }
@@ -292,7 +292,7 @@ void MainWindow::openInputFile()
 void MainWindow::openOutputFile()
 {
     const QString fileName = QFileDialog::getOpenFileName( this, tr("Open result file"), "", tr("Result files (*.res)"));
-    if(fileName.isEmpty()) return;
+    if(fileName.isNull()) return;
     emit setOutputFileName( fileName );
 }
 
