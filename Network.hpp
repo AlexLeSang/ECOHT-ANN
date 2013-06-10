@@ -198,7 +198,7 @@ private:
         auto descriptionIt = layersDescription.begin();
         qint32 layerCount = 0;
         for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
-            (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, ( std::distance( layerIt, layers.end() ) == 1 ) );
+            (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, alpha, beta, ( std::distance( layerIt, layers.end() ) == 1 ) );
         }
     }
     void training(const Data & dataSet, const Result & desiredResult);

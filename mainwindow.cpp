@@ -171,6 +171,7 @@ void MainWindow::changeLayers( int layersNumber )
             (*it).neuronsNumber->setMaximum(666);
             (*it).spacer = new QSpacerItem( 20, 20 );
             (*it).inputsNumber = new QSpinBox();
+            (*it).inputsNumber->setMaximum(666);
 
             if ( 1 != num ){
                 (*it).inputsNumber->setReadOnly( true );

@@ -17,15 +17,13 @@ Layer::Layer() : id( layerCounter++ ), neurons( QVector< Neuron > () ) {}
  * \param beta
  * \param lastLayer
  */
-void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta, const bool firstLayer )
+void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal alpha, const qreal beta, const bool firstLayer )
 {
     Q_ASSERT(numberOfNeurons > 0);
     Q_ASSERT(numberOfInputs > 0);
-    this->beta = beta;
     neurons = QVector< Neuron > ( numberOfNeurons );
     std::for_each( neurons.begin(), neurons.end(),[&]( Neuron & neuron ) {
-        neuron.initNeuron( numberOfInputs, beta, firstLayer );
-        neuron.setBias( -1.0 );
+        neuron.initNeuron( numberOfInputs, alpha, beta, firstLayer );
     } );
 }
 
@@ -33,11 +31,11 @@ void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInput
  * \brief Layer::getBeta
  * \return
  */
-qreal Layer::getBeta() const
+/*qreal Layer::getBeta() const
 {
     return beta;
 }
-
+*/
 /*!
  * \brief Layer::getNeurons
  * \return

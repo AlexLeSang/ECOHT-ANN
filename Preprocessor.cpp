@@ -65,6 +65,9 @@ void Preprocessor::readFile()
     qint32 numberOfInputs;
     qint32 numberOfOutputs;
     inputStream >> numberOfInputs;
+    if(numberOfInputs == 0){
+        throw UnexpectedFileEndException( "Preprocessor::readFile" );
+    }
     inputStream.readLine();
 
     cache.clear();

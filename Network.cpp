@@ -271,6 +271,14 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
             }
             deltaForCurrentSample.last() = calculateOutputGradient( currentDesiredResult, obtainedResult );
 
+            for ( auto gradIndex = 0; gradIndex < deltaForCurrentSample.last().size(); ++gradIndex ){
+                QVector < qreal > & lastLayerNeuronWeights = layers.last().getNeurons()[gradIndex].getWeights();
+                for ( auto weightIndex = 0; weightIndex < lastLayerNeuronWeights.size(); ++weightIndex){
+                    qreal & currWeight = lastLayerNeuronWeights[ weightIndex ];
+                    const qreal & currentGrad = deltaForCurrentSample.last()[ gradIndex ];
+                    currWeight = currWeight + etha * currentGrad * obtainedResult[ gradIndex ];
+                }
+            }
             // Not last layers calculation
             for ( auto layerIndex = layers.size() - 2; layerIndex >= 0; -- layerIndex ) {
 

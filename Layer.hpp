@@ -19,7 +19,7 @@ class Layer
 public:
     Layer();
     quint32 getId() const;
-    void initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta = 1.0, const bool firstLayer = false );
+    void initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal alpha = 1.0, const qreal beta = 0.0, const bool firstLayer = false );
     qreal getBeta() const;
     QVector< Neuron > & getNeurons();
     const QVector< Neuron > & getNeurons() const;
@@ -28,7 +28,6 @@ public:
 private:
     static quint32 layerCounter;
     const quint32 id;
-    qreal beta;
     QVector< Neuron > neurons;
 };
 

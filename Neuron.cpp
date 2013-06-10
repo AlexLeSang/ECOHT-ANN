@@ -48,7 +48,7 @@ qreal Neuron::process(const QVector<qreal> &inputs) const
 
         qreal sum = 0.0;
         for ( auto iIt = inputs.constBegin(), wIt = weights.constBegin(); iIt != inputs.constEnd(); ++ iIt, ++ wIt ) {
-            sum += (*iIt) * (*wIt);
+            sum += alpha * ( (*iIt) * (*wIt) + beta );
         }
         return sum;
 
@@ -107,10 +107,11 @@ Neuron & Neuron::operator =(const Neuron &rNeuron)
  * \param beta
  * \param lastLayer
  */
-void Neuron::initNeuron(const quint32 numberOfInputs, const qreal beta, const bool lastLayer)
+void Neuron::initNeuron(const quint32 numberOfInputs, const qreal alpha, const qreal beta, const bool lastLayer)
 {
     Q_ASSERT(numberOfInputs > 0);
     this->lastLayer = lastLayer;
+    this->alpha = alpha;
     this->beta = beta;
     weights = QVector < qreal > ( numberOfInputs );
     std::for_each( weights.begin(), weights.end(), randomLambda );
@@ -171,7 +172,7 @@ void NeuronTest::ProcessTest()
     }
 }
 #endif
-
+/*
 qreal Neuron::getBias() const
 {
     return bias;
@@ -181,3 +182,4 @@ void Neuron::setBias(const qreal &value)
 {
     bias = value;
 }
+*/
