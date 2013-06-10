@@ -17,8 +17,11 @@ public:
     void initNeuron(const quint32 numberOfInputs, const qreal beta = 1.0, const bool lastLayer = false);
     QVector< qreal > &getWeights();
     const QVector< qreal > &getWeights() const;
-    qreal process(const QVector< qreal > & inputs, const qreal bias = 0.0) const;
+    qreal process(const QVector< qreal > & inputs) const;
     Neuron &operator =(const Neuron &rNeuron);
+
+    qreal getBias() const;
+    void setBias(const qreal &value);
 
 private:
     static quint32 idCounter;
@@ -26,6 +29,7 @@ private:
     bool lastLayer;
     qreal beta;
     QVector < qreal > weights;
+    qreal bias;
 };
 
 #ifdef TEST_MODE
