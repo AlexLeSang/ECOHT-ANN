@@ -17,14 +17,15 @@ Layer::Layer() : id( layerCounter++ ), neurons( QVector< Neuron > () ) {}
  * \param beta
  * \param lastLayer
  */
-void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta, const bool lastLayer )
+void Layer::initLayer(const quint32 numberOfNeurons, const quint32 numberOfInputs, const qreal beta, const bool firstLayer )
 {
     Q_ASSERT(numberOfNeurons > 0);
     Q_ASSERT(numberOfInputs > 0);
     this->beta = beta;
     neurons = QVector< Neuron > ( numberOfNeurons );
     std::for_each( neurons.begin(), neurons.end(),[&]( Neuron & neuron ) {
-        neuron.initNeuron( numberOfInputs, beta, lastLayer );
+        neuron.initNeuron( numberOfInputs, beta, firstLayer );
+        neuron.setBias( -1.0 );
     } );
 }
 
@@ -68,6 +69,18 @@ const QVector<qreal> Layer::process(const QVector< qreal > & inputs) const
         (*resultIt) = neuron.process( inputs );
         ++ resultIt;
     } );
+
+    /*
+    qDebug() << "Layer:";
+    std::for_each( neurons.constBegin(), neurons.constEnd(), [] ( const Neuron & neuron ) {
+        qDebug() << neuron.getWeights();
+        qDebug();
+    } );
+
+    qDebug() << "inputs: " << inputs;
+    qDebug() << "result: " << result;
+    */
+
     return result;
 }
 
