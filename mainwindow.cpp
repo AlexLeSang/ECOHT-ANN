@@ -260,7 +260,7 @@ LayersInfo MainWindow::getLayerInfo()
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if(e->key() == Qt::Key_S && ui->stopButton->isHidden()){
+    if(e->modifiers() == Qt::ControlModifier && (e->key() == Qt::Key_S || e->key() == Qt::Key_Z || e->key() == Qt::Key_X) && ui->stopButton->isHidden()){
         this->start();
     }
 }
