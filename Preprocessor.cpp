@@ -208,7 +208,7 @@ void Preprocessor::flush()
  */
 void Preprocessor::splitData()
 {
-    qint32 trainingNumber = static_cast< qint32 >( cache.size() * ( ( 100 - percentageOfTest ) / 100.) );
+    //qint32 trainingNumber = static_cast< qint32 >( cache.size() * ( ( 100 - percentageOfTest ) / 100.) );
 
     trainingData.clear();
     trainingResults.clear();
@@ -216,10 +216,11 @@ void Preprocessor::splitData()
     testingResult.clear();
 
     for ( auto it = cache.constBegin(); it != cache.constEnd(); ++it ){
-        if( it - cache.constBegin() < trainingNumber ){
+        if( rand() / (double)RAND_MAX < (100-percentageOfTest)/100. ){
             trainingData.append( (*it).first );
             trainingResults.append( (*it).second );
         }
+        // INFO uncomment to get random split test
         //else {
             testingData.append( (*it).first );
             testingResult.append( (*it).second );
