@@ -1,8 +1,4 @@
-# Created by Octave 3.6.3, Mon Jun 10 17:39:03 2013 UTC <dan@laptop>
-# name: xyz
-# type: matrix
-# rows: 900
-# columns: 3
+2
  0 0 0
  0 0.03448275862068965 0.0005945303210463733
  0 0.06896551724137931 0.002378121284185493
