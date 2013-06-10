@@ -14,7 +14,7 @@ class Neuron
 public:
     Neuron();
     quint32 getId() const;
-    void initNeuron(const quint32 numberOfInputs, const qreal beta = 1.0, const bool inputLayer = false);
+    void initNeuron(const quint32 numberOfInputs, const qreal beta = 1.0, const bool lastLayer = false);
     QVector< qreal > &getWeights();
     const QVector< qreal > &getWeights() const;
     qreal process(const QVector< qreal > & inputs) const;
@@ -26,7 +26,7 @@ public:
 private:
     static quint32 idCounter;
     const quint32 id;
-    bool inputLayer;
+    bool lastLayer;
     qreal beta;
     QVector < qreal > weights;
     qreal bias;

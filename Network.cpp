@@ -218,24 +218,36 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
 
         qreal networkError = 0.0;
 
-//        QVector< QVector < QVector < qreal > > > delta( desiredResult.size() ); // Result_size < Layer < Neuron > >
-//        std::for_each( delta.begin(), delta.end(), [&]( QVector < QVector < QVector < qreal > > > & layersDelta ) {
-//            layersDelta.resize( layers.size() );
-//            auto index = 0;
-//            std::for_each( layersDelta.begin(), layersDelta.end(), [&]( QVector < QVector < qreal > > & neuronDelta ) {
-//                neuronDelta.resize( layers.at( index ).getNeurons().size() );
-//            } );
-//        } );
+        //        QVector< QVector < QVector < qreal > > > delta( desiredResult.size() ); // Result_size < Layer < Neuron > >
+        //        std::for_each( delta.begin(), delta.end(), [&]( QVector < QVector < QVector < qreal > > > & layersDelta ) {
+        //            layersDelta.resize( layers.size() );
+        //            auto index = 0;
+        //            std::for_each( layersDelta.begin(), layersDelta.end(), [&]( QVector < QVector < qreal > > & neuronDelta ) {
+        //                neuronDelta.resize( layers.at( index ).getNeurons().size() );
+        //            } );
+        //        } );
+
+
+        /*
+        qDebug() << "Network:";
+        std::for_each( layers.constBegin(), layers.constEnd(), []( const Layer & layer ) {
+            qDebug() << "=============================";
+            std::for_each( layer.getNeurons().constBegin(), layer.getNeurons().constEnd(), [] ( const Neuron & neuron ) {
+                qDebug() << neuron.getWeights();
+                qDebug() << "+++++++++++++++++++++++++";
+            }  );
+        } );
+        */
 
         // For each part of data
         auto desiredResultIt = desiredResult.begin();
         std::for_each( dataSet.constBegin(), dataSet.constEnd(), [&]( Data::const_reference dataSample ) {
-            qDebug() << "==========================================================================";
-
-            qDebug() << "dataSample: " << dataSample.getData();
-            qDebug() << "desiredResult: " << (*desiredResultIt).getData();
+//            qDebug() << "==========================================================================";
+//            qDebug() << "dataSample: " << dataSample.getData();
+//            qDebug() << "desiredResult: " << (*desiredResultIt).getData();
 
             const QVector < QVector < qreal > > intermidResult = processInNetwork( dataSample );
+//            qDebug() << "obtainedResult: " << intermidResult.last();
 
             // Process data through the network
             /*
@@ -250,7 +262,7 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
             const QVector< qreal > & currentDesiredResult = (*desiredResultIt).getData();
 
             networkError += calculateNetworkError( currentDesiredResult, obtainedResult );
-            qDebug() << "networkError: " << networkError;
+//            qDebug() << "networkError: " << networkError;
 
 
             QVector < QVector < qreal > > deltaForCurrentSample( layers.size() ); // Layer < Neuron < delta > >
@@ -269,7 +281,7 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
                 QVector < Neuron > & currLayerNeurons = layers[ layerIndex ].getNeurons();
                 const QVector < Neuron > & prevLayerNeurons = layers[ layerIndex + 1 ].getNeurons();
 
-                Q_ASSERT(  prevDeltas.size() == prevLayerNeurons.size() );
+                Q_ASSERT( prevDeltas.size() == prevLayerNeurons.size() );
 
                 for ( auto neuronIndex = 0; neuronIndex < currLayerNeurons.size(); ++ neuronIndex ) {
                     qreal sum = 0.0;
@@ -285,17 +297,28 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
 
                     qreal & currentNeuronDelta = currDeltas[ neuronIndex ];
                     currentNeuronDelta = currentNeuronRes * ( 1 - currentNeuronRes ) * sum;
+
+                    QVector < qreal > & currNeuronWeights = currLayerNeurons[ neuronIndex ].getWeights();
+
+                    const qreal & currResult = intermidResult.at( layerIndex ).at( neuronIndex );
+
+                    // For each weight
+                    for ( auto weightIndex = 0; weightIndex < currNeuronWeights.size(); ++ weightIndex ) {
+                        currNeuronWeights[ weightIndex ] = currNeuronWeights[ weightIndex ] + etha * ( currentNeuronDelta * currResult );
+                    }
+
                 }
             }
 
-//            /*
+            /*
             qDebug() << "deltaForCurrentSample:";
             for ( auto layerIndex = 0; layerIndex < deltaForCurrentSample.size(); ++ layerIndex ) {
                 qDebug() << deltaForCurrentSample.at( layerIndex );
             }
-//            */
+            */
 
             // Update weights
+            /*
             for ( auto layerIndex = 0; layerIndex < layers.size(); ++ layerIndex ) {
                 const QVector < qreal > & currLevelDeltas = deltaForCurrentSample.at( layerIndex );
                 QVector < Neuron > & currentLevelNeurons = layers[ layerIndex ].getNeurons();
@@ -309,22 +332,24 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
 
                     // For each weight
                     for ( auto weightIndex = 0; weightIndex < currNeuronWeights.size(); ++ weightIndex ) {
-                        const qreal finalDelta = (1 - alpha) * etha * currDelta * currResult;
-                        currNeuronWeights[ weightIndex ] = currNeuronWeights[ weightIndex ] + finalDelta;
+//                        const qreal finalDelta = (1 - alpha) * etha * currDelta * currResult;
+//                        currNeuronWeights[ weightIndex ] = currNeuronWeights[ weightIndex ] + finalDelta;
+                        currNeuronWeights[ weightIndex ] = currNeuronWeights[ weightIndex ] + etha * (currDelta*currResult);
                     }
                 }
             }
+            */
             //            qDebug() << "==========================================================================";
 
             // Go to the next part of trainign data
             ++ desiredResultIt;
         } );
 
-        qDebug() << "Epoch# " << epochCounter << " error:" << networkError << '\n';
+//        qDebug() << "Epoch# " << epochCounter << " error:" << networkError << '\n';
 
-        if ( epochCounter > 0 ) {
-            if ( errorList.last() < networkError ) break;
-        }
+        //        if ( epochCounter > 0 ) {
+        //            if ( errorList.last() < networkError ) break;
+        //        }
 
         errorList.append( networkError ); // Save current error
         achievedAccuracy = networkError; // Get last error
@@ -341,52 +366,44 @@ void Network::training(const Data &dataSet, const Result &desiredResult)
 void NetworkTest::ProcessTest()
 {
 
-    constexpr quint32 numberOfDataSamples = 5;
-    constexpr quint32 numberOfInputs = 2;
+    constexpr quint32 numberOfDataSamples = 15;
+    //    constexpr quint32 numberOfInputs = 2;
     constexpr quint32 numberOfOutputs = 1;
 
     Network & network = Network::getInstance();
     QVector< LayerDescription > layersDesciption;
-    //    layersDesciption.append(LayerDescription(numberOfOutputs, numberOfInputs));
-    layersDesciption.append( LayerDescription( 3, numberOfInputs ) ); // Input
-    layersDesciption.append( LayerDescription( 4, 3 ) ); // Hidden
-    layersDesciption.append( LayerDescription( numberOfOutputs, 4 ) ); // Ouput
+    //        layersDesciption.append(LayerDescription(numberOfOutputs, numberOfInputs));
+    layersDesciption.append( LayerDescription( 30, numberOfInputs ) ); // Input
+    layersDesciption.append( LayerDescription( 15, 30 ) ); // Input
+    layersDesciption.append( LayerDescription( numberOfOutputs, 15 ) ); // Ouput
 
     QVector < QVector < qreal > > data( numberOfDataSamples );
     auto index = 0;
     auto step = ( 1.0 / (numberOfDataSamples * 2) );
-    //    auto step = ( 1.0 / (numberOfDataSamples) );
+    //        auto step = ( 1.0 / (numberOfDataSamples) );
     std::for_each( data.begin(), data.end(), [&]( QVector< qreal > & sample ) {
         sample.resize( numberOfInputs );
         std::for_each( sample.begin(), sample.end(), [&] ( qreal & val ) {
-            val = (index++)*step;
+            val = (index)*step;
         } );
+        index++;
     } );
 
 
     index = 0;
     step = ( 1.0 / (numberOfDataSamples ) );
     QVector < QVector < qreal > > result( data.size() );
-    qreal val_1 = 0.0;
-    std::for_each( result.begin(), result.end(), [&]( QVector< qreal > & sample ) {
-        sample.resize( numberOfOutputs );
-        std::for_each( sample.begin(), sample.end(), [&] ( qreal & val ) {
-            if ( index++ < ( result.size() / 2.0 ) )
-                (val_1 += step);
-            else
-                (val_1 -= step);
-
-            val = val_1;
-            //              val = 0.6;
-        } );
-    } );
+    for ( auto dataIndex = 0; dataIndex < data.size(); ++ dataIndex ) {
+//        result[ dataIndex ].append( std::accumulate( data.at( dataIndex ).constBegin(), data.at( dataIndex ).constEnd(), 1.0, std::multiplies<qreal>() ) );
+                result[ dataIndex ].append( std::accumulate( data.at( dataIndex ).constBegin(), data.at( dataIndex ).constEnd(), 0.0, std::plus<qreal>() ) );
+    }
 
     //        std::random_shuffle( data.begin(), data.end() );
     //    std::random_shuffle( result.begin(), result.end() );
 
-    //            qDebug() << "data: " << data;
-    //            qDebug() << "result: " << result;
-
+    //                qDebug() << "data: " << data;
+    //                qDebug() << "result: " << result;
+    //    return;
 
     network.setTestingData( data );
     network.setTestingResult( result );
@@ -394,16 +411,16 @@ void NetworkTest::ProcessTest()
     network.setTrainingData( data );
     network.setTrainigResult( result );
 
-    network.setAccuracy( 1e-4 );
+    network.setAccuracy( 1e-10 );
 
-
-    network.setAlpha( 1e-2 );
+    network.setAlpha( 1e-3 );
     //    network.setBeta( 1e-15 );
     network.setEtha( 0.9 );
-    network.setMaxNumberOfEpoch( 3 );
+    network.setMaxNumberOfEpoch( 500 );
 
     network.setLayersDescription( layersDesciption );
     network.run();
+//    /*
     auto testringRes = network.getObtainedTestingResult();
     qDebug() << "result: ";
     std::for_each( result.constBegin(), result.constEnd(), []( const QVector < qreal > & vect ) {
@@ -413,8 +430,9 @@ void NetworkTest::ProcessTest()
     std::for_each( testringRes.constBegin(), testringRes.constEnd(), [] ( const Result::value_type & val ) {
         qDebug() << val.getData();
     } );
+//    */
 
-    qDebug() << "Network error: " << network.getNetworkError();
+//    qDebug() << "Network error: " << network.getNetworkError();
 
 }
 

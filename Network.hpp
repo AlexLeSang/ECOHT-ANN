@@ -178,7 +178,7 @@ public:
     }
 
 private:
-    Network() : maxNumberOfEpoch( 50 ), accuracy( 1e-4 ), alpha( 1.0 ), beta( 1.0 ) {
+    Network() : maxNumberOfEpoch( 50 ), accuracy( 1e-4 ), alpha( 1.0 ), beta( 1.0 ), etha( 0.99 ) {
         setAutoDelete( false );
     }
     Network(const Network & rNetwork) = delete;
@@ -198,7 +198,7 @@ private:
         auto descriptionIt = layersDescription.begin();
         qint32 layerCount = 0;
         for ( auto layerIt = layers.begin(); layerIt != layers.end(); ++ layerIt,  ++ descriptionIt, ++ layerCount ) {
-            (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, (layerIt == layers.begin()) );
+            (*layerIt).initLayer( (*descriptionIt).first, (*descriptionIt).second, beta, ( std::distance( layerIt, layers.end() ) == 1 ) );
         }
     }
     void training(const Data & dataSet, const Result & desiredResult);
