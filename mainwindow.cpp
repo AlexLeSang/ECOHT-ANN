@@ -122,8 +122,8 @@ void MainWindow::displayResults()
 //    curve.attach( ui->qwtPlot );
 //    ui->qwtPlot->replot();
 
-//    ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
-//    ui->qwtPlot->replot();
+    ui->qwtPlot->detachItems( QwtPlotItem::Rtti_PlotCurve, false );
+    ui->qwtPlot->replot();
 
     const auto errorVector = Facade::getInstance().getErrors();
     QVector < QPointF > points( errorVector.size() );
@@ -133,9 +133,11 @@ void MainWindow::displayResults()
     for ( auto errorIt = errorVector.constBegin(); errorIt != errorVector.constEnd(); ++ errorIt, ++ pointsIt, ++ counter ) {
         (*pointsIt) = QPointF( counter, (*errorIt) );
     }
-
-    curve.setSamples( QPolygonF ( points ) );
+    QwtPointSeriesData * data = new QwtPointSeriesData(points);
+    curve.setData(data);
+ //   curve.setSamples( QPolygonF ( points ) );
     curve.attach( ui->qwtPlot );
+    ui->qwtPlot->replot();
     // TODO Oleksandr Halushko get testing error results from the facade
     // TODO Oleksandr Halushko display error results
 }
@@ -254,6 +256,13 @@ LayersInfo MainWindow::getLayerInfo()
         result.append( LayerDescription((*it).neuronsNumber->value(), (*it).inputsNumber->value() ) );
     }
     return result;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_R){
+        this->start();
+    }
 }
 
 /*!

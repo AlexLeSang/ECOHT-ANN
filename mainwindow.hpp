@@ -81,7 +81,7 @@ private slots:
 private:
     void showResults( const Dataset& data );
     LayersInfo getLayerInfo();
-
+    void keyPressEvent(QKeyEvent *e);
 private:
     Ui::MainWindow *ui;
     QwtPlotZoomer *zoom;
