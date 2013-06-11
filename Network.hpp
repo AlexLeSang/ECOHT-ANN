@@ -20,7 +20,8 @@ typedef QVector< QVector < qreal > > IntermidResults;
 /*!
  * \brief numberOfInputs
  */
-constexpr quint32 numberOfInputs = 2; // TODO read this from the facade
+constexpr quint32 numberOfInputs = 1; // TODO read this from the facade
+
 
 /*!
  * \brief numberOfOutputs

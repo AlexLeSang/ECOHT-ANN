@@ -48,7 +48,9 @@ qreal Neuron::process(const QVector<qreal> &inputs) const
 
         qreal sum = 0.0;
         for ( auto iIt = inputs.constBegin(), wIt = weights.constBegin(); iIt != inputs.constEnd(); ++ iIt, ++ wIt ) {
-            sum += alpha/1-exp(-( (*iIt) * (*wIt) + beta ) );
+            if(lastLayer)
+                sum += alpha * ( (*iIt) * (*wIt) + beta );
+            sum += alpha/(1+exp(-( (*iIt) * (*wIt) + beta ) ) );
         }
         return sum;
 
