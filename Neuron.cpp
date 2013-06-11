@@ -51,40 +51,6 @@ qreal Neuron::process(const QVector<qreal> &inputs) const
             sum += (*iIt) * (*wIt);
         }
         return sum;
-
-
-        /*
-        if ( lastLayer ) {
-        }
-        sum = sum - bias;
-
-        qreal value = 0.0;
-
-        { // Sigm
-            if ( sum < -45.0 )
-                value = 0.0;
-            else if ( sum > 45.0 )
-                value = 1.0;
-            else
-                value = 1.0 / (1.0 + exp( -sum ) );
-        }
-        */
-        /*
-        { // Sigm
-            value = 1.0/(1.0 - exp(sum + bias)); // Sigm
-        }
-        */
-        //        qreal value;
-        //        if ( inputLayer ) {
-        //            const qreal sum = std::accumulate( inputs.constBegin(), inputs.constEnd() );
-        //            value = sum + bias;
-        //        }
-        //        else {
-
-        //        }
-        //        qDebug() << "value:" << value;
-
-//        return value;
     }
 }
 

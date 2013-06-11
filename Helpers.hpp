@@ -16,7 +16,7 @@ constexpr auto randomLambda = [](qreal & val)
         seeded = true;
     }
 //    val = ((qreal)rand() / RAND_MAX);
-    val = 0.1 * ((qreal)rand() / RAND_MAX);
+    val = 0.2 * ((qreal)rand() / RAND_MAX);
 //    qDebug() << "val:" << val;
 };
 
