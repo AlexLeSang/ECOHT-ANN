@@ -11,8 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 debug {
     QT       += testlib
     CONFIG   += console
-    QMAKE_CXX = g++
-#    QMAKE_CXX = ccache g++-4.7
 }
 
 TARGET = ECOHT-ANN
@@ -45,7 +43,6 @@ LIBS += -L/usr/lib -lqwt
 
 INCLUDEPATH += /usr/include/qwt
 DEPENDPATH += /usr/include/qwt
-
 
 FORMS += \
     mainwindow.ui
